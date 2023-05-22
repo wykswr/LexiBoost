@@ -1,0 +1,2 @@
+# LexiBoost
+Extensible vocabulary flashcard
