@@ -10,6 +10,7 @@ application provides features such as account authentication, subscription manag
 3. Next time, you can pull from `review` branch to your branch to get the latest code.
 4. The `review` branch will be merged into `master` branch after the review.
 
+
 ## Current Progress
 
 1. [x] Business Logic Design
@@ -17,3 +18,8 @@ application provides features such as account authentication, subscription manag
 3. [ ] Component Design
 4. [ ] RESTful API Design
 5. [ ] Database Design
+
+
+## Bulletin Board
+In case the colour in the markdown file is not working,
+you can view the docment in ypur IDE (JetBrains or VSCode both work fine).
