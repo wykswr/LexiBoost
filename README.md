@@ -17,6 +17,7 @@ LexiBoost is a language learning platform designed for individuals looking to en
 
 ## Requirements
 
+
 ### Minimal Requirements: 
 * As a user I want to be able to sign up, so I can access the application .
 * As a user, I want to be able to login so that I can access my own data stored in the application.
@@ -99,3 +100,4 @@ As a user I want to be able to add new cards to a deck in my personal decks, so 
 
 ### Note and Tags Editor
 ![Deck Details](design/draft/NoteTags.png)
+
