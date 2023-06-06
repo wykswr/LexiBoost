@@ -10,6 +10,9 @@ function NavBar() {
             <div className={"bg-pink-500 rounded"}>
                 <Link to="/login">Login</Link>
             </div>
+            <div className={"bg-pink-500 rounded"}>
+                <Link to="/signup">SignUp</Link>
+            </div>
         </nav>
     )
 }
