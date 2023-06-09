@@ -1,6 +1,6 @@
 function Tag({ tag }) {
     return (
-        <span className="inline-flex items-center justify-center px-3 py-1 text-sm font-semibold bg-blue-500 text-white rounded-full shadow-md">
+        <span className="mr-1 mb-1 text-center inline-block px-3 text-sm font-semibold text-white bg-indigo-400 hover:bg-sky-600 rounded-full shadow-sm">
       {tag.tagName}
     </span>
     );

@@ -5,8 +5,8 @@ function DeckList() {
     const marketDeckList = useSelector((state) => state.MarketDeckList);
 
     return (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {marketDeckList.Items.map((marketDeck) => (
+        <div className="flex flex-cols gap-4 sm:flex-cols-1 md:flex-cols-2 m-4">
+            {marketDeckList.items.map((marketDeck) => (
                 <Deck key={marketDeck.id} deck={marketDeck} />
             ))}
         </div>
