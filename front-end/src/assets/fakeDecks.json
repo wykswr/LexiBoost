@@ -1,0 +1,42 @@
+{
+  "decks": [
+    {
+      "title": "Test A",
+      "cover": "https://picsum.photos/100",
+      "learnt": 12,
+      "total": 20,
+      "tags": [
+        "tag a",
+        "tag b"
+      ]
+    },
+    {
+      "title": "Test B",
+      "cover": "https://picsum.photos/200",
+      "learnt": 0,
+      "total": 120,
+      "tags": [
+      ]
+    },
+    {
+      "title": "Test C",
+      "cover": "https://picsum.photos/300",
+      "learnt": 0,
+      "total": 10,
+      "tags": [
+        "tag v"
+      ]
+    },
+    {
+      "title": "Test D",
+      "cover": "https://picsum.photos/400",
+      "learnt": 10,
+      "total": 20,
+      "tags": [
+        "tag a",
+        "tag b",
+        "tag c"
+      ]
+    }
+  ]
+}
