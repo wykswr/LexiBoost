@@ -1,7 +1,7 @@
 import Tag from "./Tag";
 import {Rating} from "@mui/material";
 
-function Deck({ deck }) {
+function MarketDeck({ deck }) {
     return (
         <li className="transition hover:scale-105 md:cursor-pointer border-2 border-black md:flex shadow-xl md:hover:shadow-2xl p-4 bg-cyan rounded-lg md:content-stretch overflow-hidden" >
             <div>
@@ -49,4 +49,4 @@ function Deck({ deck }) {
     );
 }
 
-export default Deck;
+export default MarketDeck;
