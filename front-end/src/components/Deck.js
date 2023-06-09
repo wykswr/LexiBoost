@@ -13,12 +13,12 @@ const Deck = ({deck}) => {
                 },
                 6)
         },
-        [progress]);
+        [progress, learningProgress]);
 
     return (
-        <div className="m-2 bg-white rounded-xl shadow-md md:flex md:hover:shadow-xl md:content-stretch overflow-hidden">
+        <div className="bg-white rounded-xl shadow-md md:flex md:hover:shadow-xl md:content-stretch overflow-hidden">
             <img className="object-cover w-full h-60 rounded-t-xl md:w-48 md:rounded-l-xl md:rounded-r-none"
-                     src={deck.cover} alt={""}/>
+                 src={deck.cover} alt={"Cover"}/>
             <div className="px-8 py-4 md:w-64">
                 {learningProgress > 0 &&
                     <h3 className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
@@ -34,13 +34,19 @@ const Deck = ({deck}) => {
                                 {progress}%
                             </div>
                         </div>
-                        <button className={"bg-emerald-400 rounded-full text-white p-2 hover:ring-2 hover:ring-blue-300 hover:text-pink-300"}><PlayIcon className={"h-6 w-6"}/></button>
+                        <button
+                            className={"bg-emerald-400 rounded-full text-white p-2 hover:ring-2 hover:ring-blue-300 hover:text-pink-300"}>
+                            <PlayIcon className={"h-6 w-6"}/>
+                        </button>
                     </div>}
                 <div className="flex items-center flex-wrap mt-5 gap-2">
-                    {deck.tags.map((tag) => (
+                    {deck.tags.map(tag =>
                         <div
-                            className="bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-1 hover:bg-pink-400">{tag}</div>
-                    ))}
+                            key={tag}
+                            className="bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-1 hover:bg-pink-400">
+                            {tag}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
