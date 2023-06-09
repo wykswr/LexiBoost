@@ -7,6 +7,9 @@ function NavBar() {
             <div className={"bg-blue-400 rounded"}>
                 <Link to="/">Home</Link>
             </div>
+            <div className={"bg-green-400 rounded"}>
+                <Link to="/bookshelf">BookShelf</Link>
+            </div>
             <div className={"bg-pink-500 rounded"}>
                 <Link to="/login">Login</Link>
             </div>
