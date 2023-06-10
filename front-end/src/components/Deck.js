@@ -1,9 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {PlayIcon} from "@heroicons/react/20/solid";
+import DeckEditor from "../pages/DeckEditor";
+import {PencilSquareIcon} from "@heroicons/react/24/outline";
 
 const Deck = ({deck}) => {
     const learningProgress = Math.round(deck.learnt / deck.total * 100);
     const [progress, setProgress] = useState(0);
+    const [isPopupOpen, setPopupOpen] = useState(false);
+    const handleOpenPopup = () => {
+        setPopupOpen(true);
+    };
+
+    const handleClosePopup = () => {
+        setPopupOpen(false);
+    };
 
     useEffect(() => {
             setTimeout(() => {
@@ -20,6 +30,11 @@ const Deck = ({deck}) => {
             <img className="object-cover w-full h-60 rounded-t-xl md:w-48 md:rounded-l-xl md:rounded-r-none"
                  src={deck.cover} alt={"Cover"}/>
             <div className="px-8 py-4 md:w-64">
+                <button className="editor" onClick={handleOpenPopup}>
+                    <PencilSquareIcon className={"h-8 w-8 m-2 hover:text-indigo-500 md:cursor-pointer"}/></button>
+                {isPopupOpen && (
+                    <DeckEditor onClose={handleClosePopup} />
+                )}
                 {learningProgress > 0 &&
                     <h3 className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
                         {learningProgress}% complete
