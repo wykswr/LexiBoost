@@ -7,7 +7,7 @@ const AuthPage = () => {
     const isSignIn = useSelector((state) => state.auth.isSignIn);
 
     return (
-        <div className="bg-gradient-to-r from-indigo-800 to-red-500">
+        <div className="bg-gradient-to-r from-gray-200">
             <div className="absolute top-0 left-0 p-4 p-4 hidden xl:block">
                 <img src={require("../logo.png")} alt="Logo"/>
             </div>

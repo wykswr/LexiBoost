@@ -18,12 +18,6 @@ const Login = () => {
             });
             return;
         }
-
-        // Show a success message after successful login
-        toast.success('Login successful!', {
-            position: toast.POSITION.TOP_RIGHT,
-            className: 'toast-success',
-        });
     };
 
     return (
@@ -68,7 +62,7 @@ const Login = () => {
                         color="primary"
                         size="large"
                         fullWidth
-                        className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 rounded"
+                        className="bg-gradient-to-r from-teal-700 via-teal-600 to-teal-500 hover:bg-blue-800 text-white font-bold py-2 rounded"
                         onClick={handleLogin}
                     >
                         Login
