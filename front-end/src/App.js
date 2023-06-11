@@ -1,15 +1,11 @@
-import {Route, Routes} from "react-router-dom";
-import AuthPage from "./pages/AuthPage";
+import './App.css';
 
 function App() {
-    return (
-        // <Signup></Signup>
-        <div className="App">
-            <Routes>
-                <Route path="/" element={<AuthPage />}/>
-            </Routes>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Hello Lexi</h1>
+    </div>
+  );
 }
 
 export default App;
