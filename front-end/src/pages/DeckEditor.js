@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import "./DeckEditor.css"
 
-function DeckEditor({onClose}) {
+function DeckEditor({onClose,  isPopupOpen}) {
 
     const [title, setTitle] = useState('');
     const [image, setImage] = useState('');
     const [tag, setTags] = useState('');
     const handleSave = () => {
         // Logic to save the changes
+
+        onClose();
     };
 
     const handleCancel = () => {
         // Logic to cancel the changes or close the popup
+
         onClose();
     };
 
@@ -20,18 +22,23 @@ function DeckEditor({onClose}) {
     };
 
     return (
-        <div className="edit-popup-overlay">
-            <div className="edit-popup">
+        <div className="relative">
+            {isPopupOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50"></div>
+            )}
+
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-md z-50 max-w-md w-full">
                 <label>
                     Title:
                     <input
+                        className="border border-gray-300 rounded px-4 py-2 mt-1 w-full"
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}/>
                 </label>
             <label>
                 Image URL:
-                <input
+                <input className="border border-gray-300 rounded px-4 py-2 mt-1 w-full"
                     type="text"
                     value={image}
                     onChange={(e) => setImage(e.target.value)}
@@ -41,12 +48,12 @@ function DeckEditor({onClose}) {
             <label>
                 Tags:
                 <div>
-                <input
+                <input className="border border-gray-300 rounded px-4 py-2 mt-1 w-full"
                     type="text"
                     value={tag}
                     onChange={(e) => setTags(e.target.value.split(','))}
                 />
-                <button onClick={addTag}>add tag</button>
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={addTag}>add tag</button>
                 </div>
             </label>
 
@@ -59,11 +66,12 @@ function DeckEditor({onClose}) {
                 </div>
             </div>
                 <div className="flex items-center flex-wrap mt-5 gap-2">
-            <button onClick={handleSave}>Save</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleSave}>Save</button>
+            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleCancel}>Cancel</button>
                 </div>
             </div>
         </div>
+
     );
 }
 

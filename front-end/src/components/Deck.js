@@ -33,8 +33,10 @@ const Deck = ({deck}) => {
                 <button className="editor" onClick={handleOpenPopup}>
                     <PencilSquareIcon className={"h-8 w-8 m-2 hover:text-indigo-500 md:cursor-pointer"}/></button>
                 {isPopupOpen && (
-                    <DeckEditor onClose={handleClosePopup} />
-                )}
+                    <DeckEditor
+                    onClose={handleClosePopup}
+                    isPopupOpen={isPopupOpen}
+                />)}
                 {learningProgress > 0 &&
                     <h3 className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
                         {learningProgress}% complete
