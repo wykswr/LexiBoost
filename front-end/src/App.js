@@ -5,14 +5,16 @@ import MarketPlace from "./pages/MarketPlace";
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import BookShelf from "./pages/BookShelf";
-
+import AuthPage from "./pages/AuthPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
     return (
         <div className="App">
             <NavBar/>
             <Routes>
-                <Route path="/" element={<Home/>}/>
+                <Route path="/" element={<AuthPage />}/>
+                <Route path="/home" element={<HomePage />}/>
                 <Route path="/bookshelf" element={<BookShelf/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/MarketPlace" element={<MarketPlace/>}/>
