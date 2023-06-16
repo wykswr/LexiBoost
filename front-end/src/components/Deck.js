@@ -1,66 +1,97 @@
-import React, {useEffect, useState} from 'react';
-import {PlayIcon} from '@heroicons/react/20/solid';
-import {getRandomColor} from "../utils/colors";
+import Card from "./Card";
+import useProgress from "../hooks/useProgress";
+import {CircularProgress, LinearProgress} from "@mui/material";
+import {BookOpenIcon, EllipsisHorizontalIcon, PlayIcon} from "@heroicons/react/20/solid";
+
+
+const Img = ({src}) => {
+    return (
+        <img
+            className="object-cover rounded-t-xl md:rounded-l-xl md:rounded-r-none"
+            src={src}
+            alt="Cover"
+        />
+    )
+}
+
+const Panel = ({children}) => {
+    return (
+        <div className="grid grid-cols-3 place-items-stretch md:grid-rows-3 md:grid-cols-none">
+            {children}
+        </div>
+    )
+}
+
 
 const Deck = ({deck}) => {
-    const learningProgress = Math.round((deck.learnt / deck.total) * 100);
-    const [progress, setProgress] = useState(0);
-    const [color] = useState(getRandomColor())
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            if (progress < learningProgress) {
-                setProgress(progress + 1);
-            }
-        }, 10);
-
-        return () => {
-            clearInterval(timer);
-        };
-    }, [progress, learningProgress]);
-
+    let percent = Math.round(deck.learnt / deck.total * 100)
+    const [progress] = useProgress(percent)
     return (
-        <div className="bg-white rounded-xl shadow-md md:flex-1 md:hover:shadow-xl transform hover:scale-105 transition-transform duration-300">
-            <img
-                className="object-cover w-full h-60 rounded-t-xl md:rounded-l-xl md:rounded-r-none"
-                src={deck.cover}
-                alt="Cover"
-            />
-            <div className="flex flex-col justify-between md:w-64 p-4 md:p-6">
-                {learningProgress > 0 && (
-                    <h3 className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
-                        {learningProgress}% complete
-                    </h3>
-                )}
-                <div className="">
-                    <h2 className="text-xl md:text-2xl font-bold mt-4">{deck.title}</h2>
-                    {learningProgress > 0 && (
-                        <div className="w-full space-y-2 mt-4">
-                            <div className={`h-2 bg-gray-200 rounded-full overflow-hidden`}>
-                                <div
-                                    className="h-full bg-indigo-500 transition-all duration-500"
-                                    style={{width: `${progress}%`}}
-                                />
-                            </div>
-                            <button className={`${color} rounded-full text-white p-2 hover:bg-indigo-800 transform hover:scale-105 transition-transform duration-300`}>
-                                <PlayIcon className="h-6 w-6"/>
-                            </button>
-                        </div>
+        <Card>
+            <Img src={deck.cover}/>
+            <Panel>
+                <div className={"p-1 flex flex-col justify-between md:justify-around relative"}>
+                    <EllipsisHorizontalIcon
+                        className={"hidden md:block absolute top-0 right-0 h-7 w-7 m-1 text-gray-600 hover:text-blue-500 cursor-pointer"}/>
+                    {percent > 0 && (
+                        <h3 className="hidden md:block uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                            {percent}% complete
+                        </h3>
                     )}
+                    <h2 className="text-2xl font-bold mt-4 text-blue-500 md:text-black">{deck.title}</h2>
+                    <div className="md:hidden">{percent > 0 ?
+                        <div className={"relative h-16 w-16"}>
+                            <CircularProgress variant="determinate" value={progress}
+                                              className={"absolute top-0 left-0 w-full h-full text-green-400"}/>
+                            <div
+                                className="absolute text-green-500 top-0 left-0 w-full h-full flex items-center justify-center text-xl font-bold">
+                                75%
+                            </div>
+                        </div> :
+                        <div className={"text-indigo-500 font-semibold text-sm"}>{deck.total} Cards</div>
+                    }</div>
+                    <div className="hidden md:block">{percent > 0 &&
+                        <LinearProgress variant="determinate" value={progress} className={"h-2 rounded-md"}/>}</div>
                 </div>
-                <div className="flex items-center flex-wrap mt-5 space-x-2">
+
+                <div className={"flex flex-col justify-end"}>
+                    {percent > 0 ?
+                        <>
+                            <button
+                                className="md:hidden my-3 py-1 bg-green-500 w-full text-xl rounded-md text-white hover:bg-green-800 transform hover::scale-105 transition-transform duration-300">
+                                Continue
+                            </button>
+                            <button
+                                className={"hidden md:block h-10 w-10 ml-3 bg-green-500 rounded-full text-white hover:ring-2 ring-blue-300"}>
+                                <PlayIcon className={"mx-auto h-8 w-8"}/>
+                            </button>
+                        </>
+                        :
+                        <>
+                            <button
+                                className="md:hidden my-3 py-1 bg-indigo-500 w-full text-xl rounded-md text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300">
+                                Learn
+                            </button>
+                            <button
+                                className={"hidden md:block h-10 w-10 ml-3 bg-indigo-500 rounded-full text-white hover:ring-2 ring-blue-300"}>
+                                <BookOpenIcon className={"mx-auto h-8 w-8"}/>
+                            </button>
+                        </>}
+                </div>
+
+                <div className="pt-5 pl-3 flex items-start flex-wrap gap-1 md:pl-2">
                     {deck.tags.map((tag) => (
                         <div
                             key={tag}
-                            className={`rounded-full px-3 py-1 text-xs font-semi-bold text-black hover:bg-gray-300 ${color}`}
+                            className="bg-gray-200 rounded-xl px-2 py-0.5 text-sm font-semibold text-gray-700 hover:bg-pink-300"
                         >
                             {tag}
                         </div>
                     ))}
                 </div>
-            </div>
-        </div>
-    );
-};
+            </Panel>
+        </Card>
+    )
+}
 
-export default Deck;
+export default Deck
