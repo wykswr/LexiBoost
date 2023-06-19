@@ -1,11 +1,11 @@
 import NavBar from "../components/NavBar";
-import DeckPage from "./DeckPage";
+import BookshelfPage from "./BookshelfPage";
 
 const HomePage = ()=>{
     return (
         <div>
             <NavBar />
-            <DeckPage></DeckPage>
+            <BookshelfPage></BookshelfPage>
         </div>
     )
 }
