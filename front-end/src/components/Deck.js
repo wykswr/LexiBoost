@@ -45,7 +45,7 @@ const Deck = ({deck}) => {
                                               className={"absolute top-0 left-0 w-full h-full text-green-400"}/>
                             <div
                                 className="absolute text-green-500 top-0 left-0 w-full h-full flex items-center justify-center text-xl font-bold">
-                                75%
+                                {percent}%
                             </div>
                         </div> :
                         <div className={"text-indigo-500 font-semibold text-sm"}>{deck.total} Cards</div>
