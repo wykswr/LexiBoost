@@ -1,9 +1,9 @@
-import Deck from "../components/Deck";
 import {Cog6ToothIcon, PencilSquareIcon, PlusIcon} from "@heroicons/react/24/outline";
 import {useEffect, useState} from "react";
 import fakeDecks from "../assets/fakeDecks.json";
+import Deck from "../components/Deck";
 
-function DeckPage() {
+function BookshelfPage() {
     const [decks, setDecks] = useState([]);
     useEffect(() => {
         setDecks(fakeDecks.decks)
@@ -23,4 +23,4 @@ function DeckPage() {
     )
 }
 
-export default DeckPage;
+export default BookshelfPage;
