@@ -1,0 +1,34 @@
+{
+  "cards": [
+    {
+      "word": "Gargantuan",
+      "type": "adjective",
+      "pronunciation": "gahr-GAN-choo-uhn",
+      "example": "The skyscraper was a gargantuan structure that dominated the city skyline."
+    },
+    {
+      "word": "Eloquent",
+      "type": "adjective",
+      "pronunciation": "EL-uh-kwuhnt",
+      "example": "She delivered an eloquent speech that moved everyone in the audience."
+    },
+    {
+      "word": "Resilient",
+      "type": "adjective",
+      "pronunciation": "ri-ZIL-yuhnt",
+      "example": "Despite facing numerous setbacks, he remained resilient and never gave up."
+    },
+    {
+      "word": "Zealous",
+      "type": "adjective",
+      "pronunciation": "ZEL-uhs",
+      "example": "She was a zealous advocate for animal rights, dedicating her life to their welfare."
+    },
+    {
+      "word": "Ubiquitous",
+      "type": "adjective",
+      "pronunciation": "yoo-BI-kwuh-tuhs",
+      "example": "Smartphones have become ubiquitous in today's society, with almost everyone owning one."
+    }
+  ]
+}
