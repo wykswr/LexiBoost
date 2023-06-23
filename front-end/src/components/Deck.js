@@ -1,10 +1,16 @@
-import Card from "./Card";
-import useProgress from "../hooks/useProgress";
+import useDeck from "../hooks/useDeck";
 import {CircularProgress, LinearProgress} from "@mui/material";
 import {BookOpenIcon, EllipsisHorizontalIcon, PlayIcon} from "@heroicons/react/20/solid";
 import {useState} from "react";
 import DeckEditor from "./DeckEditor";
 
+
+const Card = ({children}) => {
+    return (
+        <div className="w-full h-80 grid grid-rows-2 place-items-stretch rounded-xl shadow-md hover:shadow-xl
+        md:w-96 md:h-64 md:grid-cols-2 md:grid-rows-none">{children}</div>
+    )
+}
 
 const Img = ({src}) => {
     return (
@@ -25,9 +31,9 @@ const Panel = ({children}) => {
 }
 
 
-const Deck = ({deck}) => {
-    let percent = Math.round(deck.learnt / deck.total * 100)
-    const [progress] = useProgress(percent)
+const Deck = ({id}) => {
+    const [deck, progress, percent, pending] = useDeck(id)
+
 
     const [isPopupOpen, setPopupOpen] = useState(false);
     const handleOpenPopup = () => {
@@ -58,7 +64,7 @@ const Deck = ({deck}) => {
                             {percent}% complete
                         </h3>
                     )}
-                    <h2 className="text-2xl font-bold mt-4 text-blue-500 md:text-black">{deck.title}</h2>
+                    <h2 className="text-2xl font-bold mt-4 text-blue-500 md:text-black">{deck.name}</h2>
                     <div className="md:hidden">{percent > 0 ?
                         <div className={"relative h-16 w-16"}>
                             <CircularProgress variant="determinate" value={progress}
@@ -85,8 +91,7 @@ const Deck = ({deck}) => {
                                 className={"hidden md:block h-10 w-10 ml-3 bg-green-500 rounded-full text-white hover:ring-2 ring-blue-300"}>
                                 <PlayIcon className={"mx-auto h-8 w-8"}/>
                             </button>
-                        </>
-                        :
+                        </> :
                         <>
                             <button
                                 className="md:hidden my-3 py-1 bg-indigo-500 w-full text-xl rounded-md text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300">
@@ -100,7 +105,7 @@ const Deck = ({deck}) => {
                 </div>
 
                 <div className="pt-5 pl-3 flex items-start flex-wrap gap-1 md:pl-2">
-                    {deck.tags.map((tag) => (
+                    {deck?.tags?.map((tag) => (
                         <div
                             key={tag}
                             className="bg-gray-200 rounded-xl px-2 py-0.5 text-sm font-semibold text-gray-700 hover:bg-pink-300"
