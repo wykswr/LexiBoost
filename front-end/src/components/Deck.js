@@ -2,6 +2,8 @@ import Card from "./Card";
 import useProgress from "../hooks/useProgress";
 import {CircularProgress, LinearProgress} from "@mui/material";
 import {BookOpenIcon, EllipsisHorizontalIcon, PlayIcon} from "@heroicons/react/20/solid";
+import {useState} from "react";
+import DeckEditor from "./DeckEditor";
 
 
 const Img = ({src}) => {
@@ -26,13 +28,31 @@ const Panel = ({children}) => {
 const Deck = ({deck}) => {
     let percent = Math.round(deck.learnt / deck.total * 100)
     const [progress] = useProgress(percent)
+
+    const [isPopupOpen, setPopupOpen] = useState(false);
+    const handleOpenPopup = () => {
+        setPopupOpen(true);
+    };
+
+    const handleClosePopup = () => {
+        setPopupOpen(false);
+    };
+
     return (
         <Card>
             <Img src={deck.cover}/>
             <Panel>
                 <div className={"p-1 flex flex-col justify-between md:justify-around relative"}>
-                    <EllipsisHorizontalIcon
-                        className={"hidden md:block absolute top-0 right-0 h-7 w-7 m-1 text-gray-600 hover:text-blue-500 cursor-pointer"}/>
+                    <button className="editor" onClick={handleOpenPopup}>
+                        <EllipsisHorizontalIcon
+                            className={"hidden md:block absolute top-0 right-0 h-7 w-7 m-1 text-gray-600 hover:text-blue-500 cursor-pointer"}/></button>
+                    {isPopupOpen && (
+                        <DeckEditor
+                            deck = {deck}
+                            onClose={handleClosePopup}
+                            isPopupOpen={isPopupOpen}
+                        />)}
+
                     {percent > 0 && (
                         <h3 className="hidden md:block uppercase tracking-wide text-sm text-indigo-500 font-semibold">
                             {percent}% complete
