@@ -6,7 +6,7 @@ import Deck from "../components/Deck";
 function BookshelfPage() {
     const [decks, setDecks] = useState([]);
     useEffect(() => {
-        setDecks(fakeDecks.decks)
+        setDecks(fakeDecks.decks.map(deck => deck.id))
     }, []);
     return (
         <div className={"container md:mt-8 mx-auto md:flex"}>
@@ -16,7 +16,7 @@ function BookshelfPage() {
                 <PencilSquareIcon className={"h-8 w-8 m-2 hover:text-indigo-500 md:cursor-pointer"}/>
             </aside>
             <div className={"flex flex-col gap-6 md:flex-row md:flex-wrap"}>
-                {decks.map(deck => <Deck key={deck.id} deck={deck}/>)}
+                {decks.map(deck => <Deck key={deck} id={deck}/>)}
             </div>
 
         </div>
