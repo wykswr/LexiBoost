@@ -1,25 +1,30 @@
-import {useState, useEffect} from "react";
+import {useEffect, useState, useCallback} from "react";
 
 
-const useProgress = (percent) => {
-    const [progress, setProgress] = useState(0);
+const useProgress = () => {
+    const [percent, setPercent] = useState(0);
+    const [progress,  setProgress] = useState(0);
 
     const updateProgress = () => {
-       setProgress(progress => progress + 1);
+        setProgress(progress => progress + 1);
     }
 
     const resetProgress = () => {
         setProgress(progress => 0);
     }
 
-    useEffect(() => {
-        if (progress < percent) {
-            setTimeout(updateProgress, 15);
-        }
-    },
-    [progress, percent]);
+    const setTicks = useCallback((done, total) => {
+        setPercent(Math.round(done / total * 100));
+    }, []);
 
-    return [progress, resetProgress];
+    useEffect(() => {
+            if (progress < percent) {
+                setTimeout(updateProgress, 15);
+            }
+        },
+        [progress, percent]);
+
+    return [progress, percent, {setTicks, resetProgress}];
 }
 
 export default useProgress;

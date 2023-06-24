@@ -16,7 +16,7 @@ const DeckDetail = () => {
     } = useSelector((state) => state.deckDetail);
 
     return (
-        <div className="bg-white rounded-lg shadow-lg p-4 flex flex-col md:flex-row">
+        <div className="bg-gray-50 rounded-lg shadow-lg p-4 flex flex-col md:flex-row">
             <div className="md:w-2/3">
                 <div className="mb-4">
                     <h2 className="text-2xl font-bold mb-4">{name}</h2>
@@ -53,7 +53,7 @@ const DeckDetail = () => {
                         last modified on{" "}
                         <span className="text-purple-500">{last_modification_date}</span>
                     </p>
-                    <button className="relative rounded-lg inline-block px-6 py-3 text-lg font-bold text-white transition-all duration-300 ease-in-out transform bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-800 hover:to-blue-800 hover:scale-105 focus:outline-none">
+                    <button className="relative rounded-lg inline-block px-6 py-1 text-lg font-bold text-white transition-all duration-300 ease-in-out transform bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-800 hover:to-blue-800 hover:scale-105 focus:outline-none">
                         <span>Import</span>
                         <div className="absolute top-0 right-0 w-0 h-full transition-all duration-300 ease-in-out bg-blue-600 opacity-75"></div>
                     </button>

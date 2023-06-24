@@ -1,10 +1,11 @@
-import TypingBox from "../components/TypingBox";
+import Book from "../components/Book";
 
 const Demo = () => {
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
-            <TypingBox message={"Hello World! Hello World! Hello World! Hello World!"}/>
+        <div className={"container mx-auto flex flex-col gap-6 justify-center"}>
+            <Book id={1}/>
         </div>
+
     );
 }
 
