@@ -3,8 +3,7 @@ import BookshelfPage from "./BookshelfPage";
 
 const HomePage = ()=>{
     return (
-        <div>
-            <NavBar />
+        <div className={""}>
             <BookshelfPage></BookshelfPage>
         </div>
     )

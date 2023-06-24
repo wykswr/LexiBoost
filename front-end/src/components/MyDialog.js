@@ -1,20 +1,35 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Dialog } from '@headlessui/react'
 import DeckDetail from "./DeckDetail";
-import DeckEditor from "./DeckEditor";
+import TypingBox from "./TypingBox";
+import {XMarkIcon} from "@heroicons/react/24/outline";
 
 const MyDialog = ({id, option, setOption}) => {
     const isOpen = !(option === "blank")
 
     return (
         <Dialog open={isOpen} onClose={setOption}>
-            <div className="fixed w-1/3 mx-auto inset-0 grid grid-col-1 place-items-center p-4">
+            <div className="fixed w-1/3 mx-auto inset-0 grid grid-col-1 place-items-center gap-1 p-4 z-50">
             <Dialog.Panel>
-                {option === "detail" && <DeckDetail id={id} />}
-                {option === "edit" && <div className={"w-64 h-64"}/>}
-                {option === "edit" && <span> Are you sure you want to delete this deck </span>}
+                {option === "detail" && <div className={"relative"}>
+                    <button onClick={setOption} className={"absolute -top-3.5 -right-3.5 p-1 bg-indigo-500 rounded-full text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}>
+                        <XMarkIcon className={"h-5 w-5"}/>
+                    </button>
+                    <DeckDetail id={id} />
+                </div>
+                    }
+                {option === "edit" && <div className={"grid grid-col-1 place-items-center gap-1"}>
+                    <TypingBox message={"Not connected......"}/>
+                    <button onClick={setOption} className={"p-1 bg-indigo-500 rounded-full text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}>
+                        <XMarkIcon className={"h-5 w-5"}/>
+                    </button>
+                </div>}
+                {option === "delete" && <div className={"grid grid-col-1 place-items-center gap-1"}>
+                    <TypingBox message={"Are you sure to delete this?"}/>
+                    <button onClick={setOption} className={"p-1 bg-indigo-500 rounded-full text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}>
+                        <XMarkIcon className={"h-5 w-5"}/>
+                    </button>
+                </div>}
             </Dialog.Panel>
-                <button onClick={setOption} className={"mx-auto my-3 py-1 bg-indigo-500 w-full text-xl rounded-md text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}> Cancel </button>
             </div>
         </Dialog>
     )
