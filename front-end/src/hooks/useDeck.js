@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import useProgress from "./useProgress";
 
 
-const useDeck = (id) => {
+const useDeck = (id, inMarket) => {
     const [fetchDeck, deckPending] = usePending(getDeck);
     const [fetchProgress, progressPending] = usePending(getProgress);
     const pending = deckPending || progressPending;
@@ -18,6 +18,7 @@ const useDeck = (id) => {
                 return deck;
             })
             .then((deck) => {
+                if (inMarket) return;
                 fetchProgress(deck.id)
                     .then((progress) => {
                         setTicks(progress.burned, progress.total);
