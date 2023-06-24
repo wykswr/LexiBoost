@@ -1,6 +1,4 @@
-import fakeDecks from "../assets/fakeDecks.json";
 import {useEffect, useState} from "react";
-import Card from "../components/Card";
 import fakeCards from "../assets/fakeCards.json";
 
 const CardLearning = () => {
