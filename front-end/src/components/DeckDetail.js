@@ -16,7 +16,7 @@ const DeckDetail = () => {
     } = useSelector((state) => state.deckDetail);
 
     return (
-        <div className="bg-white rounded-lg shadow-lg p-4 flex flex-col md:flex-row">
+        <div className="bg-gray-50 rounded-lg shadow-lg p-4 flex flex-col md:flex-row">
             <div className="md:w-2/3">
                 <div className="mb-4">
                     <h2 className="text-2xl font-bold mb-4">{name}</h2>

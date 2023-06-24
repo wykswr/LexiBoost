@@ -140,6 +140,30 @@ export const getProgress = async (id) => {
             id: 2,
             total: 30,
             burned: 10,
+        }
+        ,
+        {
+            id: 3,
+            total: 30,
+            burned: 10,
+        }
+        ,
+        {
+            id: 4,
+            total: 25,
+            burned: 10,
+        }
+        ,
+        {
+            id: 5,
+            total: 30,
+            burned: 6,
+        }
+        ,
+        {
+            id: 6,
+            total: 30,
+            burned: 10,
         }]
 
     return records.find(record => record.id === id);
