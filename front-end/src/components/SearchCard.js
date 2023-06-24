@@ -8,19 +8,27 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import {useState} from "react";
+import {useDispatch} from 'react-redux';
+import {defQuery, defSort, defTags} from "../redux/marketPlace/reducer";
+import {MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 
 const SearchCard = () => {
     const [selectedDeck, query, filteredDecks, pending, {setSelected, setQuery}] = useAutoSearch();
     const [availableTags, selectedTags, tagsPending, {push}] = useSearchCard();
-    const [selectedValue, setSelectedValue] = useState('');
+    const dispatch = useDispatch();
 
     const handleChange = (event) => {
-        setSelectedValue(event.target.value);
+        dispatch(defSort(event.target.value));
     }
 
+    const handleSearch = () => {
+        dispatch(defQuery(query));
+        dispatch(defTags(selectedTags));
+    }
+
+
     return (
-        <div className={"p-3 w-full rounded-xl shadow-md hover:shadow-xl"}>
+        <div className={"p-3 w-full rounded-xl shadow-md hover:shadow-xl bg-gray-50"}>
             <div role={"search"} className={"container mx-auto flex justify-center"}>
                 <AutoSearch setSelected={setSelected} query={query} filteredDecks={filteredDecks}
                             pending={pending} selectedDeck={selectedDeck} setQuery={setQuery}
@@ -38,13 +46,13 @@ const SearchCard = () => {
                             </div>))}
                             <Popover.Button>{open ?
                                 <ChevronDoubleUpIcon className={"p-0.5 h-6 w-6 text-white bg-gray-600 rounded-full"}/> :
-                                <PlusIcon className={"p-0.5 h-6 w-6 text-white bg-gray-600 rounded-full"}/>
+                                <PlusIcon className={"p-0.5 h-6 w-6 text-white bg-gray-600 rounded-full hover:animate-spin"}/>
                             }</Popover.Button>
                         </div>
 
 
                         <Popover.Panel>
-                            <div className={"bg-gray-300 mt-2 rounded-lg p-2 flex gap-6 flex-wrap"}>
+                            <div className={"bg-gray-300 mt-2 rounded-lg p-4 flex gap-6 flex-wrap"}>
                                 {availableTags.map((tag) => (
                                     <button
                                         onClick={() => push(tag)}
@@ -58,7 +66,7 @@ const SearchCard = () => {
                 )}
             </Popover>
 
-            <div className={"mt-8"}>
+            <div className={"mt-8 flex justify-between"}>
                 <FormControl>
                     <FormLabel id="demo-row-radio-buttons-group-label">Sort by:</FormLabel>
                     <RadioGroup
@@ -72,6 +80,10 @@ const SearchCard = () => {
                         <FormControlLabel value="cards" control={<Radio/>} label="cards"/>
                     </RadioGroup>
                 </FormControl>
+
+                <button onClick={handleSearch}
+                        className={"self-end"}
+                ><MagnifyingGlassIcon className={"w-8 h-8 m-1 bg-gray-600 text-white rounded-full p-1 hover:bg-emerald-500"}/></button>
             </div>
         </div>
     );

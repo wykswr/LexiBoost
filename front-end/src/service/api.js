@@ -45,7 +45,7 @@ export const searchDecks = async (query) => {
 // }
 
 export const getTags = async () => {
-    return ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"];
+    return ["English", "French", "Chinese", "Japanese", "Korean", "German", "Spanish", "Italian", "Russian", "Portuguese"];
 }
 
 // export const getDeck = async (id, sortBy) => {
@@ -64,9 +64,10 @@ export const getDeck = async (id, sortBy) => {
             name: "Test A",
             cover: "https://picsum.photos/100",
             tags: [
-                "tag a",
-                "tag b"
-            ]
+                "Japanese",
+                "Travel"
+            ],
+            rating: 4,
         },
         {
             id: 2,
@@ -74,8 +75,46 @@ export const getDeck = async (id, sortBy) => {
             cover: "https://picsum.photos/200",
             tags: [
                 "English"
-            ]
-        }]
+            ],
+            rating: 4.5,
+        },
+        {
+            id: 3,
+            name: "Test C",
+            cover: "https://picsum.photos/300",
+            tags: [
+                "German"
+            ],
+            rating: 4
+        },
+        {
+            id: 4,
+            name: "Test D",
+            cover: "https://picsum.photos/400",
+            tags: [
+                "Chinese"
+            ],
+            rating: 4.5
+        },
+        {
+            id: 5,
+            name: "Test E",
+            cover: "https://picsum.photos/500",
+            tags: [
+                "Korean"
+            ],
+            rating: 4
+        },
+        {
+            id: 6,
+            name: "Test F",
+            cover: "https://picsum.photos/600",
+            tags: [
+                "French"
+            ],
+            rating: 4.5
+        },
+    ]
 
     return decks.find(deck => deck.id === id);
 }
