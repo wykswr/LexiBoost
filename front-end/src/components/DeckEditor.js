@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 
-function DeckEditor({deck, onClose,  isPopupOpen}) {
+function DeckEditor({id}) {
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [tag, setTags] = useState('');
-    const handleSave = () => {
-        // Logic to save the changes
-
-        onClose();
-    };
-
-    const handleCancel = () => {
-        // Logic to cancel the changes or close the popup
-
-        onClose();
-    };
-
-    const addTag = () => {
-
-    };
+    // const [title, setTitle] = useState('');
+    // const [description, setDescription] = useState('');
+    // const [tag, setTags] = useState('');
+    // const handleSave = () => {
+    //     // Logic to save the changes
+    //
+    //     onClose();
+    // };
+    //
+    // const handleCancel = () => {
+    //     // Logic to cancel the changes or close the popup
+    //
+    //     onClose();
+    // };
+    //
+    // const addTag = () => {
+    //
+    // };
 
     return (
         <div className="relative">
@@ -28,15 +28,7 @@ function DeckEditor({deck, onClose,  isPopupOpen}) {
             )}
 
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-md z-50 max-w-md w-full">
-                <label>
-                    Title:
-                    <input
-                        placeholder={deck.title}
-                        className="border border-gray-300 rounded px-4 py-2 mt-1 w-full"
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}/>
-                </label>
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
 
 
                 <label>

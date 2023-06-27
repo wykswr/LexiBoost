@@ -2,6 +2,7 @@ import { Dialog } from '@headlessui/react'
 import DeckDetail from "./DeckDetail";
 import TypingBox from "./TypingBox";
 import {XMarkIcon} from "@heroicons/react/24/outline";
+import MyDeckEditor from "./MyDeckEditor";
 
 const MyDialog = ({id, option, setOption}) => {
     const isOpen = !(option === "blank")
@@ -18,10 +19,7 @@ const MyDialog = ({id, option, setOption}) => {
                 </div>
                     }
                 {option === "edit" && <div className={"grid grid-col-1 place-items-center gap-1"}>
-                    <TypingBox message={"Not connected......"}/>
-                    <button onClick={setOption} className={"p-1 bg-indigo-500 rounded-full text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}>
-                        <XMarkIcon className={"h-5 w-5"}/>
-                    </button>
+                    <MyDeckEditor id={id}/>
                 </div>}
                 {option === "delete" && <div className={"grid grid-col-1 place-items-center gap-1"}>
                     <TypingBox message={"Are you sure to delete this?"}/>

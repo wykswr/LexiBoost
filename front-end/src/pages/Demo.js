@@ -1,9 +1,9 @@
-import Book from "../components/Book";
+import MyDeckEditor from "../components/MyDeckEditor";
 
 const Demo = () => {
     return (
         <div className={"container mx-auto flex flex-col gap-6 justify-center"}>
-            <Book id={1}/>
+            <MyDeckEditor/>
         </div>
 
     );
