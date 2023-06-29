@@ -7,9 +7,11 @@ const MyDeckEditor = ({id}) => {
     const [availableTags, selectedTags, tagsPending, {push}] = useSearchCard();
 
     return (
-        <div className={"rounded-lg shadow bg-gray-50 grid grid-rows-4 md:w-96 mx-auto gap-6 p-2"}>
+        <div className={"rounded-lg shadow bg-gray-50 flex flex-col md:w-96 max-h-screen mx-auto gap-6 p-4"}>
             <div >
-                <TextField id="filled-basic" label="Filled" variant="filled" className={"w-full"}/>
+                <div>
+                <h2 className={"mt-8 text-xl font-semibold text-gray-600"}>Title</h2>
+                <TextField id="filled-basic" label="Title" variant="filled" className={"w-full bg-gray-200"}/></div>
                 <div>
                     <h2 className={"mt-8 text-xl font-semibold text-gray-600"}>Tags</h2>
                     <Popover className={"mt-8"}>
@@ -54,6 +56,7 @@ const MyDeckEditor = ({id}) => {
                 multiline
                 rows={4}
                 defaultValue="Default Value"
+                className={"bg-gray-200"}
             />
 
             <div>
@@ -61,7 +64,7 @@ const MyDeckEditor = ({id}) => {
                 <p className={"flex items-center gap-3"}><span>300 words</span><button className={"hover:text-indigo-500"}><PlusCircleIcon className={"w-8 h-8"}/></button></p>
             </div>
 
-            <Button variant="contained" className={"h-10 self-end"}>Contained</Button>
+            <Button variant="contained" className={"h-10 place-self-center w-24"}>Confirm</Button>
         </div>
     )
 }
