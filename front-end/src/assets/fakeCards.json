@@ -1,34 +1,44 @@
 {
   "cards": [
     {
+      "id": 1,
       "word": "Gargantuan",
       "type": "adjective",
       "pronunciation": "gahr-GAN-choo-uhn",
-      "example": "The skyscraper was a gargantuan structure that dominated the city skyline."
+      "example": "The skyscraper was a gargantuan structure that dominated the city skyline.",
+      "definition": "tremendous in size, volume, or degree."
     },
     {
+      "id": 2,
       "word": "Eloquent",
       "type": "adjective",
       "pronunciation": "EL-uh-kwuhnt",
-      "example": "She delivered an eloquent speech that moved everyone in the audience."
+      "example": "She delivered an eloquent speech that moved everyone in the audience.",
+      "definition": "having or showing fluent, articulate, and persuasive speech or writing."
     },
     {
+      "id": 3,
       "word": "Resilient",
       "type": "adjective",
       "pronunciation": "ri-ZIL-yuhnt",
-      "example": "Despite facing numerous setbacks, he remained resilient and never gave up."
+      "example": "Despite facing numerous setbacks, he remained resilient and never gave up.",
+      "definition": "able to withstand or recover quickly from difficult conditions, able to bounce back or adapt to challenges."
     },
     {
+      "id": 4,
       "word": "Zealous",
       "type": "adjective",
       "pronunciation": "ZEL-uhs",
-      "example": "She was a zealous advocate for animal rights, dedicating her life to their welfare."
+      "example": "She was a zealous advocate for animal rights, dedicating her life to their welfare.",
+      "definition": "filled with or showing great enthusiasm, passion, or fervor for a cause, belief, or activity."
     },
     {
+      "id": 5,
       "word": "Ubiquitous",
       "type": "adjective",
       "pronunciation": "yoo-BI-kwuh-tuhs",
-      "example": "Smartphones have become ubiquitous in today's society, with almost everyone owning one."
+      "example": "Smartphones have become ubiquitous in today's society, with almost everyone owning one.",
+      "definition": "present, found, or existing everywhere or in many places at the same time, being constantly or widely encountered."
     }
   ]
 }
