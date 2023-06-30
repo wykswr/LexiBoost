@@ -1,20 +1,19 @@
-// userModel.js
+// connect to mongo
 const mongoose = require('mongoose');
 
-// User model schema
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  // Other fields
+// Define the user schema
+const userSchema = new mongoose.Schema({
+    id: { type: Number, required: true, unique: true },
+    creation_date: { type: Date, required: true },
+    auth_token: { type: String, required: true },
+    email_address: { type: String },
+    username: { type: String },
+    password: { type: String },
+    avatar: { type: String }, // Assuming the avatar is stored as a file path or URL
+    decks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Deck' }]
 });
 
-const UserModel = mongoose.model('User', UserSchema);
+// Create the User model
+const User = mongoose.model('User', userSchema);
 
-module.exports = UserModel;
+module.exports = User;
