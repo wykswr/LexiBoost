@@ -5,7 +5,7 @@ const Book = ({id}) => {
     return (
         <div className={"relative w-full h-80 md:w-96 md:h-64 "}>
             <Deck id={id}/>
-            <BookshelfDropdown className={"absolute top-0 right-0 z-10"}/>
+            <BookshelfDropdown id={id} className={"absolute top-0 right-0 z-10"}/>
         </div>
     )
 }
