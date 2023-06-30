@@ -25,7 +25,10 @@ const CardLearningPage = () => {
 
 
     return(
-        <CardLearning/>
+        <div className={"container mx-auto mt-8"}>
+            <CardLearning/>
+        </div>
+
     )
 
 }

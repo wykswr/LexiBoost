@@ -11,7 +11,7 @@ const MyDeckEditor = ({id}) => {
             <div >
                 <div>
                 <h2 className={"mt-8 text-xl font-semibold text-gray-600"}>Title</h2>
-                <TextField id="filled-basic" label="Title" variant="filled" className={"w-full bg-gray-200"}/></div>
+                <TextField id="filled-basic" variant="filled" className={"w-full bg-gray-200"}/></div>
                 <div>
                     <h2 className={"mt-8 text-xl font-semibold text-gray-600"}>Tags</h2>
                     <Popover className={"mt-8"}>
