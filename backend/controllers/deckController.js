@@ -98,7 +98,7 @@ async function editDeck(req, res) {
      * Todo: check if the user owns this deck
      */
 
-    const deck = await editDeck(deckId, updatedFields);
+    const deck = await Deck.editDeck(deckId, updatedFields);
 
     res.json({ deck });
   } catch (error) {
