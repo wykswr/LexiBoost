@@ -160,26 +160,29 @@ async function publishDeck(req, res) {
 /**
  * Appends a flash card to a deck.
  *
- * @param {string} deckId - The ID of the deck.
- * @param {object} flashCard - The flash card object to append.
- * @returns {Promise<object>} A Promise that resolves to the updated deck object.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @returns {Promise<void>} A Promise that resolves once the response is sent.
  */
-async function appendFlashCardToDeck(deckId, flashCard) {
-  try {
-    const deck = await Deck.findById(deckId);
+async function appendFlashCardToDeck(req, res) {
+    try {
+        const deckId = req.params.deckId;
+        const { flashCard } = req.body;
 
-    if (!deck) {
-      throw new Error("Deck not found");
+        const deck = await Deck.findById(deckId);
+
+        if (!deck) {
+            return res.status(404).json({ error: "Deck not found" });
+        }
+
+        deck.flashCards.push(flashCard);
+        await deck.save();
+
+        res.json({ deck });
+    } catch (error) {
+        console.error("Error appending flash card to deck:", error);
+        res.status(500).json({ error: "Failed to append flash card to deck" });
     }
-
-    deck.flashCards.push(flashCard);
-    await deck.save();
-
-    return deck;
-  } catch (error) {
-    console.error("Error appending flash card to deck:", error);
-    throw new Error("Failed to append flash card to deck");
-  }
 }
 
 module.exports = {

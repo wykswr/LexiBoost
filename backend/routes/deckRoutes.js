@@ -11,7 +11,7 @@ const router = express.Router();
 // Create a new deck
 router.post("/", deckController.createDeck);
 // Appends a flash card to a deck.
-router.post("/:deckId/flash-cards", deckController.appendFlashCardToDeck);
+router.post("/:deckId/flashcards", deckController.appendFlashCardToDeck);
 // Get a deck by id
 router.get("/:deckId", deckController.getDeckById);
 
