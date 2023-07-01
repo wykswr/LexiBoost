@@ -1,23 +1,64 @@
 const mongoose = require("mongoose");
 
 const flashCardSchema = new mongoose.Schema({
-  _id: { select: false, type: Number }, // Exclude _id from the nested object
-  spelling: String,
-  pronunciation: String,
-  definition: [String],
-  examples: [String],
-  burnt: Boolean,
-  mistakeCount: Number,
-  correctCount: Number,
+  spelling: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  pronunciation: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  definition: {
+    type: [String],
+    required: true,
+  },
+  examples: {
+    type: [String],
+    required: false,
+    default: [],
+  },
+  burnt: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  mistakeCount: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  correctCount: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
 });
 
 const deckSchema = new mongoose.Schema(
   {
-    name: String,
-    cover: String, // Assuming the cover is stored as a file path or URL
-    description: String,
-    rating: Number,
-    size: Number,
+    name: {
+      type: String,
+      required: true,
+    },
+    cover: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    size: {
+      type: Number,
+      default: 0,
+    },
     /**
      * Commented out for testing. creatorId is required
      */
@@ -26,12 +67,28 @@ const deckSchema = new mongoose.Schema(
     //     ref: 'User',
     // },
     creatorId: Number,
-    isPublic: Boolean,
-    importCount: Number,
-    creationDate: Date,
-    lastModificationDate: Date,
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
+    importCount: {
+      type: Number,
+      default: 0,
+    },
+    creationDate: {
+      type: Date,
+      default: Date.now,
+    },
+    lastModificationDate: {
+      type: Date,
+      default: Date.now,
+    },
     flashCards: [flashCardSchema],
-    tags: [String],
+    tags: {
+      type: [String],
+      required: false,
+      default: [],
+    },
     /**
      * Todo: Add a way to track user study time on the deck
      */

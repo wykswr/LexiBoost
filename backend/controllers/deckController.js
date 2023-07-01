@@ -165,24 +165,24 @@ async function publishDeck(req, res) {
  * @returns {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function appendFlashCardToDeck(req, res) {
-    try {
-        const deckId = req.params.deckId;
-        const { flashCard } = req.body;
+  try {
+    const deckId = req.params.deckId;
+    const { flashCard } = req.body;
 
-        const deck = await Deck.findById(deckId);
+    const deck = await Deck.findById(deckId);
 
-        if (!deck) {
-            return res.status(404).json({ error: "Deck not found" });
-        }
-
-        deck.flashCards.push(flashCard);
-        await deck.save();
-
-        res.json({ deck });
-    } catch (error) {
-        console.error("Error appending flash card to deck:", error);
-        res.status(500).json({ error: "Failed to append flash card to deck" });
+    if (!deck) {
+      return res.status(404).json({ error: "Deck not found" });
     }
+
+    deck.flashCards.push(flashCard);
+    await deck.save();
+
+    res.json({ deck });
+  } catch (error) {
+    console.error("Error appending flash card to deck:", error);
+    res.status(500).json({ error: "Failed to append flash card to deck" });
+  }
 }
 
 module.exports = {
