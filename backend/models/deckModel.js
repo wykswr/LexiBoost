@@ -94,7 +94,6 @@ const deckSchema = new mongoose.Schema(
             validate: {
                 validator: function (value) {
                     // Check each element of the array against the flashCardSchema
-                    console.log(value)
                     return value.every((card) => card instanceof mongoose.Document);
                 },
                 message: 'Invalid flashCards array',
@@ -215,6 +214,4 @@ deckSchema.statics.publishDeck = async function (deckId, userId) {
     }
 };
 const Deck = mongoose.model("Deck", deckSchema)
-
-
 module.exports = Deck;
