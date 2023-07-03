@@ -1,4 +1,4 @@
-const Deck = require("../models/deckModel");
+const Deck = require('../models/deckModel');
 
 /**
  * Retrieves a deck by its ID.
@@ -14,13 +14,13 @@ async function getDeckById(req, res) {
     const deck = await Deck.findById(deckId);
 
     if (!deck) {
-      return res.status(404).json({ error: "Deck not found" });
+      return res.status(404).json({error: 'Deck not found'});
     }
 
-    res.json({ deck });
+    res.json({deck});
   } catch (error) {
-    console.error("Error retrieving deck:", error);
-    res.status(500).json({ error: "Failed to retrieve deck" });
+    console.error('Error retrieving deck:', error);
+    res.status(500).json({error: 'Failed to retrieve deck'});
   }
 }
 
@@ -46,7 +46,7 @@ async function getDeckById(req, res) {
  */
 async function createDeck(req, res) {
   try {
-    const { name, cover, description, isPublic, flashCards, tags } = req.body;
+    const {name, cover, description, isPublic, flashCards, tags} = req.body;
     // const creatorId = req.user.id;
 
     const deckData = {
@@ -68,10 +68,10 @@ async function createDeck(req, res) {
 
     const deck = await Deck.createDeck(deckData);
 
-    res.status(201).json({ deck });
+    res.status(201).json({deck});
   } catch (error) {
-    console.error("Error creating deck:", error);
-    res.status(500).json({ error: "Failed to create deck" });
+    console.error('Error creating deck:', error);
+    res.status(500).json({error: 'Failed to create deck'});
   }
 }
 
@@ -97,13 +97,12 @@ async function editDeck(req, res) {
     /**
      * Todo: check if the user owns this deck
      */
-
     const deck = await Deck.editDeck(deckId, updatedFields);
 
-    res.json({ deck });
+    res.json({deck});
   } catch (error) {
-    console.error("Error editing deck:", error);
-    res.status(500).json({ error: "Failed to edit deck" });
+    console.error('Error editing deck:', error);
+    res.status(500).json({error: 'Failed to edit deck'});
   }
 }
 
@@ -127,10 +126,10 @@ async function importDeck(req, res) {
 
     const importedDeck = await Deck.importDeck(deckId, creatorId);
 
-    res.status(201).json({ deck: importedDeck });
+    res.status(201).json({deck: importedDeck});
   } catch (error) {
-    console.error("Error cloning deck:", error);
-    res.status(500).json({ error: "Failed to clone deck" });
+    console.error('Error cloning deck:', error);
+    res.status(500).json({error: 'Failed to clone deck'});
   }
 }
 
@@ -150,10 +149,10 @@ async function publishDeck(req, res) {
 
     const deck = await Deck.publishDeck(deckId, userId);
 
-    res.json({ deck });
+    res.json({deck});
   } catch (error) {
-    console.error("Error publishing deck:", error);
-    res.status(500).json({ error: "Failed to publish deck" });
+    console.error('Error publishing deck:', error);
+    res.status(500).json({error: 'Failed to publish deck'});
   }
 }
 
@@ -167,21 +166,26 @@ async function publishDeck(req, res) {
 async function appendFlashCardToDeck(req, res) {
   try {
     const deckId = req.params.deckId;
-    const { flashCard } = req.body;
+    const {flashCard} = req.body;
+    const userId = req.user.id;
 
     const deck = await Deck.findById(deckId);
 
     if (!deck) {
-      return res.status(404).json({ error: "Deck not found" });
+      return res.status(404).json({error: 'Deck not found'});
     }
-
+    // Check if the authenticated user is the creator of the deck
+    if (deck.creatorId !== userId) {
+      return res.status(403).json({error: 'Forbidden'});
+    }
     deck.flashCards.push(flashCard);
+
     await deck.save();
 
-    res.json({ deck });
+    res.json({deck});
   } catch (error) {
-    console.error("Error appending flash card to deck:", error);
-    res.status(500).json({ error: "Failed to append flash card to deck" });
+    console.error('Error appending flash card to deck:', error);
+    res.status(500).json({error: 'Failed to append flash card to deck'});
   }
 }
 

@@ -1,5 +1,5 @@
 // userController.js
-const UserModel = require("../models/userModel");
+const UserModel = require('../models/userModel');
 
 // Example controller function
 const getUsers = async (req, res) => {
@@ -7,8 +7,8 @@ const getUsers = async (req, res) => {
     const users = await UserModel.find();
     res.json(users);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({error: err.message});
   }
 };
 
-module.exports = { getUsers };
+module.exports = {getUsers};
