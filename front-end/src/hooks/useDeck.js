@@ -1,5 +1,5 @@
 import usePending from "./usePending";
-import {getDeck, getProgress} from "../service/api";
+import {getDeck, getProgress} from "../service/deck";
 import {useEffect, useState} from "react";
 import useProgress from "./useProgress";
 

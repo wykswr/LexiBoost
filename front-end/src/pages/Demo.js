@@ -1,4 +1,4 @@
-import MyDeckEditor from "../components/MyDeckEditor";
+import DeckEditor from "../components/DeckEditor";
 import CardLearningPage from "./CardLearningPage";
 
 const Demo = () => {
