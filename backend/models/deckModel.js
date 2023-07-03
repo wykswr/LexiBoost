@@ -364,7 +364,7 @@ deckSchema.statics.deleteDeckCompletely = async function(deckId, userId) {
   try {
     // Check if the authenticated user is the creator of the deck
     if (deck.creatorId !== userId) {
-      throw new Error('Only the deck creator can publish the deck');
+      throw new Error('Only the deck creator can delete the deck');
     }
     await this.deleteOne({_id: deckId, creatorId: userId});
 

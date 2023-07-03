@@ -10,8 +10,22 @@ const router = express.Router();
 
 // Create a new deck
 router.post('/', deckController.createDeck);
+
+// Get decks for a user
+router.get('/decks', deckController.getUserDecks);
+
+// Delete a deck completely
+router.delete('/:deckId', deckController.deleteDeckCompletely);
+
+// Delete a deck from marketplace
+router.delete('/:deckId/marketplace', deckController.deleteDeckFromMarketplace);
+
+// Delete a deck bookshelf
+router.delete('/:deckId/bookshelf', deckController.deleteDeckFromBookshelf);
+
 // Appends a flash card to a deck.
 router.post('/:deckId/flashcards', deckController.appendFlashCardToDeck);
+
 // Get a deck by id
 router.get('/:deckId', deckController.getDeckById);
 
