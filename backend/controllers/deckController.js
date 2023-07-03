@@ -249,13 +249,13 @@ async function deleteFlashcardFromDeck(req, res) {
  * @param {object} res - The response object.
  * @returns {Promise<void>} A Promise that resolves once the response is sent.
  */
-async function updateFlashcardInDeck(req, res) {
+async function editFlashcardInDeck(req, res) {
   try {
     const {deckId, flashCardId} = req.params;
     const userId = req.user.id;
     const updatedFlashCard = req.body;
 
-    await Deck.updateFlashcardInDeck(deckId,
+    await Deck.editFlashcardInDeck(deckId,
         flashCardId,
         updatedFlashCard,
         userId);
@@ -340,7 +340,7 @@ module.exports = {
   deleteDeckFromMarketplace,
   deleteDeckCompletely,
   deleteFlashcardFromDeck,
-  updateFlashcardInDeck,
+  updateFlashcardInDeck: editFlashcardInDeck,
   editDeck,
   importDeck,
   publishDeck,

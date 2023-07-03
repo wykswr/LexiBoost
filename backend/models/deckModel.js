@@ -430,7 +430,7 @@ deckSchema.statics.deleteFlashcardFromDeck = async function(deckId,
  * @returns {boolean} True if the deck is successfully deleted, otherwise false.
  * @throws {Error} If failed to delete the deck from the bookshelf.
  */
-deckSchema.statics.updateFlashcardInDeck = async function(deckId,
+deckSchema.statics.editFlashcardInDeck = async function(deckId,
     flashcardId,
     updatedFlashcard,
     userId) {
@@ -450,7 +450,8 @@ deckSchema.statics.updateFlashcardInDeck = async function(deckId,
 
     // Update the flashcard in the deck
     if (flashcardIndex !== -1) {
-      deck.flashCards[flashcardIndex] = updatedFlashcard;
+      const updatedFlashCardWithNewFields = { ...deck, ...updatedFlashcard };
+      deck.flashCards[flashcardIndex] = updatedFlashCardWithNewFields;
       await deck.save();
     } else {
       throw new Error('Flashcard not found in the deck');
