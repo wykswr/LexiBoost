@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/', deckController.createDeck);
 
 // Get decks for a user
-router.get('/decks', deckController.getUserDecks);
+router.get('/', deckController.getUserDecks);
 
 // Delete a deck completely
 router.delete('/:deckId', deckController.deleteDeckCompletely);
