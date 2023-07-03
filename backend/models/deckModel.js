@@ -125,12 +125,12 @@ const deckSchema = new mongoose.Schema(
 );
 
 /**
-* Creates a new deck with the provided deck data.
-*
-* @param {Deck} deckData - The data for the new deck.
-* @returns {Promise<Deck>} A Promise that resolves to the created deck.
-* @throws {Error} If failed to create the deck.
-*/
+ * Creates a new deck with the provided deck data.
+ *
+ * @param {Deck} deckData - The data for the new deck.
+ * @returns {Promise<Deck>} A Promise that resolves to the created deck.
+ * @throws {Error} If failed to create the deck.
+ */
 deckSchema.statics.createDeck = async function(deckData) {
   try {
     const deck = new this(deckData);
@@ -214,8 +214,10 @@ deckSchema.statics.importDeck = async function(deckId, creatorId) {
     }
 
     // Check if the user has imported the deck
-    const alreadyImported = await this.exists({creatorId,
-      parentDeckId: deckId});
+    const alreadyImported = await this.exists({
+      creatorId,
+      parentDeckId: deckId,
+    });
     if (alreadyImported) {
       throw new Error('Deck has already been imported by the user');
     }
@@ -302,7 +304,7 @@ deckSchema.statics.deleteDeckFromMarketplace = async function(deckId, userId) {
     // Check if the authenticated user is the creator of the deck
     if (deck.creatorId !== userId) {
       throw new Error('Only the deck creator can delete the deck ' +
-          'from the marketplace');
+                'from the marketplace');
     }
 
     // Delete the deck from the marketplace by setting isPublic to false
@@ -337,7 +339,7 @@ deckSchema.statics.deleteDeckFromBookshelf = async function(deckId, userId) {
     // Check if the authenticated user is the creator of the deck
     if (deck.creatorId !== userId) {
       throw new Error('Only the deck creator can delete the deck ' +
-          'from the bookshelf');
+                'from the bookshelf');
     }
 
     // Delete the deck from the bookshelf by setting inBookshelf to false
@@ -362,6 +364,10 @@ deckSchema.statics.deleteDeckFromBookshelf = async function(deckId, userId) {
  */
 deckSchema.statics.deleteDeckCompletely = async function(deckId, userId) {
   try {
+    const deck = await Deck.findById(deckId);
+    if (!deck) {
+      throw new Error('Deck not found');
+    }
     // Check if the authenticated user is the creator of the deck
     if (deck.creatorId !== userId) {
       throw new Error('Only the deck creator can delete the deck');
@@ -372,6 +378,86 @@ deckSchema.statics.deleteDeckCompletely = async function(deckId, userId) {
   } catch (error) {
     console.error('Error deleting deck completely:', error);
     throw new Error('Failed to delete deck completely');
+  }
+};
+
+/**
+ * Deletes a flashcard from deck completely.
+ *
+ * @param {string} deckId - The ID of the deck to delete from the bookshelf.
+ * @param {number} userId - The ID of the authenticated user.
+ * @returns {boolean} True if the deck is successfully deleted, otherwise false.
+ * @throws {Error} If failed to delete the deck from the bookshelf.
+ */
+deckSchema.statics.deleteFlashcardFromDeck = async function(deckId,
+    flashcardId,
+    userId) {
+  try {
+    const deck = await Deck.findById(deckId);
+
+    if (!deck) {
+      throw new Error('Deck not found');
+    }
+
+    // Check if the authenticated user is the creator of the deck
+    if (deck.creatorId !== userId) {
+      throw new Error('Only the deck creator can edit the flashcard');
+    }
+
+    // Find the flashcard index
+    const flashcardIndex =
+        deck.flashCards.findIndex((flashcard) => flashcard.id === flashcardId);
+
+    // Remove the flashcard from the deck
+    if (flashcardIndex !== -1) {
+      deck.flashCards.splice(flashcardIndex, 1);
+      deck.size = deck.flashCards.length;
+      await deck.save();
+    } else {
+      throw new Error('Flashcard not found in the deck');
+    }
+  } catch (error) {
+    console.error('Error deleting flashcard from deck:', error);
+    throw error;
+  }
+};
+/**
+ * Updates a flashcard in a deck.
+ *
+ * @param {string} deckId - The ID of the deck to delete from the bookshelf.
+ * @param {number} flashcardId - The ID of the flashcardId.
+ * @param {object} updatedFlashcard - The updated flashcard.
+ * @returns {boolean} True if the deck is successfully deleted, otherwise false.
+ * @throws {Error} If failed to delete the deck from the bookshelf.
+ */
+deckSchema.statics.updateFlashcardInDeck = async function(deckId,
+    flashcardId,
+    updatedFlashcard,
+    userId) {
+  try {
+    const deck = await Deck.findById(deckId);
+    if (!deck) {
+      throw new Error('Deck not found');
+    }
+
+    // Check if the authenticated user is the creator of the deck
+    if (deck.creatorId !== userId) {
+      throw new Error('Only the deck creator can edit the flashcard');
+    }
+    // Find the flashcard index
+    const flashcardIndex =
+        deck.flashCards.findIndex((flashcard) => flashcard.id === flashcardId);
+
+    // Update the flashcard in the deck
+    if (flashcardIndex !== -1) {
+      deck.flashCards[flashcardIndex] = updatedFlashcard;
+      await deck.save();
+    } else {
+      throw new Error('Flashcard not found in the deck');
+    }
+  } catch (error) {
+    console.error('Error updating flashcard in deck:', error);
+    throw error;
   }
 };
 

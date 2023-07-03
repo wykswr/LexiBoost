@@ -20,6 +20,14 @@ router.delete('/:deckId', deckController.deleteDeckCompletely);
 // Delete a deck from marketplace
 router.delete('/:deckId/marketplace', deckController.deleteDeckFromMarketplace);
 
+// Delete flashcard from Deck
+router.delete('/:deckId/flashcards/:flashCardId',
+    deckController.deleteFlashcardFromDeck);
+
+// Edit flashcard in Deck
+router.put('/:deckId/flashcards/:flashCardId',
+    deckController.updateFlashcardInDeck);
+
 // Delete a deck bookshelf
 router.delete('/:deckId/bookshelf', deckController.deleteDeckFromBookshelf);
 

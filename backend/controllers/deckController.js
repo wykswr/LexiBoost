@@ -214,6 +214,60 @@ async function appendFlashCardToDeck(req, res) {
 }
 
 /**
+ * @api {delete} /decks/:deckId/flashcards/:flashCardId
+ * Deletes a flashCard from a deck
+ * @apiName flashcards
+ * @apiGroup Deck
+ *
+ * Deletes a flashCard from a deck.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ */
+async function deleteFlashcardFromDeck(req, res) {
+  try {
+    const {deckId, flashCardId} = req.params;
+    const userId = req.user.id;
+
+    await Deck.deleteFlashcardFromDeck(deckId, flashCardId, userId);
+
+    res.json({success: true});
+  } catch (error) {
+    console.error('Error publishing deck:', error);
+    res.status(500).json({error: 'Failed to publish deck'});
+  }
+}
+
+/**
+ * @api {put} /decks/:deckId/flashcards/:flashCardId
+ * Edits a flashCard from a deck
+ * @apiName flashcards
+ * @apiGroup Deck
+ *
+ * Updates a flashCard in a deck.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ */
+async function updateFlashcardInDeck(req, res) {
+  try {
+    const {deckId, flashCardId} = req.params;
+    const userId = req.user.id;
+    const updatedFlashCard = req.body;
+
+    await Deck.updateFlashcardInDeck(deckId,
+        flashCardId,
+        updatedFlashCard,
+        userId);
+
+    res.json({success: true});
+  } catch (error) {
+    console.error('Error publishing deck:', error);
+    res.status(500).json({error: 'Failed to publish deck'});
+  }
+}
+
+/**
  * @api {delete} /decks/:deckId/marketplace Deletes a deck from the marketplace
  * @apiName deleteDeckFromMarketplace
  * @apiGroup Deck
@@ -285,6 +339,8 @@ module.exports = {
   deleteDeckFromBookshelf,
   deleteDeckFromMarketplace,
   deleteDeckCompletely,
+  deleteFlashcardFromDeck,
+  updateFlashcardInDeck,
   editDeck,
   importDeck,
   publishDeck,
