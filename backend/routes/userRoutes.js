@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/userController');
 
-// Create a new user
-router.post('/login', UserController.createUser);
+// Create a new user (user sign up)
+router.post('/signup', UserController.createUser);
+
+// Log in a user
+router.post('/login', UserController.loginUser);
 
 // Get all users
 router.get('/signup', UserController.getUsers);
