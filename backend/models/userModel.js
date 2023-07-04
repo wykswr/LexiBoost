@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     creation_date: { type: Date, required: true },
     auth_token: { type: String, required: true },
-    email_address: { type: String },
+    email: { type: String },
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
     username: { type: String },
     password: { type: String },
     avatar: { type: String }, // Assuming the avatar is stored as a file path or URL
