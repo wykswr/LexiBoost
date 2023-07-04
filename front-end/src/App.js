@@ -6,7 +6,7 @@ import BookshelfPage from "./pages/BookshelfPage";
 import CardLearningPage from "./pages/CardLearningPage";
 import DeckDetail from "./components/DeckDetail";
 import Card_Addition_Page from "./pages/Card_Addition_Page";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/shared/NavBar";
 
 function App() {
     return (

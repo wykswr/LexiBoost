@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import Tag from "./Tag";
+import Tag from "./shared/Tag";
 
 const DeckDetail = () => {
     const {
