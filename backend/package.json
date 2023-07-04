@@ -4,27 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prettier": "prettier --write .",
-    "dev": "npm run lint && npm run start",
-    "build": "echo \"No build step specified\"",
-    "deploy": "echo \"No deploy step specified\""
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1",
+    "bcrypt": "^5.1.0",
     "express": "^4.18.2",
-    "mongoose": "^7.2.3"
-  },
-  "devDependencies": {
-    "eslint": "^8.44.0",
-    "eslint-config-google": "^0.14.0",
-    "nodemon": "^2.0.22",
-    "prettier": "^2.4.1"
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.3",
+    "uuid": "^9.0.0"
   }
 }

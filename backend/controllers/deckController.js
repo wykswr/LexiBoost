@@ -1,4 +1,4 @@
-const Deck = require('../models/deckModel');
+const Deck = require("../models/deckModel");
 
 /**
  * Retrieves a deck by its ID.
@@ -14,39 +14,13 @@ async function getDeckById(req, res) {
     const deck = await Deck.findById(deckId);
 
     if (!deck) {
-      return res.status(404).json({error: 'Deck not found'});
+      return res.status(404).json({ error: "Deck not found" });
     }
 
-    res.json({deck});
+    res.json({ deck });
   } catch (error) {
-    console.error('Error retrieving deck:', error);
-    res.status(500).json({error: 'Failed to retrieve deck'});
-  }
-}
-
-/**
- * Retrieves user decks.
- *
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
- */
-async function getUserDecks(req, res) {
-  try {
-    // const userId = req.user.id;
-    const userId = 1234;
-    // TODO: fix user id
-
-    const decks = await Deck.getUserDecks(userId);
-
-    if (!decks) {
-      return res.status(404).json({error: 'Decks not found'});
-    }
-
-    res.json({decks});
-  } catch (error) {
-    console.error('Error retrieving user decks:', error);
-    res.status(500).json({error: 'Failed to retrieve decks'});
+    console.error("Error retrieving deck:", error);
+    res.status(500).json({ error: "Failed to retrieve deck" });
   }
 }
 
@@ -72,7 +46,7 @@ async function getUserDecks(req, res) {
  */
 async function createDeck(req, res) {
   try {
-    const {name, cover, description, isPublic, flashCards, tags} = req.body;
+    const { name, cover, description, isPublic, flashCards, tags } = req.body;
     // const creatorId = req.user.id;
 
     const deckData = {
@@ -94,10 +68,10 @@ async function createDeck(req, res) {
 
     const deck = await Deck.createDeck(deckData);
 
-    res.status(201).json({deck});
+    res.status(201).json({ deck });
   } catch (error) {
-    console.error('Error creating deck:', error);
-    res.status(500).json({error: 'Failed to create deck'});
+    console.error("Error creating deck:", error);
+    res.status(500).json({ error: "Failed to create deck" });
   }
 }
 
@@ -119,13 +93,17 @@ async function editDeck(req, res) {
   try {
     const deckId = req.params.deckId;
     const updatedFields = req.body;
+    // const creatorId = req.user.id;
+    /**
+     * Todo: check if the user owns this deck
+     */
 
-    const deck = await Deck.editDeck(deckId, updatedFields);
+    const deck = await editDeck(deckId, updatedFields);
 
-    res.json({deck});
+    res.json({ deck });
   } catch (error) {
-    console.error('Error editing deck:', error);
-    res.status(500).json({error: 'Failed to edit deck'});
+    console.error("Error editing deck:", error);
+    res.status(500).json({ error: "Failed to edit deck" });
   }
 }
 
@@ -142,20 +120,22 @@ async function importDeck(req, res) {
   try {
     const deckId = req.params.deckId;
     // const creatorId = req.user.id;
-
+    /**
+     * Check that a user does not own this deck
+     */
     const creatorId = 123456;
 
     const importedDeck = await Deck.importDeck(deckId, creatorId);
 
-    res.status(201).json({importedDeck});
+    res.status(201).json({ deck: importedDeck });
   } catch (error) {
-    console.error('Error cloning deck:', error);
-    res.status(500).json({error: 'Failed to clone deck'});
+    console.error("Error cloning deck:", error);
+    res.status(500).json({ error: "Failed to clone deck" });
   }
 }
 
 /**
- * @api {post} /decks/:deckId/publish Publishes a deck in the marketplace
+ * @api {post} /decks/:deckId/publish Publish a deck in the marketplace
  * @apiName publishDeck
  * @apiGroup Deck
  *
@@ -170,177 +150,40 @@ async function publishDeck(req, res) {
 
     const deck = await Deck.publishDeck(deckId, userId);
 
-    res.json({deck});
+    res.json({ deck });
   } catch (error) {
-    console.error('Error publishing deck:', error);
-    res.status(500).json({error: 'Failed to publish deck'});
+    console.error("Error publishing deck:", error);
+    res.status(500).json({ error: "Failed to publish deck" });
   }
 }
 
 /**
- * @api {post} /decks/:deckId/flashcards Appends a flashCard to a deck
- * @apiName flashcards
- * @apiGroup Deck
- *
  * Appends a flash card to a deck.
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ *
+ * @param {string} deckId - The ID of the deck.
+ * @param {object} flashCard - The flash card object to append.
+ * @returns {Promise<object>} A Promise that resolves to the updated deck object.
  */
-async function appendFlashCardToDeck(req, res) {
+async function appendFlashCardToDeck(deckId, flashCard) {
   try {
-    const deckId = req.params.deckId;
-    const {flashCard} = req.body;
-    const userId = req.user.id;
-
     const deck = await Deck.findById(deckId);
 
     if (!deck) {
-      return res.status(404).json({error: 'Deck not found'});
+      throw new Error("Deck not found");
     }
-    // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId !== userId) {
-      return res.status(403).json({error: 'Forbidden'});
-    }
-    deck.flashCards.push(flashCard);
 
+    deck.flashCards.push(flashCard);
     await deck.save();
 
-    res.json({deck});
+    return deck;
   } catch (error) {
-    console.error('Error appending flash card to deck:', error);
-    res.status(500).json({error: 'Failed to append flash card to deck'});
-  }
-}
-
-/**
- * @api {delete} /decks/:deckId/flashcards/:flashCardId
- * Deletes a flashCard from a deck
- * @apiName flashcards
- * @apiGroup Deck
- *
- * Deletes a flashCard from a deck.
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
- */
-async function deleteFlashcardFromDeck(req, res) {
-  try {
-    const {deckId, flashCardId} = req.params;
-    const userId = req.user.id;
-
-    await Deck.deleteFlashcardFromDeck(deckId, flashCardId, userId);
-
-    res.json({success: true});
-  } catch (error) {
-    console.error('Error publishing deck:', error);
-    res.status(500).json({error: 'Failed to publish deck'});
-  }
-}
-
-/**
- * @api {put} /decks/:deckId/flashcards/:flashCardId
- * Edits a flashCard from a deck
- * @apiName flashcards
- * @apiGroup Deck
- *
- * Updates a flashCard in a deck.
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
- */
-async function editFlashcardInDeck(req, res) {
-  try {
-    const {deckId, flashCardId} = req.params;
-    const userId = req.user.id;
-    const updatedFlashCard = req.body;
-
-    await Deck.editFlashcardInDeck(deckId,
-        flashCardId,
-        updatedFlashCard,
-        userId);
-
-    res.json({success: true});
-  } catch (error) {
-    console.error('Error publishing deck:', error);
-    res.status(500).json({error: 'Failed to publish deck'});
-  }
-}
-
-/**
- * @api {delete} /decks/:deckId/marketplace Deletes a deck from the marketplace
- * @apiName deleteDeckFromMarketplace
- * @apiGroup Deck
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
- */
-async function deleteDeckFromMarketplace(req, res) {
-  try {
-    const {deckId} = req.params;
-    const {userId} = req.user;
-
-    await Deck.deleteDeckFromMarketplace(deckId, userId);
-
-    res.json({success: true});
-  } catch (error) {
-    console.error('Error deleting deck from marketplace:', error);
-    res.status(500).json({error: 'Failed to delete deck from marketplace'});
-  }
-}
-
-/**
- * @api {delete} /decks/:deckId/bookshelf Deletes a deck from the bookshelf
- * @apiName deleteDeckFromBookshelf
- * @apiGroup Deck
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
- */
-async function deleteDeckFromBookshelf(req, res) {
-  try {
-    const {deckId} = req.params;
-    const {userId} = req.user;
-
-    await Deck.deleteDeckFromBookshelf(deckId, userId);
-
-    res.json({success: true});
-  } catch (error) {
-    console.error('Error deleting deck from bookshelf:', error);
-    res.status(500).json({error: 'Failed to delete deck from bookshelf'});
-  }
-}
-
-/**
- * @api {delete} /decks/:deckId/ Deletes a deck completely
- * @apiName deleteDeckCompletely
- * @apiGroup Deck
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
- */
-async function deleteDeckCompletely(req, res) {
-  try {
-    const {deckId} = req.params;
-    const {userId} = req.user;
-
-    await Deck.deleteDeckCompletely(deckId, userId);
-
-    res.json({success: true});
-  } catch (error) {
-    console.error('Error deleting deck from bookshelf:', error);
-    res.status(500).json({error: 'Failed to delete deck from bookshelf'});
+    console.error("Error appending flash card to deck:", error);
+    throw new Error("Failed to append flash card to deck");
   }
 }
 
 module.exports = {
   createDeck,
-  getUserDecks,
-  deleteDeckFromBookshelf,
-  deleteDeckFromMarketplace,
-  deleteDeckCompletely,
-  deleteFlashcardFromDeck,
-  updateFlashcardInDeck: editFlashcardInDeck,
   editDeck,
   importDeck,
   publishDeck,
