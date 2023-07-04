@@ -1,18 +1,32 @@
-const User = require('../models/user');
+const User = require('../models/userModel');
 
 const createUser = async (req, res) => {
+    const { first_name, last_name, email_address, password } = req.body;
+    if (!first_name || !last_name || !email_address || !password) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
     try {
-        const { avatar, name, email_address} = req.body;
+        // Check if user already exists
+        const existingUser = await User.findOne({ email_address });
+        if (existingUser) {
+            return res.status(409).json({ error: 'User already exists' });
+        }
 
-        const newUser = new User({
-            avatar,
-            name,
-            email_address,
-        });
+        // Create the new user
+        const user = await User.createUser(first_name, last_name, email_address, password);
+        res.status(201).json(user);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).json({ error: 'Failed to create user' });
+    }
+};
 
-        const createdUser = await newUser.save();
+const loginUser = async (req, res) => {
+    try {
+        const users = await User.find();
 
-        res.status(201).json(createdUser);
+        res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
