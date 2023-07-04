@@ -17,7 +17,7 @@ mongoose
 index.use(express.json());
 
 // Routes
-index.use('/api', userRoutes);
+index.use('/users', userRoutes);
 index.use('/decks', deckRoutes);
 
 // Start the server
