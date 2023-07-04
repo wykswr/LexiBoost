@@ -34,7 +34,7 @@ async function getDeckById(req, res) {
 async function getUserDecks(req, res) {
   try {
     // const userId = req.user.id;
-    const userId = 1234;
+    const userId = 0;
     // TODO: fix user id
 
     const decks = await Deck.getUserDecks(userId);

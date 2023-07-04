@@ -151,9 +151,17 @@ deckSchema.statics.createDeck = async function(deckData) {
  */
 deckSchema.statics.getUserDecks = async function(userId) {
   try {
-    const decks = await this.find({
-      creatorId: userId,
-      inBookshelf: true,
+    const decks = await this.aggregate([
+      {$match: {'creatorId': userId, 'inBookshelf': true,
+        'flashCards.burnt': {$ne: true}}},
+    ]);
+
+    decks.forEach((deck) => {
+      deck.flashCards.sort((a, b) => {
+        const scoreA = a.correctCount + 2 * a.mistakeCount;
+        const scoreB = b.correctCount + 2 * b.mistakeCount;
+        return scoreB - scoreA;
+      });
     });
 
     return decks;
@@ -450,7 +458,7 @@ deckSchema.statics.editFlashcardInDeck = async function(deckId,
 
     // Update the flashcard in the deck
     if (flashcardIndex !== -1) {
-      const updatedFlashCardWithNewFields = { ...deck, ...updatedFlashcard };
+      const updatedFlashCardWithNewFields = {...deck, ...updatedFlashcard};
       deck.flashCards[flashcardIndex] = updatedFlashCardWithNewFields;
       await deck.save();
     } else {
