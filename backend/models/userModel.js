@@ -2,11 +2,12 @@
 const mongoose = require('mongoose');
 const { v4: uuid } = require('uuid');
 const bcrypt = require('bcrypt')
+const generateAuthToken = require("../utils/tokenUtil");
 // Define the user schema
 const userSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true },
     creation_date: { type: Date, required: true },
-    auth_token: { type: String, required: true },
+    auth_token: { type: String},
     email: { type: String },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
@@ -21,7 +22,6 @@ userSchema.statics.createUser = async function (first_name, last_name, email, pa
         const newUser = new this({
             id: uuid(),
             creation_date: new Date(),
-            auth_token: generateAuthToken(),
             email,
             first_name,
             last_name,
