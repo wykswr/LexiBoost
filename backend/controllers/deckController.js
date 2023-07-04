@@ -11,6 +11,10 @@ async function getDeckById(req, res) {
   try {
     const deckId = req.params.deckId;
 
+    if (!deckId) {
+      return res.status(400).json({error: 'Malformed request'});
+    }
+
     const deck = await Deck.findById(deckId);
 
     if (!deck) {
@@ -233,8 +237,8 @@ async function deleteFlashcardFromDeck(req, res) {
 
     res.json({success: true});
   } catch (error) {
-    console.error('Error publishing deck:', error);
-    res.status(500).json({error: 'Failed to publish deck'});
+    console.error('Error deleting deck:', error);
+    res.status(500).json({error: 'Failed to delete deck'});
   }
 }
 
