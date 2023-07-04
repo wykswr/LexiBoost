@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 import SearchCard from "../components/SearchCard";
-import Deck from "../components/Deck";
+import Deck from "../components/shared/Deck";
 
 const MarketPlace = () => {
     const deckIds = useSelector(state => state.marketPlace.results);

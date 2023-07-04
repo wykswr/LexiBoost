@@ -1,7 +1,7 @@
 import { Popover } from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import {useState} from "react";
-import MyDialog from "./MyDialog";
+import MyDialog from "./shared/MyDialog";
 
 
 const DownMenu = ({ id , className}) => {

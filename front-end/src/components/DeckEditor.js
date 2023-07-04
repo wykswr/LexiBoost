@@ -3,6 +3,8 @@ import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import TagSelector from "./shared/TagSelector";
 import {BeakerIcon} from "@heroicons/react/20/solid";
 import {DocumentArrowUpIcon} from "@heroicons/react/24/outline";
+import {Link} from "react-router-dom";
+
 
 const DeckEditor = ({id}) => {
     return (
@@ -38,7 +40,7 @@ const DeckEditor = ({id}) => {
             {id !== undefined && <div>
                 <h2 className={"text-xl font-semibold text-gray-600"}>Cards</h2>
                 <p className={"flex items-center gap-9 text-gray-500"}><span>300 cards</span>
-                    <button className={"hover:text-indigo-500"}><PlusCircleIcon className={"w-7 h-7"}/></button>
+                    <Link to={"/add_card"} className={"hover:text-indigo-500"}><PlusCircleIcon className={"w-7 h-7"}/></Link>
                 </p>
             </div>}
 
