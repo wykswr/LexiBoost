@@ -4,8 +4,7 @@ const mongoose = require('mongoose');
 const config = require('./config/config');
 const userRoutes = require('./routes/userRoutes');
 const deckRoutes = require('./routes/deckRoutes');
-const AuthMiddleWare = require("./middleware/auth");
-const verifyToken = require("./middleware/auth");
+const verifyToken = require('./middleware/auth');
 
 const index = express();
 
@@ -24,5 +23,5 @@ index.use('/decks', verifyToken, deckRoutes);
 
 // Start the server
 index.listen(3000, () => {
-    console.log('Server listening on port 3000');
+  console.log('Server listening on port 3000');
 });
