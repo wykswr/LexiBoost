@@ -28,7 +28,7 @@ const TypingBox = ({message}) => {
                 setCursor(false);
             }
         }, 50)
-    }, [index]);
+    }, [content, index, message]);
 
     return (
         <div className="rounded-xl text-justify bg-blue-400 text-white p-2">

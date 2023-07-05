@@ -13,6 +13,9 @@ module.exports = {
             animation: {
                 flicker: "flicker infinite 500ms",
             },
+            backgroundImage: {
+                'topography': "url('./assets/topography.svg')",
+            },
         }
     },
     plugins: [],

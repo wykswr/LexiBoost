@@ -1,78 +1,61 @@
-import React, { useState } from 'react';
+import {Button, TextField} from "@mui/material";
+import {PlusCircleIcon} from "@heroicons/react/24/outline";
+import TagSelector from "./shared/TagSelector";
+import {BeakerIcon} from "@heroicons/react/20/solid";
+import {DocumentArrowUpIcon} from "@heroicons/react/24/outline";
 
-function DeckEditor({deck, onClose,  isPopupOpen}) {
-
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [tag, setTags] = useState('');
-    const handleSave = () => {
-        // Logic to save the changes
-
-        onClose();
-    };
-
-    const handleCancel = () => {
-        // Logic to cancel the changes or close the popup
-
-        onClose();
-    };
-
-    const addTag = () => {
-
-    };
-
+const DeckEditor = ({id}) => {
     return (
-        <div className="relative">
-            {isPopupOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50"></div>
-            )}
-
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-md z-50 max-w-md w-full">
-                <label>
-                    Title:
-                    <input
-                        placeholder={deck.title}
-                        className="border border-gray-300 rounded px-4 py-2 mt-1 w-full"
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}/>
-                </label>
-
-
-                <label>
-                    Tags:
-                    <div className="flex items-center flex-wrap mt-5 gap-2">
-                    {deck.tags.map((tag) => (
-                        <div
-                            key={tag}
-                            className="bg-gray-200 rounded-xl px-2 py-0.5 text-sm font-semibold text-gray-700 hover:bg-blue-700"
-                        >
-                            {tag} <button>X</button>
-                        </div>
-                    ))}
-                        <button className="bg-gray-200 rounded-xl px-2 py-0.5 text-sm font-semibold text-gray-700 hover:bg-blue-700">+</button>
-                </div>
-                </label>
-
-                <label>
-                Description:
-                <textarea placeholder={deck.description} className="border border-gray-300 rounded px-4 py-2 mt-1 w-full"
-                       type="text"
-                       value={description}
-                       onChange={(e) => setDescription(e.target.value)}
-                />
-            </label>
-
-
-                <div className="flex items-center flex-wrap mt-5 gap-2">
-                    <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleSave}>Save</button>
-                    <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleCancel}>Cancel</button>
+        <div
+            className={"rounded-lg shadow bg-gray-50 flex flex-col md:w-96 max-h-screen mx-auto gap-6 p-4 border-2 border-blue-300"}>
+            {id !== undefined || <h1 className={"uppercase text-xl font-semibold text-gray-600 mx-auto"}>create new deck</h1>}
+            <div>
+                <div>
+                    <TextField id="standard-basic" variant="filled" label={"Title"} className={"w-full bg-gray-200"}/></div>
+                <div>
+                    <h2 className={"mt-8 text-xl font-semibold text-gray-600"}>Tags</h2>
+                    <TagSelector className={"mt-1"}/>
                 </div>
             </div>
+
+            <div>
+                <h2 className={"text-xl font-semibold text-gray-600"}>Cover</h2>
+                <div className={"text-gray-500"}>
+                    <span className={"text-start"}>Upload image:</span>
+                    <DocumentArrowUpIcon className={"w-6 h-6 inline mx-3 cursor-pointer hover:text-pink-400"}/>
+                </div>
+            </div>
+
+
+            <TextField
+                id="outlined-multiline-static"
+                label="Description"
+                multiline
+                rows={4}
+                className={"bg-gray-200"}
+            />
+
+            {id !== undefined && <div>
+                <h2 className={"text-xl font-semibold text-gray-600"}>Cards</h2>
+                <p className={"flex items-center gap-9 text-gray-500"}><span>300 cards</span>
+                    <button className={"hover:text-indigo-500"}><PlusCircleIcon className={"w-7 h-7"}/></button>
+                </p>
+            </div>}
+
+            {id !== undefined ?
+            <Button variant="contained" className={"h-10 place-self-center w-24"}>Confirm</Button> :
+            <div className={"grid grid-cols-2 place-items-center"}>
+                <Button variant="contained" className={"h-10 w-32 relative"}>
+                    Create
+                </Button>
+                <Button variant="contained" className={"h-10 bg-fuchsia-400 hover:bg-fuchsia-500 w-40 relative"}>
+                    AI generate
+                    <BeakerIcon className={"absolute top-2.5 right-0 w-5 h-5 mx-1"}/>
+                </Button>
+            </div>
+            }
         </div>
-
-    );
+    )
 }
-
 
 export default DeckEditor;

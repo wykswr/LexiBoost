@@ -4,7 +4,7 @@ import {useState} from "react";
 import MyDialog from "./MyDialog";
 
 
-const BookshelfDropdown = ({ id , className}) => {
+const DownMenu = ({ id , className}) => {
     const [selectedOption, setSelectedOption] = useState("blank")
     const [oldSelected, setOldSelected] = useState("blank")
 
@@ -55,4 +55,4 @@ const BookshelfDropdown = ({ id , className}) => {
     );
 };
 
-export default BookshelfDropdown;
+export default DownMenu;

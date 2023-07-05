@@ -3,10 +3,10 @@ import AuthPage from "./pages/AuthPage";
 import Demo from "./pages/Demo";
 import MarketPlace from "./pages/MarketPlace";
 import BookshelfPage from "./pages/BookshelfPage";
-import CardLearning from "./pages/CardLearning";
+import CardLearningPage from "./pages/CardLearningPage";
 import DeckDetail from "./components/DeckDetail";
 import Card_Addition_Page from "./pages/Card_Addition_Page";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/shared/NavBar";
 
 function App() {
     return (
@@ -18,7 +18,7 @@ function App() {
                 <Route path="/demo" element={<Demo />}/>
                 <Route path="/bookshelf" element={<BookshelfPage />}/>
 
-                <Route path="/cardlearning" element={<CardLearning/>}/>
+                <Route path="/cardlearning" element={<CardLearningPage/>}/>
                 <Route path="/test_detail" element={<DeckDetail />}/>
 
                 <Route path="/test_card_addition" element={<Card_Addition_Page />}/>
