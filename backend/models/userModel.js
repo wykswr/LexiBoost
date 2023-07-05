@@ -39,7 +39,7 @@ userSchema.statics.createUser = async function (first_name, last_name, email, pa
         return user;
     } catch (error) {
         console.error('Error creating user:', error);
-        throw new Error('Failed to create user');
+        throw new Error(error);
     }
 };
 
