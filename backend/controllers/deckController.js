@@ -70,7 +70,6 @@ async function createDeck(req, res) {
   try {
     const {name, cover, description, isPublic, flashCards, tags} = req.body;
     const creatorId = req.user.id;
-    console.log(creatorId)
 
     const deckData = {
       name,
