@@ -1,4 +1,4 @@
-import useDeck from "../hooks/useDeck";
+import useDeck from "../../hooks/useDeck";
 import {CircularProgress, LinearProgress, Rating} from "@mui/material";
 import {ArrowPathIcon, BookOpenIcon, PlayIcon, ArrowDownTrayIcon} from "@heroicons/react/20/solid";
 

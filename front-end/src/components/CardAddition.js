@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { modifyInputField } from "../redux/card_creation/reducer";
 
-const Card_Addition_Page = () => {
+const CardAddition = ({deckId, cardId}) => {
     const dispatch = useDispatch();
     const { spelling, type, pronunciation, hint, definition } = useSelector(
         (state) => state.creationForm
@@ -108,4 +108,4 @@ const Card_Addition_Page = () => {
     );
 };
 
-export default Card_Addition_Page;
+export default CardAddition;

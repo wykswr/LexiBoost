@@ -1,4 +1,4 @@
-import Deck from "./Deck";
+import Deck from "./shared/Deck";
 import DownMenu from "./DownMenu";
 
 const Book = ({id}) => {
