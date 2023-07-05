@@ -37,9 +37,7 @@ async function getDeckById(req, res) {
  */
 async function getUserDecks(req, res) {
   try {
-    // const userId = req.user.id;
-    const userId = 0;
-    // TODO: fix user id
+    const userId = req.user.id;
 
     const decks = await Deck.getUserDecks(userId);
 
@@ -53,12 +51,6 @@ async function getUserDecks(req, res) {
     res.status(500).json({error: 'Failed to retrieve decks'});
   }
 }
-
-/**
- * TODO: Create an authentication middleware
- * that adds user information to the request
- * so req.user can contain the user id
- */
 
 /**
  * @api {post} /decks Create a new deck
@@ -77,7 +69,8 @@ async function getUserDecks(req, res) {
 async function createDeck(req, res) {
   try {
     const {name, cover, description, isPublic, flashCards, tags} = req.body;
-    // const creatorId = req.user.id;
+    const creatorId = req.user.id;
+    console.log(creatorId)
 
     const deckData = {
       name,
@@ -85,7 +78,7 @@ async function createDeck(req, res) {
       description,
       rating: 0,
       size: flashCards.length,
-      creatorId: 0, // Todo: this should be creatorId
+      creatorId: creatorId,
       isPublic,
       importCount: 0,
       creationDate: new Date(),
@@ -145,11 +138,9 @@ async function editDeck(req, res) {
 async function importDeck(req, res) {
   try {
     const deckId = req.params.deckId;
-    // const creatorId = req.user.id;
+    const userId = req.user.id;
 
-    const creatorId = 123456;
-
-    const importedDeck = await Deck.importDeck(deckId, creatorId);
+    const importedDeck = await Deck.importDeck(deckId, userId);
 
     res.status(201).json({importedDeck});
   } catch (error) {
@@ -266,8 +257,8 @@ async function editFlashcardInDeck(req, res) {
 
     res.json({success: true});
   } catch (error) {
-    console.error('Error publishing deck:', error);
-    res.status(500).json({error: 'Failed to publish deck'});
+    console.error('Error editing flashcard in deck:', error);
+    res.status(500).json({error: 'Failed to edit flashcard'});
   }
 }
 
@@ -282,7 +273,7 @@ async function editFlashcardInDeck(req, res) {
 async function deleteDeckFromMarketplace(req, res) {
   try {
     const {deckId} = req.params;
-    const {userId} = req.user;
+    const userId = req.user.id;
 
     await Deck.deleteDeckFromMarketplace(deckId, userId);
 
@@ -304,7 +295,7 @@ async function deleteDeckFromMarketplace(req, res) {
 async function deleteDeckFromBookshelf(req, res) {
   try {
     const {deckId} = req.params;
-    const {userId} = req.user;
+    const userId = req.user.id;
 
     await Deck.deleteDeckFromBookshelf(deckId, userId);
 
@@ -326,7 +317,7 @@ async function deleteDeckFromBookshelf(req, res) {
 async function deleteDeckCompletely(req, res) {
   try {
     const {deckId} = req.params;
-    const {userId} = req.user;
+    const userId = req.user.id;
 
     await Deck.deleteDeckCompletely(deckId, userId);
 

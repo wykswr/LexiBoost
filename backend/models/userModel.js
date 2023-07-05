@@ -6,7 +6,6 @@ const generateAuthToken = require('../utils/tokenUtil');
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
-    id: { type: String, required: true, unique: true },
     creation_date: { type: Date, required: true },
     auth_token: { type: String },
     email: { type: String },
@@ -21,7 +20,6 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.createUser = async function (first_name, last_name, email, password) {
     try {
         const newUser = new this({
-            id: uuid(),
             creation_date: new Date(),
             email,
             first_name,
@@ -32,7 +30,7 @@ userSchema.statics.createUser = async function (first_name, last_name, email, pa
 
         const user = await newUser.save();
 
-        const token = generateAuthToken();
+        const token = generateAuthToken(user.id);
         user.auth_token = token;
         await user.save();
 

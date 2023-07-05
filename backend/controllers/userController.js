@@ -13,11 +13,8 @@ const createUser = async (req, res) => {
         if (existingUser) {
             return res.status(409).json({error: 'User already exists'});
         }
-        console.log("Im before create User")
-
         // Create the new user
         const user = await User.createUser(first_name, last_name, email, password);
-        console.log("Im after create User")
         res.status(201).json(user);
     } catch (error) {
         console.error('Error creating user:', error);
