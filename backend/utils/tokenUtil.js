@@ -8,14 +8,15 @@ const {TOKEN_KEY} = require('../config/config');
  */
 function generateAuthToken(id) {
   // Generate a token with the user's ID as the payload
-  const token = jwt.sign(
-      {id: id},
-      // TODO Set up a TOKEN_KEY env variable in docker
-      TOKEN_KEY,
-      {
-        expiresIn: '2h',
-      },
-  );
+  const payload = {
+    id: id,
+    timestamp: Date.now(),
+  };
+
+  // TODO: Set up a TOKEN_KEY environment variable in your environment
+  const token = jwt.sign(payload, TOKEN_KEY, {
+    expiresIn: '2h',
+  });
 
   return token;
 }

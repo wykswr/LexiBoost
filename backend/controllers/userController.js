@@ -1,5 +1,4 @@
 const User = require('../models/userModel');
-const bcrypt = require('bcrypt');
 
 const createUser = async (req, res) => {
   try {
@@ -14,7 +13,7 @@ const createUser = async (req, res) => {
       return res.status(409).json({error: 'User already exists'});
     }
     // Create the new user
-    const user = await User.createUser(first_name, last_name, email, password);
+    const user = await User.createUser(firstName, lastName, email, password);
     res.status(201).json(user);
   } catch (error) {
     console.error('Error creating user:', error);
@@ -28,18 +27,10 @@ const loginUser = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({error: 'All fields are required'});
     }
-    const user = await User.findOne({email});
-    if (!user) {
-      return res.status(404).json({error: 'User does not exists'});
-    }
-    const passwordMatch = await bcrypt.compare(password, user.password);
 
-    if (!passwordMatch) {
-      // Invalid password
-      return res.status(401).json({error: 'Invalid password'});
-    }
+    const token = await User.loginUser(email, password);
 
-    res.status(200).json({token: user.auth_token});
+    res.status(200).json({token: token});
   } catch (error) {
     res.status(500).json({error: error.message});
   }

@@ -30,8 +30,7 @@ userSchema.statics.createUser =
 
         const user = await newUser.save();
 
-        const token = generateAuthToken(user.id);
-        user.authToken = token;
+        user.authToken = generateAuthToken(user.id);
         await user.save();
 
         return user;
@@ -41,21 +40,29 @@ userSchema.statics.createUser =
       }
     };
 
-userSchema.statics.loginUser = async function( email, password) {
+userSchema.statics.loginUser = async function(email, password) {
   try {
     const user = await User.findOne({email});
+    if (!user) {
+      throw new Error('User does not exists');
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      // Invalid password
+      throw new Error('Invalid password');
+    }
 
     const authToken = generateAuthToken();
 
     // Update the user's auth_token in the database
-    user.authToken = authToken;
+    Object.assign(user, {authToken});
     await user.save();
-
 
     return user.authToken;
   } catch (error) {
-    console.error('Error creating user:', error);
-    throw new Error('Failed to create user');
+    console.error('Error login user:', error);
+    throw new Error('Failed to login user');
   }
 };
 

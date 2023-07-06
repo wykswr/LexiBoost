@@ -148,15 +148,28 @@ deckSchema.statics.createDeck = async function(deckData) {
 deckSchema.statics.getUserDecks = async function(userId) {
   try {
     const decks = await this.aggregate([
-      {$match: {creatorId: new mongoose.Types.ObjectId(userId)}},
+      {
+        $match: {
+          creatorId: new mongoose.Types.ObjectId(userId),
+          inBookshelf: true,
+        },
+      },
       {
         $project: {
+          document: '$$ROOT',
           flashCards: {
             $filter: {
               input: '$flashCards',
               as: 'flashcard',
               cond: {$eq: ['$$flashcard.burnt', false]},
             },
+          },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: ['$document', {flashCards: '$flashCards'}],
           },
         },
       },
