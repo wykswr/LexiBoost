@@ -183,21 +183,10 @@ async function publishDeck(req, res) {
 async function appendFlashCardToDeck(req, res) {
   try {
     const deckId = req.params.deckId;
-    const {flashCard} = req.body;
+    const flashCard = req.body;
     const userId = req.user.id;
 
-    const deck = await Deck.findById(deckId);
-
-    if (!deck) {
-      return res.status(404).json({error: 'Deck not found'});
-    }
-    // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId.toString() !== userId) {
-      return res.status(403).json({error: 'Forbidden'});
-    }
-    deck.flashCards.push(flashCard);
-
-    await deck.save();
+    const deck = await Deck.appendFlashCardToDeck(deckId, flashCard, userId);
 
     res.json({deck});
   } catch (error) {
