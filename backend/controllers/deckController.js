@@ -113,8 +113,9 @@ async function editDeck(req, res) {
   try {
     const deckId = req.params.deckId;
     const updatedFields = req.body;
+    const userId = req.user.id;
 
-    const deck = await Deck.editDeck(deckId, updatedFields);
+    const deck = await Deck.editDeck(deckId, updatedFields, userId);
 
     res.json({deck});
   } catch (error) {
