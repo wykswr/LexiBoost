@@ -12,6 +12,7 @@ const verifyToken = (req, res, next) => {
   try {
     // TODO Set up a TOKEN_KEY env variable in docker
     const decoded = jwt.verify(token, TOKEN_KEY);
+    console.log(decoded)
     decoded.id = decoded.id.toString();
     req.user = decoded;
   } catch (err) {

@@ -6,7 +6,7 @@ const generateAuthToken = require('../utils/tokenUtil');
 // Define the user schema
 const userSchema = new mongoose.Schema({
   creationDate: {type: Date, required: true},
-  authToken: {type: String},
+  authToken: {type: String, default: null},
   email: {type: String},
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
@@ -30,7 +30,6 @@ userSchema.statics.createUser =
 
         const user = await newUser.save();
 
-        user.authToken = generateAuthToken(user.id);
         await user.save();
 
         return user;
@@ -53,7 +52,7 @@ userSchema.statics.loginUser = async function(email, password) {
       throw new Error('Invalid password');
     }
 
-    const authToken = generateAuthToken();
+    const authToken = generateAuthToken(user._id.toString());
 
     // Update the user's auth_token in the database
     Object.assign(user, {authToken});
