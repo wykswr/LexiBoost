@@ -5,6 +5,7 @@ const config = require('./config/config');
 const userRoutes = require('./routes/userRoutes');
 const deckRoutes = require('./routes/deckRoutes');
 const verifyToken = require('./middleware/auth');
+const cors = require('cors');
 
 const cors = require('cors');
 
