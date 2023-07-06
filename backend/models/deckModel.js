@@ -493,5 +493,24 @@ deckSchema.statics.editFlashcardInDeck = async function(deckId,
   }
 };
 
+deckSchema.statics.appendFlashCardToDeck = async function(deckId,
+    flashCard,
+    userId) {
+  const deck = await this.findById(deckId);
+
+  if (!deck) {
+    throw new Error('Deck not found');
+  }
+  // Check if the authenticated user is the creator of the deck
+  if (deck.creatorId.toString() !== userId) {
+    throw new Error('Only the deck creator can append flashcard to deck');
+  }
+
+  deck.flashCards.push(flashCard);
+  await deck.save();
+
+  return deck;
+};
+
 const Deck = mongoose.model('Deck', deckSchema);
 module.exports = Deck;
