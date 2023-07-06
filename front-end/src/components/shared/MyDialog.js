@@ -3,8 +3,8 @@ import DeckDetail from "../DeckDetail";
 import TypingBox from "./TypingBox";
 import {CheckIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import DeckEditor from "../DeckEditor";
-import {removeDeck} from "../../redux/bookshelf/reducer";
 import {useDispatch} from "react-redux";
+import {deleteBook} from "../../redux/bookshelf/thunk";
 
 
 const MyDialog = ({id, option, setOption}) => {
@@ -26,7 +26,7 @@ const MyDialog = ({id, option, setOption}) => {
                     }
                     {option === "edit" && <div className={"grid grid-col-1 place-items-center gap-1 relative"}>
                         <button onClick={setOption}
-                                className={"absolute -top-3.5 right-10 p-1 bg-indigo-500 rounded-full text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}>
+                                className={"absolute -top-3.5 right-28 p-1 bg-indigo-500 rounded-full text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}>
                             <XMarkIcon className={"h-5 w-5"}/>
                         </button>
                         <DeckEditor id={id}/>
@@ -37,7 +37,7 @@ const MyDialog = ({id, option, setOption}) => {
                         <TypingBox message={"Are you sure to delete this?"}/>
                         <div className={"flex justify-center gap-5 mt-4"}>
                             <button onClick={() => {
-                                dispatch(removeDeck(id));
+                                dispatch(deleteBook(id));
                                 setOption();
                             }}
                                     className={"p-1 bg-red-500 rounded-full text-white hover:bg-red-800 transform hover::scale-105 transition-transform duration-300"}>

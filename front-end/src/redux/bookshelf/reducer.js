@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getBooks} from "./thunk";
+import {getBooks, deleteBook} from "./thunk";
 
 
 const INITIAL_STATE = {
@@ -26,6 +26,18 @@ const bookshelfSlice = createSlice({
                 state.IDs = action.payload;
             })
             .addCase(getBooks.rejected, (state, action) => {
+                state.pending = false;
+                state.error = action.payload;
+            })
+            .addCase(deleteBook.pending, (state) => {
+                state.pending = true;
+            })
+            .addCase(deleteBook.fulfilled, (state, action) => {
+                state.pending = false;
+                state.error = null;
+                state.IDs = state.IDs.filter(id => id !== action.payload.id);
+            })
+            .addCase(deleteBook.rejected, (state, action) => {
                 state.pending = false;
                 state.error = action.payload;
             })

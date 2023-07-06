@@ -2,24 +2,26 @@ import {Popover} from "@headlessui/react";
 import {ChevronDoubleUpIcon, PlusIcon} from "@heroicons/react/24/outline";
 import useSearchCard from "../../hooks/useSearchCard";
 import {XMarkIcon} from "@heroicons/react/24/solid";
+import {forwardRef} from "react";
+
 
 const Tag = ({tag, onClick}) => {
     return (
         <div
             className={"bg-gray-200 rounded-xl pl-2 pr-5 py-0.5 text-sm font-semibold text-gray-700 relative"}>
-            {tag}
+            <span>{tag}</span>
             <XMarkIcon onClick={onClick} className={"h-5 w-5 ml-0.5 absolute top-0.5 right-0 text-gray-500 hover:text-red-500 cursor-pointer"}/>
         </div>
     );
 }
 
-const TagSelector = ({className}) => {
-    const [availableTags, selectedTags, tagsPending, {push, remove}] = useSearchCard();
+const TagSelector = forwardRef((props, ref) => {
+    const [availableTags, selectedTags, tagsPending, {push, remove}] = useSearchCard(props.defaultTags);
     return (
-        <Popover className={className}>
+        <Popover className={props.className}>
             {({open}) => (
                 <>
-                    <div className={"flex gap-6 flex-wrap"}>
+                    <div className={"flex gap-6 flex-wrap"} ref={ref}>
                         {tagsPending || selectedTags.map((tag) => (
                             <Tag tag={tag} key={tag} onClick={() => remove(tag)}/>
                         ))}
@@ -48,6 +50,6 @@ const TagSelector = ({className}) => {
             )}
         </Popover>
     );
-}
+})
 
 export default TagSelector;

@@ -1,0 +1,42 @@
+### Create a new deck
+POST localhost:8000/decks
+Content-Type: application/json
+
+{
+  "name": "Test E",
+  "cover": "https://picsum.photos/100",
+  "description": "Test A description",
+  "flashCards": []
+}
+
+### Get all decks
+GET localhost:8000/decks
+
+### Get a deck
+GET localhost:8000/decks/64a73863f7155a938bc8c3a4
+
+
+### Hard delete a deck
+DELETE localhost:8000/decks/64a73863f7155a938bc8c3a4
+
+
+### Soft delete a deck
+DELETE localhost:8000/decks/64a7253a6e645f23f1da3c35/bookshelf
+
+
+### Update a deck
+PUT localhost:8000/decks/64a70f990559084b7b94ea03
+Content-Type: application/json
+
+{"name":"Test B2","cover":"https://picsum.photos/100", "description":"aaa"}
+
+
+### Add a flash card to a deck
+POST localhost:8000/decks/64a73863f7155a938bc8c3a4/flashcards
+Content-Type: application/json
+
+{
+  "spelling": "vocab1",
+  "definition": ["vocab1 definition"],
+  "examples": ["asas", "asas"]
+}
