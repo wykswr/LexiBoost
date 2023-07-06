@@ -32,7 +32,7 @@ Content-Type: application/json
 
 
 ### Add a flash card to a deck
-POST localhost:8000/decks/64a73863f7155a938bc8c3a4/flashcards
+POST localhost:8000/decks/64a73e2fe4564a0d0c331fa4/flashcards
 Content-Type: application/json
 
 {
