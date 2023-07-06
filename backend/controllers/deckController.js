@@ -192,7 +192,7 @@ async function appendFlashCardToDeck(req, res) {
       return res.status(404).json({error: 'Deck not found'});
     }
     // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId !== userId) {
+    if (deck.creatorId.toString() !== userId) {
       return res.status(403).json({error: 'Forbidden'});
     }
     deck.flashCards.push(flashCard);
