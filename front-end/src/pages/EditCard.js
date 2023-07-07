@@ -1,87 +1,58 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import {useEffect, useState} from 'react';
 import MyCardAddition from "../components/MyCardAddition";
-
-function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{p: 3}}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
-
-function VerticalTabs() {
-    const [value, setValue] = React.useState(0);
-
-    return (
-        <div className={"grid grid-cols-12 h-screen container mx-auto py-8 place-items-stretch"}>
-            <div>
-                <Tabs
-                    orientation="vertical"
-                    variant="scrollable"
-                    value={value}
-                    onChange={(event, newValue) => {
-                        setValue(newValue);
-                    }}
-                    aria-label="Vertical tabs example"
-                    scrollButtons={true}
-                    sx={{borderRight: 1, borderColor: 'divider'}}
-                >
-                    <Tab label="Card 1" {...a11yProps(0)} />
-                    <Tab label="Card 2" {...a11yProps(1)} />
-                    <Tab label="Card 3" {...a11yProps(2)} />
-                    <Tab label="Card 4" {...a11yProps(3)} />
-                    <Tab label="Card 5" {...a11yProps(4)} />
-                    <Tab label="Card 6" {...a11yProps(5)} />
-                    <Tab label="Card 7" {...a11yProps(6)} />
-                </Tabs>
-            </div>
-
-            <div className={"col-span-11"}>
-                {[0, 1, 2, 3, 4, 5, 6].map((item, index) => (<TabPanel value={value} index={index}>
-                    <MyCardAddition key={index} cardId={index}/>
-                </TabPanel>))}
-            </div>
-
-
-        </div>
-    );
-}
+import {useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchDeck} from "../redux/cardEdit/thunk";
+import useCounter from "../hooks/useCounter";
+import {ArrowPathIcon} from "@heroicons/react/20/solid";
+import {ChevronDoubleLeftIcon, ChevronDoubleRightIcon} from "@heroicons/react/24/solid";
+import {PlusCircleIcon} from "@heroicons/react/24/outline";
 
 
 const EditCard = () => {
+    const {deckId} = useParams();
+    const dispatch = useDispatch();
+    const cards = useSelector(state => state.cardEdit.cards);
+    const pending = useSelector(state => state.cardEdit.pending);
+    const [counter, {increment, decrement}] = useCounter(0);
+    const vocabs = [0, 1, 2, 3, 4].map(i =>
+        counter + i).filter(i => i < cards.length);
+    const [selectedCard, setSelectedCard] = useState(null);
+
+    useEffect(() => {
+        dispatch(fetchDeck(deckId));
+    }, [dispatch, deckId])
+
     return (
         <div className={"container mx-auto py-6"}>
-            <VerticalTabs/>
+            {pending ?
+                <ArrowPathIcon className={"h-64 w-64 animate-spin text-gray-500 mx-auto mt-64"}/> :
+                <div>
+                    <div className={"flex flex-wrap gap-3"}>
+                        {vocabs[0] > 0 && <button onClick={decrement} className={"self-end"}>
+                            <ChevronDoubleLeftIcon className={"h-6 w-6 hover:text-indigo-500"}/>
+                        </button>}
+
+                        {vocabs.map(i => <button
+                            key={i}
+                            className={"bg-gray-50 shadow-sm border-t-2 border-l-2 border-r-2 border-gray-300 rounded-t-lg p-1"}
+                            onClick={() => setSelectedCard(cards[i]._id)}>
+                            {cards[i].spelling}
+                        </button>)}
+
+                        {vocabs[vocabs.length - 1] < cards.length - 1 &&
+                            <button onClick={increment} className={"self-end"}>
+                                <ChevronDoubleRightIcon className={"h-6 w-6 hover:text-indigo-500"}/>
+                            </button>}
+
+                        <button onClick={() => setSelectedCard(null)}>
+                            <PlusCircleIcon className={"h-8 w-8 hover:text-indigo-500 text-gray-500"}/>
+                        </button>
+                    </div>
+
+                    <MyCardAddition deckId={deckId} cardId={selectedCard}/>
+                </div>}
         </div>
     )
 }

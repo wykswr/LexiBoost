@@ -207,7 +207,6 @@ deckSchema.statics.editDeck =
         if (!deck) {
           throw new Error('Deck not found');
         }
-
         // Check if the authenticated user is the creator of the deck
         if (deck.creatorId.toString() !== userId) {
           throw new Error('Only the deck creator can edit the deck');
