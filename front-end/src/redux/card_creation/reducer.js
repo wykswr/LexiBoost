@@ -1,11 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {addCardToDeck} from "./thunk";
 
 const INITIAL_FORM_STATE = {
     spelling: '',
-    type: '',
     pronunciation: '',
-    hint: '',
-    definition: ''
+    definition: [""],
+    examples: [""],
+    burnt: false,
+    mistakeCount: 0,
+    correctCount: 0
 };
 
 const creationFormSlice = createSlice({
@@ -15,6 +18,11 @@ const creationFormSlice = createSlice({
         modifyInputField: (state, action) => {
             state[action.payload.field] = action.payload.value;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(addCardToDeck.fulfilled, (state, action) => {
+            state = INITIAL_FORM_STATE;
+        })
     }
 })
 

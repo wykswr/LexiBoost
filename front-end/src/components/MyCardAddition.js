@@ -2,17 +2,23 @@ import {Button, TextField} from "@mui/material";
 import useArray from "../hooks/useArray";
 import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import {useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {addCardToDeck} from "../redux/card_creation/thunk";
 
 
 
 const MyCardAddition = ({deckId, cardId}) => {
-    // useDispatch
-    // useSelector
-    const [definitions, {push: pushRef, set: setRef}] = useArray(["A", "B", "C"]);
-    const [examples, {push: pushEx, set: setEx}] = useArray(["1", "2", "3"]);
+    const dispatch = useDispatch();
+    if (cardId) {// If the code is editing existing cards, the state in reducer file must be updated by fetching from the backend. Otherwise, just use the default value of the initializer
+
+    }
+    const {spelling, pronunciation, definition, examples} = useSelector((state) => state.creationForm);
+    const [definitions, {push: pushRef, set: setRef}] = useArray(definition);
+    const [example, {push: pushEx, set: setEx}] = useArray(examples);
     const defRef = useRef(null);
     const exRef = useRef(null);
-
+    const spellingRef = useRef(null);
+    const pronunciationRef = useRef(null);
     const handleDefinitionAddition = () => {
         let defs = [];
         for (let i = 0; i < defRef.current.children.length; i++) {
@@ -23,12 +29,16 @@ const MyCardAddition = ({deckId, cardId}) => {
     }
 
     const handleExampleAddition = () => {
-        let newExamples = [];
+        let newExample = [];
         for (let i = 0; i < exRef.current.children.length; i++) {
-            newExamples.push(exRef.current.children[i].value);
+            newExample.push(exRef.current.children[i].value);
         }
-        setEx(newExamples);
-        examples[examples.length - 1] !== "" && pushEx("");
+        setEx(newExample);
+        example[example.length - 1] !== "" && pushEx("");
+    }
+
+    const handleDeletion = () => {
+
     }
 
     const handleClick = () => {
@@ -37,23 +47,46 @@ const MyCardAddition = ({deckId, cardId}) => {
             currentDefs.push(defRef.current.children[i].value);
         }
         currentDefs = currentDefs.filter(def => def.trim() !== "");
-        let currentExamples = [];
+        let currentExample = [];
         for (let i = 0; i < exRef.current.children.length; i++) {
-            currentExamples.push(exRef.current.children[i].value);
+            currentExample.push(exRef.current.children[i].value);
         }
 
-        currentExamples = currentExamples.filter(ex => ex.trim() !== "");
+        currentExample = currentExample.filter(ex => ex.trim() !== "");
+
+        let currentSpelling = spellingRef.current;
+        let currentPronunciation = pronunciationRef.current;
+
+        let newCard = {
+            spelling: currentSpelling,
+            pronunciation: currentPronunciation,
+            definition: currentDefs,
+            examples: currentExample,
+            burnt: false,
+            mistakeCount: 0,
+            correctCount: 0
+        }
+
+        if (cardId) {
+
+        } else {
+            let query = {
+                card: newCard,
+                deckID: deckId
+            }
+            dispatch(addCardToDeck(query));
+        }
 
         // update reducer
         console.log(currentDefs);
-        console.log(currentExamples)
+        console.log(currentExample);
     }
 
     return (
         <div className={"grid grid-cols-1 items-stretch gap-10"}>
             <h1 className={"text-xl font-semibold text-indigo-500"}>{cardId}</h1>
-            <TextField required id="outlined-required" label="Spelling"/>
-            <TextField id="outlined-required" label="Pronunciation"/>
+            <TextField required id="outlined-required" label="Spelling"  defaultValue={spelling} ref={spellingRef}/>
+            <TextField id="outlined-required" label="Pronunciation" defaultValue={pronunciation} ref={pronunciationRef}/>
 
             <div className={"flex flex-col gap-3"}>
                 <label htmlFor={"definitions"}>Definitions</label>
@@ -71,13 +104,13 @@ const MyCardAddition = ({deckId, cardId}) => {
             </div>
 
             <div className={"flex flex-col gap-3"}>
-                <label htmlFor={"examples"}>Example Sentences</label>
+                <label htmlFor={"example"}>Example Sentences</label>
                 <div className={"flex flex-col gap-3"} ref={exRef}>
-                    {examples.map((example, index) => (
+                    {example.map((example, index) => (
                         index ?
                             <textarea key={index} defaultValue={example}
                                    className={"border-2 border-gray-300 h-16 rounded-md"}/> :
-                            <textarea key={index} defaultValue={example} id="examples"
+                            <textarea key={index} defaultValue={example} id="example"
                                    className={"border-2 border-gray-300 h-16 rounded-md"}/>
                     ))}
                 </div>
