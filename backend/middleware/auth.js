@@ -1,3 +1,4 @@
+
 // const jwt = require('jsonwebtoken');
 // const {TOKEN_KEY} = require('../config/config');
 
@@ -21,6 +22,7 @@ const verifyToken = (req, res, next) => {
   req.user = {
     id: '64a70a6e426d71fcc0486ebc',
   };
+
   return next();
 };
 
