@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const config = require('./config/config');
 const userRoutes = require('./routes/userRoutes');
 const deckRoutes = require('./routes/deckRoutes');
+const verifyToken = require('./middleware/auth');
 
 const index = express();
 
@@ -17,8 +18,8 @@ mongoose
 index.use(express.json());
 
 // Routes
-index.use('/api', userRoutes);
-index.use('/decks', deckRoutes);
+index.use('/users', userRoutes);
+index.use('/decks', verifyToken, deckRoutes);
 
 // Start the server
 index.listen(3000, () => {

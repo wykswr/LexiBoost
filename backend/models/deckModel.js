@@ -65,14 +65,10 @@ const deckSchema = new mongoose.Schema(
         type: Number,
         default: 0,
       },
-      /**
-         * Commented out for testing. creatorId is required
-         */
-      // creatorId: {
-      //     type: mongoose.Schema.Types.ObjectId,
-      //     ref: 'User',
-      // },
-      creatorId: Number,
+      creatorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
       isPublic: {
         type: Boolean,
         default: false,
@@ -152,8 +148,31 @@ deckSchema.statics.createDeck = async function(deckData) {
 deckSchema.statics.getUserDecks = async function(userId) {
   try {
     const decks = await this.aggregate([
-      {$match: {'creatorId': userId, 'inBookshelf': true,
-        'flashCards.burnt': {$ne: true}}},
+      {
+        $match: {
+          creatorId: new mongoose.Types.ObjectId(userId),
+          inBookshelf: true,
+        },
+      },
+      {
+        $project: {
+          document: '$$ROOT',
+          flashCards: {
+            $filter: {
+              input: '$flashCards',
+              as: 'flashcard',
+              cond: {$eq: ['$$flashcard.burnt', false]},
+            },
+          },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: ['$document', {flashCards: '$flashCards'}],
+          },
+        },
+      },
     ]);
 
     decks.forEach((deck) => {
@@ -190,7 +209,7 @@ deckSchema.statics.editDeck =
         }
 
         // Check if the authenticated user is the creator of the deck
-        if (deck.creatorId !== userId) {
+        if (deck.creatorId.toString() !== userId) {
           throw new Error('Only the deck creator can edit the deck');
         }
 
@@ -231,6 +250,7 @@ deckSchema.statics.importDeck = async function(deckId, creatorId) {
     }
 
     originalDeck.importCount += 1;
+    originalDeck.lastModificationDate = new Date();
 
     const clonedDeck = new this({
       ...originalDeck.toObject({
@@ -278,7 +298,7 @@ deckSchema.statics.publishDeck = async function(deckId, userId) {
     }
 
     // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId !== userId) {
+    if (deck.creatorId.toString() !== userId) {
       throw new Error('Only the deck creator can publish the deck');
     }
 
@@ -310,7 +330,7 @@ deckSchema.statics.deleteDeckFromMarketplace = async function(deckId, userId) {
     }
 
     // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId !== userId) {
+    if (deck.creatorId.toString() !== userId) {
       throw new Error('Only the deck creator can delete the deck ' +
                 'from the marketplace');
     }
@@ -345,7 +365,7 @@ deckSchema.statics.deleteDeckFromBookshelf = async function(deckId, userId) {
     }
 
     // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId !== userId) {
+    if (deck.creatorId.toString() !== userId) {
       throw new Error('Only the deck creator can delete the deck ' +
                 'from the bookshelf');
     }
@@ -377,7 +397,7 @@ deckSchema.statics.deleteDeckCompletely = async function(deckId, userId) {
       throw new Error('Deck not found');
     }
     // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId !== userId) {
+    if (deck.creatorId.toString() !== userId) {
       throw new Error('Only the deck creator can delete the deck');
     }
     await this.deleteOne({_id: deckId, creatorId: userId});
@@ -408,13 +428,14 @@ deckSchema.statics.deleteFlashcardFromDeck = async function(deckId,
     }
 
     // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId !== userId) {
+    if (deck.creatorId.toString() !== userId) {
       throw new Error('Only the deck creator can edit the flashcard');
     }
 
     // Find the flashcard index
     const flashcardIndex =
-        deck.flashCards.findIndex((flashcard) => flashcard.id === flashcardId);
+            deck.flashCards
+                .findIndex((flashcard) => flashcard.id === flashcardId);
 
     // Remove the flashcard from the deck
     if (flashcardIndex !== -1) {
@@ -449,17 +470,20 @@ deckSchema.statics.editFlashcardInDeck = async function(deckId,
     }
 
     // Check if the authenticated user is the creator of the deck
-    if (deck.creatorId !== userId) {
+    if (deck.creatorId.toString() !== userId) {
       throw new Error('Only the deck creator can edit the flashcard');
     }
     // Find the flashcard index
     const flashcardIndex =
-        deck.flashCards.findIndex((flashcard) => flashcard.id === flashcardId);
+            deck.flashCards
+                .findIndex((flashcard) => flashcard.id === flashcardId);
+
 
     // Update the flashcard in the deck
     if (flashcardIndex !== -1) {
-      const updatedFlashCardWithNewFields = {...deck, ...updatedFlashcard};
-      deck.flashCards[flashcardIndex] = updatedFlashCardWithNewFields;
+      const oldFlashCard = deck.flashCards[flashcardIndex];
+      Object.assign(oldFlashCard, updatedFlashcard);
+      deck.flashCards[flashcardIndex] = oldFlashCard;
       await deck.save();
     } else {
       throw new Error('Flashcard not found in the deck');
@@ -468,6 +492,25 @@ deckSchema.statics.editFlashcardInDeck = async function(deckId,
     console.error('Error updating flashcard in deck:', error);
     throw error;
   }
+};
+
+deckSchema.statics.appendFlashCardToDeck = async function(deckId,
+    flashCard,
+    userId) {
+  const deck = await this.findById(deckId);
+
+  if (!deck) {
+    throw new Error('Deck not found');
+  }
+  // Check if the authenticated user is the creator of the deck
+  if (deck.creatorId.toString() !== userId) {
+    throw new Error('Only the deck creator can append flashcard to deck');
+  }
+
+  deck.flashCards.push(flashCard);
+  await deck.save();
+
+  return deck;
 };
 
 const Deck = mongoose.model('Deck', deckSchema);
