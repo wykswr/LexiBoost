@@ -1,5 +1,5 @@
 import usePending from "./usePending";
-import {searchDecks} from "../service/deck";
+import {searchDecks} from "../service/fakeDeck";
 import {useState, useEffect} from "react";
 
 const useAutoSearch = () => {

@@ -2,7 +2,6 @@ const deckController = require('../controllers/deckController');
 const express = require('express');
 
 /**
- * Todo: add an authenticate middleware here
  * @type {Router}
  */
 

@@ -1,10 +1,19 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {getDeckIds} from "../../service/api";
+import {getDecks, deleteDeck} from "../../service/deck";
 
 
 export const getBooks = createAsyncThunk(
     "bookshelf/getBooks",
     async (payload, thunkAPI) => {
-        return await getDeckIds();
+        return await getDecks()
+    }
+)
+
+export const deleteBook = createAsyncThunk(
+    "bookshelf/deleteBook",
+    async (id) => {
+        const state = await deleteDeck(id);
+        console.assert(state.success)
+        return {id: id, state: state};
     }
 )

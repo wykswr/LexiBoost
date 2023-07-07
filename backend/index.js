@@ -4,8 +4,15 @@ const mongoose = require('mongoose');
 const config = require('./config/config');
 const userRoutes = require('./routes/userRoutes');
 const deckRoutes = require('./routes/deckRoutes');
+const verifyToken = require('./middleware/auth');
+
+const cors = require('cors');
+
 
 const index = express();
+
+// CORS
+index.use(cors());
 
 // Connect to MongoDB
 mongoose
@@ -17,10 +24,10 @@ mongoose
 index.use(express.json());
 
 // Routes
-index.use('/api', userRoutes);
-index.use('/decks', deckRoutes);
+index.use('/users', userRoutes);
+index.use('/decks', verifyToken, deckRoutes);
 
 // Start the server
-index.listen(3000, () => {
-  console.log('Server listening on port 3000');
+index.listen(8000, () => {
+  console.log('Server listening on port 8000');
 });

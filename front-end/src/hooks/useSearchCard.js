@@ -4,9 +4,10 @@ import {useEffect} from "react";
 import {getTags} from "../service/api";
 
 
-const useSearchCard = () => {
+const useSearchCard = (defaultTags) => {
     const [availableTags, {set}] = useArray([]);
     const [selectedTags, {push, remove}] = useArray([]);
+    defaultTags && defaultTags.forEach((tag) => push(tag));
     const [fetchTags, pending] = usePending(getTags);
 
     useEffect(() => {

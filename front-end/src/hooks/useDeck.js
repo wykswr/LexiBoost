@@ -1,7 +1,8 @@
 import usePending from "./usePending";
-import {getDeck, getProgress} from "../service/deck";
+import {getDeck} from "../service/deck";
 import {useEffect, useState} from "react";
 import useProgress from "./useProgress";
+import {getProgress} from "../service/fakeDeck";
 
 
 const useDeck = (id, inMarket) => {
@@ -24,7 +25,7 @@ const useDeck = (id, inMarket) => {
                         setTicks(progress.burned, progress.total);
                     })
             })
-    }, [deck.id, fetchDeck, fetchProgress, id, setTicks]);
+    }, [fetchDeck, fetchProgress, id, inMarket, setTicks]);
 
     return [deck, progress, percent, pending];
 }
