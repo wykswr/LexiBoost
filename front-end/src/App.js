@@ -21,7 +21,7 @@ function App() {
                 <Route path="/cardlearning" element={<CardLearningPage/>}/>
                 <Route path="/test_detail" element={<DeckDetail />}/>
 
-                <Route path="/add_card" element={<EditCard />}/>
+                <Route path="/add_card/:deckId" element={<EditCard />}/>
                 <Route path="/marketplace" element={<MarketPlace />}/>
             </Routes>
             </div>

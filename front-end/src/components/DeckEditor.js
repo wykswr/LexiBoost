@@ -7,11 +7,13 @@ import {createDeckAsync, editDeckAsync} from "../redux/deckEdit/thunk";
 import {useDispatch} from "react-redux";
 import {useRef} from "react";
 
+
 const DeckEditor = ({id}) => {
     const nameRef = useRef();
     const descriptionRef = useRef();
     const tagsRef = useRef();
     const dispatch = useDispatch();
+
 
     const handleCreate = () => {
         const name = nameRef.current.children[1].children[0].value;
@@ -23,10 +25,11 @@ const DeckEditor = ({id}) => {
                 tagsList.push(tags[i].children[0].innerText);
             }
         }
+        const randID = Math.floor(Math.random() * 5) * 100 + 100;
         const deck = {
             name: name,
             description: description,
-            cover: "https://picsum.photos/100",
+            cover: `https://picsum.photos/${randID}`,
             tags: tagsList
         }
         if (id !== undefined) {
@@ -72,7 +75,7 @@ const DeckEditor = ({id}) => {
             {id !== undefined && <div>
                 <h2 className={"text-xl font-semibold text-gray-600"}>Cards</h2>
                 <p className={"flex items-center gap-9 text-gray-500"}><span>300 cards</span>
-                    <Link to={"/add_card"} className={"hover:text-indigo-500"}><PlusCircleIcon
+                    <Link to={`/add_card/${id}`} className={"hover:text-indigo-500"}><PlusCircleIcon
                         className={"w-7 h-7"}/></Link>
                 </p>
             </div>}

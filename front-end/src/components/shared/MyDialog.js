@@ -25,10 +25,10 @@ const MyDialog = ({id, option, setOption}) => {
                     </div>
                     }
                     {option === "edit" && <div className={"grid grid-col-1 place-items-center gap-1 relative"}>
-                        <button onClick={setOption}
-                                className={"absolute -top-3.5 right-28 p-1 bg-indigo-500 rounded-full text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}>
-                            <XMarkIcon className={"h-5 w-5"}/>
-                        </button>
+                        {/*<button onClick={setOption}*/}
+                        {/*        className={"absolute -top-3.5 right-28 p-1 bg-indigo-500 rounded-full text-white hover:bg-indigo-800 transform hover::scale-105 transition-transform duration-300"}>*/}
+                        {/*    <XMarkIcon className={"h-5 w-5"}/>*/}
+                        {/*</button>*/}
                         <DeckEditor id={id}/>
                     </div>}
                     {option === "delete" && <div

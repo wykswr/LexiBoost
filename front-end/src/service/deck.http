@@ -13,7 +13,7 @@ Content-Type: application/json
 GET localhost:8000/decks
 
 ### Get a deck
-GET localhost:8000/decks/64a73863f7155a938bc8c3a4
+GET localhost:8000/decks/64a7a129db6f91db17f6c3cb
 
 
 ### Hard delete a deck
@@ -32,11 +32,11 @@ Content-Type: application/json
 
 
 ### Add a flash card to a deck
-POST localhost:8000/decks/64a73e2fe4564a0d0c331fa4/flashcards
+POST localhost:8000/decks/64a7a129db6f91db17f6c3cb/flashcards
 Content-Type: application/json
 
 {
-  "spelling": "vocab1",
-  "definition": ["vocab1 definition"],
-  "examples": ["asas", "asas"]
+  "spelling": "world",
+  "definition": ["世界"],
+  "examples": ["Hello world", "world cup"]
 }
