@@ -1,5 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {fetchDeck} from "./thunk";
+import {addCard} from "../../service/card";
+import {addCardToDeck} from "../card_creation/thunk";
 
 const initialState = {
     cards : [],
@@ -26,6 +28,10 @@ const cardEditSlice = createSlice({
             state.pending = false;
             state.error = action.error;
         })
+        builder.addCase(addCardToDeck.fulfilled, (state, action) => {
+            state.cards = action.payload.flashCards;
+        })
+
     }
 })
 

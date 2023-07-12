@@ -3,7 +3,7 @@ import useArray from "../hooks/useArray";
 import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addCardToDeck} from "../redux/card_creation/thunk";
+import {addCardToDeck, deleteFlashCard, editFlashCard} from "../redux/card_creation/thunk";
 
 
 
@@ -38,7 +38,11 @@ const MyCardAddition = ({deckId, cardId}) => {
     }
 
     const handleDeletion = () => {
-
+        let identifier = {
+            cardID: cardId,
+            deckID: deckId
+        }
+        dispatch(deleteFlashCard(identifier));
     }
 
     const handleClick = () => {
@@ -54,27 +58,35 @@ const MyCardAddition = ({deckId, cardId}) => {
 
         currentExample = currentExample.filter(ex => ex.trim() !== "");
 
-        let currentSpelling = spellingRef.current;
-        let currentPronunciation = pronunciationRef.current;
-
+        let currentSpelling = spellingRef.current.value;
+        let currentPronunciation = pronunciationRef.current.value;
+        // console.log(pronunciationRef.current);
         let newCard = {
             spelling: currentSpelling,
             pronunciation: currentPronunciation,
             definition: currentDefs,
-            examples: currentExample,
-            burnt: false,
-            mistakeCount: 0,
-            correctCount: 0
+            examples: currentExample
         }
 
         if (cardId) {
-
+            let query = {
+                card: newCard,
+                deckID: deckId,
+                cardID: cardId
+            }
+            console.log("edit a card");
+            dispatch(editFlashCard(query));
         } else {
+            newCard.burnt = false;
+            newCard.mistakeCount = 0;
+            newCard.correctCount = 0;
             let query = {
                 card: newCard,
                 deckID: deckId
             }
+            console.log(query);
             dispatch(addCardToDeck(query));
+
         }
 
         // update reducer
@@ -85,8 +97,12 @@ const MyCardAddition = ({deckId, cardId}) => {
     return (
         <div className={"grid grid-cols-1 items-stretch gap-10"}>
             <h1 className={"text-xl font-semibold text-indigo-500"}>{cardId}</h1>
-            <TextField required id="outlined-required" label="Spelling"  defaultValue={spelling} ref={spellingRef}/>
-            <TextField id="outlined-required" label="Pronunciation" defaultValue={pronunciation} ref={pronunciationRef}/>
+            <div className={"flex flex-col gap-3"}>
+                <label htmlFor='spelling' className="block  text-sm font-medium leading-6 text-gray-900"> Spelling </label>
+                <input type='text' required id="spelling" className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={spellingRef}/>
+                <label htmlFor='pronunciation' className={""}> Pronunciation </label>
+                <input type='text' id="pronunciation" className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={pronunciationRef}/>
+            </div>
 
             <div className={"flex flex-col gap-3"}>
                 <label htmlFor={"definitions"}>Definitions</label>
@@ -120,7 +136,7 @@ const MyCardAddition = ({deckId, cardId}) => {
 
 
             <div className={"flex justify-end gap-12 mr-3"}>
-                <Button variant="contained" className={"bg-red-500 hover:bg-red-600"}> Delete </Button>
+                <Button variant="contained" onClick={handleDeletion} className={"bg-red-500 hover:bg-red-600"}> Delete </Button>
                 <Button variant="contained" onClick={handleClick}> Confirm </Button>
             </div>
 

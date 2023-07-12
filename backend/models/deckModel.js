@@ -421,7 +421,7 @@ deckSchema.statics.deleteFlashcardFromDeck = async function(deckId,
     userId) {
   try {
     const deck = await Deck.findById(deckId);
-
+    console.log('Where am I');
     if (!deck) {
       throw new Error('Deck not found');
     }

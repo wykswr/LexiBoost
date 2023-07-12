@@ -1,13 +1,24 @@
 import { createAsyncThunk} from "@reduxjs/toolkit";
+import {deleteCard, editCard, addCard} from "../../service/card";
+
 
 export const addCardToDeck = createAsyncThunk(
-    'POST_CARD',
+    'creationForm/addCardToDeck',
     async(query) => {
-        const res = await fetch(`localhost:8000/decks/deckId=${query.deckID}/flashcards`, {
-            method: 'POST',
-            body: JSON.stringify({
-                flashCard: query.card
-            })
-        })
+        return await addCard(query.deckID, query.card.spelling, query.card.pronunciation, query.card.definition, query.card.examples)
     }
 );
+
+export const deleteFlashCard = createAsyncThunk(
+    'creationForm/deleteFlashCard',
+    async(query) => {
+        return await deleteCard(query.cardID, query.deckID);
+    }
+);
+
+export const editFlashCard = createAsyncThunk(
+    'creationForm/editFlashCard',
+    async (query) => {
+        return await editCard(query.cardID, query.deckID, query.card.spelling, query.card.pronunciation, query.card.definition, query.card.examples)
+    }
+)

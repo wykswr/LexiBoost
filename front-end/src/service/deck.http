@@ -37,6 +37,7 @@ Content-Type: application/json
 
 {
   "spelling": "world",
+  "pronunciation": "assas",
   "definition": ["世界"],
   "examples": ["Hello world", "world cup"]
 }
