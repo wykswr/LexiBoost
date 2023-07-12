@@ -13,8 +13,14 @@ router.post('/', deckController.createDeck);
 // Get decks for a user
 router.get('/', deckController.getUserDecks);
 
+// Get flashcards for a specific user deck
+router.get('/:deckId/flashcards', deckController.getFlashCards);
+
 // Delete a deck completely
 router.delete('/:deckId', deckController.deleteDeckCompletely);
+
+// Get a deck statistics
+router.get('/:deckId/statistics', deckController.getDeckStats);
 
 // Delete a deck from marketplace
 router.delete('/:deckId/marketplace', deckController.deleteDeckFromMarketplace);
@@ -26,6 +32,14 @@ router.delete('/:deckId/flashcards/:flashCardId',
 // Edit flashcard in Deck
 router.put('/:deckId/flashcards/:flashCardId',
     deckController.updateFlashcardInDeck);
+
+// Edit flashcard in Deck
+router.put('/:deckId/flashcards/:flashCardId',
+    deckController.updateFlashcardInDeck);
+
+// Get flashcard from Deck
+router.get('/:deckId/flashcards/:flashCardId',
+    deckController.getAFlashCardFromADeck);
 
 // Delete a deck bookshelf
 router.delete('/:deckId/bookshelf', deckController.deleteDeckFromBookshelf);
