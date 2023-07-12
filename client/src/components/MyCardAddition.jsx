@@ -1,18 +1,24 @@
-import {Button, TextField} from "@mui/material";
+import {Button} from "@mui/material";
 import useArray from "../hooks-decrepit/useArray.js";
 import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import {useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {addCardToDeck, deleteFlashCard, editFlashCard} from "../redux/card_creation/thunk";
 
 
 
 const MyCardAddition = ({deckId, cardId}) => {
-    // useDispatch
-    // useSelector
-    const [definitions, {push: pushRef, set: setRef}] = useArray(["A", "B", "C"]);
-    const [examples, {push: pushEx, set: setEx}] = useArray(["1", "2", "3"]);
+    const dispatch = useDispatch();
+    if (cardId) {// If the code is editing existing cards, the state in reducer file must be updated by fetching from the backend. Otherwise, just use the default value of the initializer
+
+    }
+    const {spelling, pronunciation, definition, examples} = useSelector((state) => state.creationForm);
+    const [definitions, {push: pushRef, set: setRef}] = useArray(definition);
+    const [example, {push: pushEx, set: setEx}] = useArray(examples);
     const defRef = useRef(null);
     const exRef = useRef(null);
-
+    const spellingRef = useRef(null);
+    const pronunciationRef = useRef(null);
     const handleDefinitionAddition = () => {
         let defs = [];
         for (let i = 0; i < defRef.current.children.length; i++) {
@@ -23,12 +29,20 @@ const MyCardAddition = ({deckId, cardId}) => {
     }
 
     const handleExampleAddition = () => {
-        let newExamples = [];
+        let newExample = [];
         for (let i = 0; i < exRef.current.children.length; i++) {
-            newExamples.push(exRef.current.children[i].value);
+            newExample.push(exRef.current.children[i].value);
         }
-        setEx(newExamples);
-        examples[examples.length - 1] !== "" && pushEx("");
+        setEx(newExample);
+        example[example.length - 1] !== "" && pushEx("");
+    }
+
+    const handleDeletion = () => {
+        let identifier = {
+            cardID: cardId,
+            deckID: deckId
+        }
+        dispatch(deleteFlashCard(identifier));
     }
 
     const handleClick = () => {
@@ -37,23 +51,58 @@ const MyCardAddition = ({deckId, cardId}) => {
             currentDefs.push(defRef.current.children[i].value);
         }
         currentDefs = currentDefs.filter(def => def.trim() !== "");
-        let currentExamples = [];
+        let currentExample = [];
         for (let i = 0; i < exRef.current.children.length; i++) {
-            currentExamples.push(exRef.current.children[i].value);
+            currentExample.push(exRef.current.children[i].value);
         }
 
-        currentExamples = currentExamples.filter(ex => ex.trim() !== "");
+        currentExample = currentExample.filter(ex => ex.trim() !== "");
+
+        let currentSpelling = spellingRef.current.value;
+        let currentPronunciation = pronunciationRef.current.value;
+        // console.log(pronunciationRef.current);
+        let newCard = {
+            spelling: currentSpelling,
+            pronunciation: currentPronunciation,
+            definition: currentDefs,
+            examples: currentExample
+        }
+
+        if (cardId) {
+            let query = {
+                card: newCard,
+                deckID: deckId,
+                cardID: cardId
+            }
+            console.log("edit a card");
+            dispatch(editFlashCard(query));
+        } else {
+            newCard.burnt = false;
+            newCard.mistakeCount = 0;
+            newCard.correctCount = 0;
+            let query = {
+                card: newCard,
+                deckID: deckId
+            }
+            console.log(query);
+            dispatch(addCardToDeck(query));
+
+        }
 
         // update reducer
         console.log(currentDefs);
-        console.log(currentExamples)
+        console.log(currentExample);
     }
 
     return (
         <div className={"grid grid-cols-1 items-stretch gap-10"}>
             <h1 className={"text-xl font-semibold text-indigo-500"}>{cardId}</h1>
-            <TextField required id="outlined-required" label="Spelling"/>
-            <TextField id="outlined-required" label="Pronunciation"/>
+            <div className={"flex flex-col gap-3"}>
+                <label htmlFor='spelling' className="block  text-sm font-medium leading-6 text-gray-900"> Spelling </label>
+                <input type='text' required id="spelling" className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={spellingRef}/>
+                <label htmlFor='pronunciation' className={""}> Pronunciation </label>
+                <input type='text' id="pronunciation" className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={pronunciationRef}/>
+            </div>
 
             <div className={"flex flex-col gap-3"}>
                 <label htmlFor={"definitions"}>Definitions</label>
@@ -61,9 +110,9 @@ const MyCardAddition = ({deckId, cardId}) => {
                     {definitions.map((definition, index) => (
                         index ?
                             <textarea key={index} defaultValue={definition}
-                                   className={"border-2 border-gray-300 rounded-md h-16"}/> :
+                                      className={"border-2 border-gray-300 rounded-md h-16"}/> :
                             <textarea key={index} defaultValue={definition} id="definitions"
-                                   className={"border-2 border-gray-300 rounded-md h-16"}/>
+                                      className={"border-2 border-gray-300 rounded-md h-16"}/>
                     ))}
                 </div>
                 <button><PlusCircleIcon className={"w-8 h-8 hover:text-indigo-500"} onClick={handleDefinitionAddition}/></button>
@@ -71,14 +120,14 @@ const MyCardAddition = ({deckId, cardId}) => {
             </div>
 
             <div className={"flex flex-col gap-3"}>
-                <label htmlFor={"examples"}>Example Sentences</label>
+                <label htmlFor={"example"}>Example Sentences</label>
                 <div className={"flex flex-col gap-3"} ref={exRef}>
-                    {examples.map((example, index) => (
+                    {example.map((example, index) => (
                         index ?
                             <textarea key={index} defaultValue={example}
-                                   className={"border-2 border-gray-300 h-16 rounded-md"}/> :
-                            <textarea key={index} defaultValue={example} id="examples"
-                                   className={"border-2 border-gray-300 h-16 rounded-md"}/>
+                                      className={"border-2 border-gray-300 h-16 rounded-md"}/> :
+                            <textarea key={index} defaultValue={example} id="example"
+                                      className={"border-2 border-gray-300 h-16 rounded-md"}/>
                     ))}
                 </div>
                 <button><PlusCircleIcon className={"w-8 h-8 hover:text-indigo-500"} onClick={handleExampleAddition}/></button>
@@ -87,7 +136,7 @@ const MyCardAddition = ({deckId, cardId}) => {
 
 
             <div className={"flex justify-end gap-12 mr-3"}>
-                <Button variant="contained" className={"bg-red-500 hover:bg-red-600"}> Delete </Button>
+                <Button variant="contained" onClick={handleDeletion} className={"bg-red-500 hover:bg-red-600"}> Delete </Button>
                 <Button variant="contained" onClick={handleClick}> Confirm </Button>
             </div>
 
