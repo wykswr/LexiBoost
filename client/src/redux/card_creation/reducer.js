@@ -1,23 +1,34 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {addCardToDeck} from "./thunk";
 
-const INITIAL_FORM_STATE = {
-    spelling: '',
-    type: '',
-    pronunciation: '',
-    hint: '',
-    definition: ''
+const initialState = {
+    status: 'idle',
+    card: {},
+    error: null
 };
 
 const creationFormSlice = createSlice({
     name: 'creationForm',
-    initialState: INITIAL_FORM_STATE,
+    initialState: initialState,
     reducers: {
-        modifyInputField: (state, action) => {
-            state[action.payload.field] = action.payload.value;
-        }
+
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(addCardToDeck.fulfilled, (state, action) => {
+                state.card = action.payload;
+                state.status = 'succeeded'
+
+            })
+            .addCase(addCardToDeck.pending, (state, action) => {
+                    state.status = 'pending'
+                }
+            )
+            .addCase(addCardToDeck.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            });
     }
 })
-
-export const {modifyInputField} = creationFormSlice.actions;
 
 export default creationFormSlice.reducer;
