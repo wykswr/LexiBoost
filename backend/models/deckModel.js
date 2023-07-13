@@ -512,5 +512,116 @@ deckSchema.statics.appendFlashCardToDeck = async function(deckId,
   return deck;
 };
 
+/**
+ * Retrieves filtered and sorted flashcards for a deck.
+ *
+ * @param {string} deckId - The ID of the deck.
+ * @returns {Array} Array of filtered and sorted flashcards.
+ * @throws {Error} If failed to retrieve the flashcards.
+ */
+deckSchema.statics.getFilteredAndSortedFlashcards = async function(deckId, userId) {
+  try {
+    const deck = await this.findById(deckId);
+
+    if (!deck) {
+      throw new Error('Deck not found');
+    }
+
+    // Check if the authenticated user is the creator of the deck
+    if (deck.creatorId.toString() !== userId) {
+      throw new Error('No access');
+    }
+
+    // Filter the flashcards by burnt = false
+    const filteredFlashcards = deck.flashCards.filter((flashcard) => !flashcard.burnt);
+
+    // Sort the filtered flashcards based on the score
+    const sortedFlashcards = filteredFlashcards.sort((a, b) => {
+      const scoreA = a.correctCount + 2 * a.mistakeCount;
+      const scoreB = b.correctCount + 2 * b.mistakeCount;
+      return scoreB - scoreA;
+    });
+
+    return sortedFlashcards;
+  } catch (error) {
+    console.error('Error retrieving flashcards:', error);
+    throw new Error('Failed to retrieve flashcards');
+  }
+};
+
+/**
+ * Retrieves a flashcard from a deck by its ID.
+ *
+ * @param {string} deckId - The ID of the deck.
+ * @param {string} flashcardId - The ID of the flashcard.
+ * @returns {Object|null} The flashcard object if found, or null if not found.
+ * @throws {Error} If failed to retrieve the flashcard.
+ */
+deckSchema.statics.getFlashcardById = async function(deckId, flashcardId, userId) {
+  try {
+    const deck = await this.findById(deckId);
+
+    if (!deck) {
+      throw new Error('Deck not found');
+    }
+
+    // Check if the authenticated user is the creator of the deck
+    if (deck.creatorId.toString() !== userId) {
+      throw new Error('Only the deck creator can fetch the flashcard');
+    }
+
+    const flashcard = deck.flashCards.find((card) => card.id === flashcardId);
+
+    if (!flashcard || flashcard.burnt || !deck.inBookshelf) {
+      return null; // Flashcard not found
+    }
+
+    return flashcard;
+  } catch (error) {
+    console.error('Error retrieving flashcard:', error);
+    throw new Error('Failed to retrieve flashcard');
+  }
+};
+
+/**
+ * Retrieves user statistics about a deck.
+ *
+ * @param {string} deckId - The ID of the deck.
+ * @returns {Object} An object containing the statistics: { burntCardNumber: number, totalCardNumber: number }.
+ * @throws {Error} If failed to retrieve the statistics.
+ */
+deckSchema.statics.getUserDeckStatistics = async function(deckId, userId) {
+  try {
+    const deck = await this.findById(deckId);
+
+    if (!deck) {
+      throw new Error('Deck not found');
+    }
+
+    // Check if the authenticated user is the creator of the deck
+    if (deck.creatorId.toString() !== userId) {
+      throw new Error('Only the deck creator can get the deck statistics');
+    }
+    // Count the number of burnt cards
+    const burntCardNumber = deck.flashCards.reduce((count, flashcard) => {
+      if (flashcard.burnt) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+
+    // Get the total number of cards in the deck
+    const totalCardNumber = deck.flashCards.length;
+
+    return {
+      burntCardNumber,
+      totalCardNumber,
+    };
+  } catch (error) {
+    console.error('Error retrieving deck statistics:', error);
+    throw new Error('Failed to retrieve deck statistics');
+  }
+};
+
 const Deck = mongoose.model('Deck', deckSchema);
 module.exports = Deck;
