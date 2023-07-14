@@ -4,9 +4,30 @@ import TypingBox from "./shared/TypingBox.jsx";
 
 const CardLearning = ({id}) => {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
+    const [flashcards, setFlashcards] = useState([]);
     const [showHint, setShowHint] = useState(false);
     const [showDefinition, setShowDefinition] = useState(false);
-    const {word, type, pronunciation, example, definition} = fakeCards.cards[currentCardIndex];
+    // const {word, type, pronunciation, example, definition} = fakeCards.cards[currentCardIndex];
+    useEffect(() => {
+        // Fetch flashcard data from the backend API
+        fetchFlashcards()
+            .then((data) => {
+                setFlashcards(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching flashcard data:", error);
+            });
+    }, []);
+
+    const fetchFlashcards = async () => {
+        try {
+            const response = await fetch("/decks:"+id);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error("Failed to fetch flashcard data from the backend.");
+        }
+    };
 
     const handleKnowCard = () => {
         handleNextCard();
@@ -25,17 +46,19 @@ const CardLearning = ({id}) => {
         setShowDefinition(false);
         setShowHint(false);
 
-        if (currentCardIndex === fakeCards.cards.length - 1) {
+        if (currentCardIndex === flashcards.length - 1) {
             setCurrentCardIndex(0);
         } else {
             setCurrentCardIndex((prevIndex) => prevIndex + 1);
         }
     };
 
-    useEffect(() => {
-    }, [currentCardIndex]);
+    const { word, type, pronunciation, example, definition } =
+        flashcards[currentCardIndex];
 
-
+    if (flashcards.length === 0) {
+        return <div>Loading flashcards...</div>;
+    }
     return (
         <div className={"w-full h-screen md:w-3/5 md:h-96 mx-auto md:mt-48 md:bg-gray-50"}>
             <div

@@ -1,6 +1,5 @@
-
-// const jwt = require('jsonwebtoken');
-// const {TOKEN_KEY} = require('../config/config');
+const jwt = require('jsonwebtoken');
+const {TOKEN_KEY} = require('../config/config');
 
 const verifyToken = (req, res, next) => {
   // const token =
@@ -13,6 +12,7 @@ const verifyToken = (req, res, next) => {
   // try {
   //   // TODO Set up a TOKEN_KEY env variable in docker
   //   const decoded = jwt.verify(token, TOKEN_KEY);
+  //   console.log(decoded)
   //   decoded.id = decoded.id.toString();
   //   req.user = decoded;
   // } catch (err) {
@@ -22,7 +22,6 @@ const verifyToken = (req, res, next) => {
   req.user = {
     id: '64a70a6e426d71fcc0486ebc',
   };
-
   return next();
 };
 
