@@ -1,12 +1,17 @@
 import {useEffect, useState} from "react";
 import fakeCards from "../assets/fakeCards.json";
 import TypingBox from "./shared/TypingBox.jsx";
+import {useNavigate} from 'react-router-dom';
+import BookshelfPage from "../pages/BookshelfPage.jsx";
+
 
 const CardLearning = ({id}) => {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [flashcards, setFlashcards] = useState([]);
     const [showHint, setShowHint] = useState(false);
     const [showDefinition, setShowDefinition] = useState(false);
+    const navigate = useNavigate();
+
     // const {word, type, pronunciation, example, definition} = fakeCards.cards[currentCardIndex];
     useEffect(() => {
         // Fetch flashcard data from the backend API
@@ -153,7 +158,8 @@ const CardLearning = ({id}) => {
         setShowHint(false);
 
         if (currentCardIndex === flashcards.length - 1) {
-            setCurrentCardIndex(0);
+            // setCurrentCardIndex(0);
+            navigate('/bookshelf');
         } else {
             setCurrentCardIndex((prevIndex) => prevIndex + 1);
         }
