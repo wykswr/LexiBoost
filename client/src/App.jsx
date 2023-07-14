@@ -7,6 +7,7 @@ import CardLearningPage from "./pages/CardLearningPage.jsx";
 import DeckDetail from "./components/DeckDetail.jsx";
 import EditCard from "./pages/EditCard.jsx";
 import MarketPlace from "./pages/MarketPlace.jsx";
+import ProfileEditingForm from "./components/ProfileEditingForm.jsx";
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
             <div className={"mt-14"}>
                 <Routes>
                     <Route path="/" element={<AuthPage/>}/>
-                    <Route path="/demo" element={<MyCardAddition/>}/>
+                    <Route path="/demo" element={<ProfileEditingForm/>}/>
                     <Route path="/bookshelf" element={<BookshelfPage/>}/>
 
                     <Route path="/cardlearning" element={<CardLearningPage/>}/>
