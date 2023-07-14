@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import fakeCards from "../assets/fakeCards.json";
 import TypingBox from "./shared/TypingBox.jsx";
 import {useNavigate} from 'react-router-dom';
-import BookshelfPage from "../pages/BookshelfPage.jsx";
+import {useGetFlashCardsQuery} from "../redux/api/apiSlice.js";
+import {ArrowPathIcon} from "@heroicons/react/20/solid";
 
 
 const CardLearning = ({id}) => {
@@ -11,18 +12,23 @@ const CardLearning = ({id}) => {
     const [showHint, setShowHint] = useState(false);
     const [showDefinition, setShowDefinition] = useState(false);
     const navigate = useNavigate();
-
-    // const {word, type, pronunciation, example, definition} = fakeCards.cards[currentCardIndex];
+    const {data, isLoading, error} = useGetFlashCardsQuery(id.id);
     useEffect(() => {
-        // Fetch flashcard data from the backend API
-        fetchFlashcards()
-            .then((data) => {
-                setFlashcards(data);
-            })
-            .catch((error) => {
-                console.error("Error fetching flashcard data:", error);
-            });
-    }, []);
+        if (data) {
+            setFlashcards(data.flashcards);
+        }
+    }, [data]);
+    // const {word, type, pronunciation, example, definition} = fakeCards.cards[currentCardIndex];
+    // useEffect(() => {
+    //     // Fetch flashcard data from the backend API
+    //     fetchFlashcards()
+    //         .then((data) => {
+    //             setFlashcards(data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching flashcard data:", error);
+    //         });
+    // }, []);
 
     const fetchFlashcards = async () => {
         try {
@@ -165,9 +171,25 @@ const CardLearning = ({id}) => {
         }
     };
 
+    if (isLoading) return (
+        <div className={"w-96"}>
+            <ArrowPathIcon className={"animate-spin w-40 h-40 text-gray-500 mx-auto"}/>
+            <h1 className={"text-gray-500 text-xl font-semibold text-center"}>Content is loading...</h1>
+        </div>
+    );
+
+    if (error) return (
+        <div className={"w-96"}>
+            <ArrowPathIcon className={"animate-bounce w-40 h-40 text-gray-500 mx-auto"}/>
+            <h1 className={"text-gray-500 text-xl font-semibold text-center"}>Something goes wrong!</h1>
+        </div>
+    );
+
     if (flashcards.length === 0) {
-        return <div>Loading flashcards...</div>;
+        return <div>No flashcards available...</div>;
     }
+
+    console.log(flashcards);
     const {spelling, type, pronunciation, examples, definition } =
         flashcards[currentCardIndex];
 
