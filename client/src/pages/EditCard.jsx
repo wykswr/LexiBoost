@@ -1,6 +1,5 @@
-import * as React from 'react';
 import {useEffect, useState} from 'react';
-import MyCardAddition from "../components/MyCardAddition.jsx";
+import CardAddition from "../components/CardAddition.jsx";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchDeck} from "../redux/cardEdit/thunk.js";
@@ -51,7 +50,7 @@ const EditCard = () => {
                         </button>
                     </div>
 
-                    <MyCardAddition deckId={deckId} cardId={selectedCard}/>
+                    <CardAddition deckId={deckId} cardId={selectedCard}/>
                 </div>}
         </div>
     )

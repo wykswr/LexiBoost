@@ -1,111 +1,150 @@
-import { useDispatch, useSelector } from "react-redux";
-import { modifyInputField } from "../redux/card_creation/reducer.js";
+import {Button} from "@mui/material";
+import useArray from "../hooks-decrepit/useArray.js";
+import {PlusCircleIcon} from "@heroicons/react/24/outline";
+import {useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {addCardToDeck, deleteFlashCard, editFlashCard} from "../redux/card_creation/thunk";
+
+
 
 const CardAddition = ({deckId, cardId}) => {
     const dispatch = useDispatch();
-    const { spelling, type, pronunciation, hint, definition } = useSelector(
-        (state) => state.creationForm
-    );
+    if (cardId) {// If the code is editing existing cards, the state in reducer file must be updated by fetching from the backend. Otherwise, just use the default value of the initializer
 
-    const handleFieldChange = (e) => {
-        const specification = {
-            field: e.target.name,
-            value: e.target.value,
-        };
-        dispatch(modifyInputField(specification));
-    };
+    }
+    const {spelling, pronunciation, definition, examples} = useSelector((state) => state.creationForm);
+    const [definitions, {push: pushRef, set: setRef}] = useArray(definition);
+    const [example, {push: pushEx, set: setEx}] = useArray(examples);
+    const defRef = useRef(null);
+    const exRef = useRef(null);
+    const spellingRef = useRef(null);
+    const pronunciationRef = useRef(null);
+    const handleDefinitionAddition = () => {
+        let defs = [];
+        for (let i = 0; i < defRef.current.children.length; i++) {
+            defs.push(defRef.current.children[i].value);
+        }
+        setRef(defs);
+        definitions[definitions.length - 1] !== "" && pushRef("");
+    }
+
+    const handleExampleAddition = () => {
+        let newExample = [];
+        for (let i = 0; i < exRef.current.children.length; i++) {
+            newExample.push(exRef.current.children[i].value);
+        }
+        setEx(newExample);
+        example[example.length - 1] !== "" && pushEx("");
+    }
+
+    const handleDeletion = () => {
+        let identifier = {
+            cardID: cardId,
+            deckID: deckId
+        }
+        dispatch(deleteFlashCard(identifier));
+    }
+
+    const handleClick = () => {
+        let currentDefs = [];
+        for (let i = 0; i < defRef.current.children.length; i++) {
+            currentDefs.push(defRef.current.children[i].value);
+        }
+        currentDefs = currentDefs.filter(def => def.trim() !== "");
+        let currentExample = [];
+        for (let i = 0; i < exRef.current.children.length; i++) {
+            currentExample.push(exRef.current.children[i].value);
+        }
+
+        currentExample = currentExample.filter(ex => ex.trim() !== "");
+
+        let currentSpelling = spellingRef.current.value;
+        let currentPronunciation = pronunciationRef.current.value;
+        // console.log(pronunciationRef.current);
+        let newCard = {
+            spelling: currentSpelling,
+            pronunciation: currentPronunciation,
+            definition: currentDefs,
+            examples: currentExample
+        }
+
+        if (cardId) {
+            let query = {
+                card: newCard,
+                deckID: deckId,
+                cardID: cardId
+            }
+            console.log("edit a card");
+            dispatch(editFlashCard(query));
+        } else {
+            newCard.burnt = false;
+            newCard.mistakeCount = 0;
+            newCard.correctCount = 0;
+            let query = {
+                card: newCard,
+                deckID: deckId
+            }
+            console.log(query);
+            dispatch(addCardToDeck(query));
+
+        }
+
+        // update reducer
+        console.log(currentDefs);
+        console.log(currentExample);
+    }
 
     return (
-        <div className="p-4 md:p-8 bg-gray-100 rounded-lg shadow-lg">
-            <div className="md:flex md:items-stretch">
-                <div className="md:w-1/2 md:border md:rounded-lg md:shadow-md bg-white">
-                    <div className="p-4 flex flex-col h-full">
-                        <h2 className="text-2xl font-bold mb-4">Front side</h2>
-                        <label
-                            htmlFor="spelling"
-                            className="block mb-2 text-gray-700 font-bold"
-                        >
-                            Word
-                        </label>
-                        <input
-                            name="spelling"
-                            type="text"
-                            value={spelling}
-                            onChange={handleFieldChange}
-                            className="border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:border-blue-500"
-                        />
-
-                        <label
-                            htmlFor="type"
-                            className="block mb-2 text-gray-700 font-bold"
-                        >
-                            Type of the word (Optional)
-                        </label>
-                        <input
-                            name="type"
-                            type="text"
-                            value={type}
-                            onChange={handleFieldChange}
-                            className="border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:border-blue-500"
-                        />
-
-                        <label
-                            htmlFor="pronunciation"
-                            className="block mb-2 text-gray-700 font-bold"
-                        >
-                            Pronunciation (Optional)
-                        </label>
-                        <input
-                            name="pronunciation"
-                            type="text"
-                            value={pronunciation}
-                            onChange={handleFieldChange}
-                            className="border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:border-blue-500"
-                        />
-
-                        <div className="flex-grow"></div>
-                    </div>
-                </div>
-
-                <div className="md:w-1/2 md:border md:rounded-lg md:shadow-md bg-white">
-                    <div className="p-4 flex flex-col h-full">
-                        <h2 className="text-2xl font-bold mb-4">Back side</h2>
-
-                        <label htmlFor="hint" className="block mb-2 text-gray-700 font-bold">
-                            Add a hint for the word (Optional)
-                        </label>
-                        <textarea
-                            name="hint"
-                            value={hint}
-                            onChange={handleFieldChange}
-                            className="border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:border-blue-500"
-                        />
-
-                        <label htmlFor="definition" className="block mb-2 text-gray-700 font-bold">
-                            Definition
-                        </label>
-                        <textarea
-                            name="definition"
-                            value={definition}
-                            onChange={handleFieldChange}
-                            className="border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:border-blue-500"
-                        />
-
-                        <div className="flex-grow"></div>
-                    </div>
-                </div>
+        <div className={"grid grid-cols-1 items-stretch gap-10"}>
+            <h1 className={"text-xl font-semibold text-indigo-500"}>{cardId}</h1>
+            <div className={"flex flex-col gap-3"}>
+                <label htmlFor='spelling' className="block  text-sm font-medium leading-6 text-gray-900"> Spelling </label>
+                <input type='text' required id="spelling" className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={spellingRef}/>
+                <label htmlFor='pronunciation' className={""}> Pronunciation </label>
+                <input type='text' id="pronunciation" className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={pronunciationRef}/>
             </div>
 
-            <div className="flex justify-end mt-8">
-                <button className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded-lg transition-colors duration-300 focus:outline-none">
-                    Cancel
-                </button>
-                <button className="ml-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 focus:outline-none">
-                    Create
-                </button>
+            <div className={"flex flex-col gap-3"}>
+                <label htmlFor={"definitions"}>Definitions</label>
+                <div className={"flex flex-col gap-3"} ref={defRef}>
+                    {definitions.map((definition, index) => (
+                        index ?
+                            <textarea key={index} defaultValue={definition}
+                                      className={"border-2 border-gray-300 rounded-md h-16"}/> :
+                            <textarea key={index} defaultValue={definition} id="definitions"
+                                      className={"border-2 border-gray-300 rounded-md h-16"}/>
+                    ))}
+                </div>
+                <button><PlusCircleIcon className={"w-8 h-8 hover:text-indigo-500"} onClick={handleDefinitionAddition}/></button>
+
             </div>
+
+            <div className={"flex flex-col gap-3"}>
+                <label htmlFor={"example"}>Example Sentences</label>
+                <div className={"flex flex-col gap-3"} ref={exRef}>
+                    {example.map((example, index) => (
+                        index ?
+                            <textarea key={index} defaultValue={example}
+                                      className={"border-2 border-gray-300 h-16 rounded-md"}/> :
+                            <textarea key={index} defaultValue={example} id="example"
+                                      className={"border-2 border-gray-300 h-16 rounded-md"}/>
+                    ))}
+                </div>
+                <button><PlusCircleIcon className={"w-8 h-8 hover:text-indigo-500"} onClick={handleExampleAddition}/></button>
+
+            </div>
+
+
+            <div className={"flex justify-end gap-12 mr-3"}>
+                <Button variant="contained" onClick={handleDeletion} className={"bg-red-500 hover:bg-red-600"}> Delete </Button>
+                <Button variant="contained" onClick={handleClick}> Confirm </Button>
+            </div>
+
         </div>
-    );
-};
+
+    )
+
+
+}
 
 export default CardAddition;
