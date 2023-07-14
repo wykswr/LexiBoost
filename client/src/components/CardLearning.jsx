@@ -21,7 +21,7 @@ const CardLearning = ({id}) => {
 
     const fetchFlashcards = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/decks/${id.id}`, {
+            const response = await fetch(`http://localhost:8000/decks/${id.id}/flashcards`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -32,8 +32,8 @@ const CardLearning = ({id}) => {
             }
 
             const data = await response.json();
-            console.log(data.deck.flashCards);
-            return data.deck.flashCards;
+            console.log(data.flashcards);
+            return data.flashcards;
 
         } catch (error) {
             console.log(error);
