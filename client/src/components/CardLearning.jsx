@@ -21,24 +21,130 @@ const CardLearning = ({id}) => {
 
     const fetchFlashcards = async () => {
         try {
-            const response = await fetch("/decks:"+id);
+            const response = await fetch(`http://localhost:8000/decks/${id.id}`, {
+                headers: {
+                    Accept: "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to retrieve flashcard data");
+            }
+
             const data = await response.json();
-            return data;
+            console.log(data.deck.flashCards);
+            return data.deck.flashCards;
+
         } catch (error) {
+            console.log(error);
             throw new Error("Failed to fetch flashcard data from the backend.");
         }
     };
 
+    const updateCorrectCount = async (num) => {
+        try {
+            const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
+
+            const response = await fetch(
+                `http://localhost:8000/decks/${id.id}/flashcards/${flashCardId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        correctCount: flashcards[currentCardIndex].correctCount + num,
+                    }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to update flashcard");
+            }
+
+            // Handle the success response or perform any additional actions
+
+        } catch (error) {
+            console.error("Error updating flashcard:", error);
+        }
+    }
+
+    const updateMistakeCount = async (num) => {
+        try {
+            const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
+
+            const response = await fetch(
+                `http://localhost:8000/decks/${id.id}/flashcards/${flashCardId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        mistakeCount: flashcards[currentCardIndex].mistakeCount + num,
+                    }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to update flashcard");
+            }
+
+            // Handle the success response or perform any additional actions
+
+        } catch (error) {
+            console.error("Error updating flashcard:", error);
+        }
+    }
+
+    const updateBurnCard = async () => {
+        try {
+            const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
+
+            const response = await fetch(
+                `http://localhost:8000/decks/${id.id}/flashcards/${flashCardId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        burnt: true,
+                    }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to update flashcard");
+            }
+
+            // Handle the success response or perform any additional actions
+
+        } catch (error) {
+            console.error("Error updating flashcard:", error);
+        }
+    }
+
     const handleKnowCard = () => {
+        if (showHint){
+            updateCorrectCount(1);
+        }else{
+            updateCorrectCount(2);
+        }
         handleNextCard();
     }
     const handleDontKnow = () => {
+        if (showHint){
+            updateMistakeCount(2);
+        }
         setShowDefinition(true);
     }
     const handleBurnCard = () => {
+        updateBurnCard();
         handleNextCard();
     }
     const handleShowHint = () => {
+        updateMistakeCount(1);
         setShowHint(true);
     }
     const handleNextCard = () => {
@@ -53,12 +159,12 @@ const CardLearning = ({id}) => {
         }
     };
 
-    const { word, type, pronunciation, example, definition } =
-        flashcards[currentCardIndex];
-
     if (flashcards.length === 0) {
         return <div>Loading flashcards...</div>;
     }
+    const {spelling, type, pronunciation, examples, definition } =
+        flashcards[currentCardIndex];
+
     return (
         <div className={"w-full h-screen md:w-3/5 md:h-96 mx-auto md:mt-48 md:bg-gray-50"}>
             <div
@@ -66,7 +172,7 @@ const CardLearning = ({id}) => {
                 {!showDefinition && <div className={"content-center text-center p-20"}>
                     <div>
 
-                        <span className=" center text-xl text-stone-950">{word}</span>
+                        <span className=" center text-xl text-stone-950">{spelling}</span>
                     </div>
                     <div>
                         <span className="text-gray-500 center uppercase">{type}</span>
@@ -77,7 +183,7 @@ const CardLearning = ({id}) => {
 
                     {showHint && <div>
                         <span className="font-semibold text-gray-700">Example:</span>{' '}
-                        <TypingBox message={example}/>
+                        <TypingBox message={examples[0]}/>
                     </div>}
                 </div>}
                 {showDefinition && <div className={"content-center text-center p-28"}>
