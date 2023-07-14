@@ -24,7 +24,7 @@ const EditCard = () => {
     }, [dispatch, deckId])
 
     return (
-        <div className={"container mx-auto py-6"}>
+        <div className={"container mx-auto pt-16"}>
             {pending ?
                 <ArrowPathIcon className={"h-64 w-64 animate-spin text-gray-500 mx-auto mt-64"}/> :
                 <div>

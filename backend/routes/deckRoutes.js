@@ -29,11 +29,11 @@ router.delete('/:deckId/marketplace', deckController.deleteDeckFromMarketplace);
 router.delete('/:deckId/flashcards/:flashCardId',
     deckController.deleteFlashcardFromDeck);
 
-// Edit flashcard in Deck
+// DeckEdit flashcard in Deck
 router.put('/:deckId/flashcards/:flashCardId',
     deckController.updateFlashcardInDeck);
 
-// Edit flashcard in Deck
+// DeckEdit flashcard in Deck
 router.put('/:deckId/flashcards/:flashCardId',
     deckController.updateFlashcardInDeck);
 
@@ -50,7 +50,7 @@ router.post('/:deckId/flashcards', deckController.appendFlashCardToDeck);
 // Get a deck by id
 router.get('/:deckId', deckController.getDeckById);
 
-// Edit an existing deck
+// DeckEdit an existing deck
 router.put('/:deckId', deckController.editDeck);
 
 // Clone an existing deck

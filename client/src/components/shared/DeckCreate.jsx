@@ -1,19 +1,20 @@
 import {Button, TextField} from "@mui/material";
-import {DocumentArrowUpIcon, PlusCircleIcon} from "@heroicons/react/24/outline";
-import TagSelector from "./shared/TagSelector.jsx";
+import {DocumentArrowUpIcon} from "@heroicons/react/24/outline";
+import TagSelector from "./TagSelector.jsx";
 import {BeakerIcon} from "@heroicons/react/20/solid";
-import {Link} from "react-router-dom";
-import {createDeckAsync, editDeckAsync} from "../redux/deckEdit/thunk.js";
-import {useDispatch} from "react-redux";
 import {useRef} from "react";
+import PropTypes from "prop-types";
+import {useAddDeckMutation} from "../../redux/api/apiSlice.js";
+import {useDispatch} from "react-redux";
+import {resetSelected} from "../../redux/dialog/reducer.js";
 
 
-const DeckEditor = ({id}) => {
+const DeckCreate = () => {
     const nameRef = useRef();
     const descriptionRef = useRef();
     const tagsRef = useRef();
+    const [addDeck, {isSuccess}] = useAddDeckMutation();
     const dispatch = useDispatch();
-
 
     const handleCreate = () => {
         const name = nameRef.current.children[1].children[0].value;
@@ -30,23 +31,24 @@ const DeckEditor = ({id}) => {
             name: name,
             description: description,
             cover: `https://picsum.photos/${randID}`,
-            tags: tagsList
+            tags: tagsList,
+            flashCards: []
         }
-        if (id !== undefined) {
-            deck.id = id;
-            dispatch(editDeckAsync(deck));
-        } else
-        {dispatch(createDeckAsync(deck));}
+        addDeck(deck);
     }
 
+    if (isSuccess) {
+        dispatch(resetSelected());
+    }
+
+
     return (
-        <div
-            className={"rounded-lg shadow bg-gray-50 flex flex-col md:w-96 max-h-screen mx-auto gap-6 p-4 border-2 border-blue-300"}>
-            {id !== undefined ||
-                <h1 className={"uppercase text-xl font-semibold text-gray-600 mx-auto"}>create new deck</h1>}
+        <div className={"rounded-lg shadow bg-gray-50 flex flex-col md:w-96 max-h-screen mx-auto gap-6 p-4 border-2 border-blue-300"}>
+
+            <h1 className={"uppercase text-xl font-semibold text-gray-600 mx-auto"}>create new deck</h1>
             <div>
                 <div>
-                    <TextField id="standard-basic" variant="filled" label={"Title"} className={"w-full bg-gray-200 "}
+                    <TextField id="standard-basic" variant="filled" label={"Name"} className={"w-full bg-gray-200 "}
                                ref={nameRef}/></div>
                 <div>
                     <h2 className={"mt-8 text-xl font-semibold text-gray-600"}>Tags</h2>
@@ -69,19 +71,8 @@ const DeckEditor = ({id}) => {
                 rows={4}
                 className={"bg-gray-200"}
                 label="Description"
-                ref={descriptionRef}
-            />
+                ref={descriptionRef}/>
 
-            {id !== undefined && <div>
-                <h2 className={"text-xl font-semibold text-gray-600"}>Cards</h2>
-                <p className={"flex items-center gap-9 text-gray-500"}><span>300 cards</span>
-                    <Link to={`/add_card/${id}`} className={"hover:text-indigo-500"}><PlusCircleIcon
-                        className={"w-7 h-7"}/></Link>
-                </p>
-            </div>}
-
-            {id !== undefined ?
-                <Button variant="contained" className={"h-10 place-self-center w-24"} onClick={handleCreate}>Confirm</Button> :
                 <div className={"grid grid-cols-2 place-items-center"}>
                     <Button variant="contained" className={"h-10 w-32 relative"} onClick={handleCreate}>
                         Create
@@ -91,9 +82,12 @@ const DeckEditor = ({id}) => {
                         <BeakerIcon className={"absolute top-2.5 right-0 w-5 h-5 mx-1"}/>
                     </Button>
                 </div>
-            }
         </div>
     )
 }
 
-export default DeckEditor;
+DeckCreate.propTypes = {
+    id: PropTypes.string
+}
+
+export default DeckCreate;

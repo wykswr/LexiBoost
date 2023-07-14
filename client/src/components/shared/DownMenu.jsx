@@ -2,7 +2,7 @@ import {Menu} from '@headlessui/react'
 import {EllipsisHorizontalIcon} from "@heroicons/react/24/solid/index.js";
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
-import {setSelected} from "../redux/dialog/reducer.js";
+import {setSelected} from "../../redux/dialog/reducer.js";
 
 const DownMenu = ({id}) => {
     const dispatch = useDispatch()

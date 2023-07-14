@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import DownMenu from "./DownMenu.jsx";
+import DownMenu from "./shared/DownMenu.jsx";
 import * as Progress from '@radix-ui/react-progress';
 import {useGetDeckStatsQuery} from "../redux/api/apiSlice.js";
 import {ArrowPathIcon, BookOpenIcon, PlayIcon} from "@heroicons/react/20/solid/index.js";

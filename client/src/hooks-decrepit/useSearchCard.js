@@ -6,8 +6,8 @@ import {getTags} from "../service-decrepit/api.js";
 
 const useSearchCard = (defaultTags) => {
     const [availableTags, {set}] = useArray([]);
-    const [selectedTags, {push, remove}] = useArray([]);
-    defaultTags && defaultTags.forEach((tag) => push(tag));
+    defaultTags = defaultTags || [];
+    const [selectedTags, {push, remove}] = useArray(defaultTags);
     const [fetchTags, pending] = usePending(getTags);
 
     useEffect(() => {
