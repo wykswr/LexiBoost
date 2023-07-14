@@ -13,15 +13,19 @@ Content-Type: application/json
 GET localhost:8000/decks
 
 ### Get a deck
-GET localhost:8000/decks/64a7a129db6f91db17f6c3cb
+GET localhost:8000/decks/64acb9a9f1247fa6c9ff6220
+
+
+### Get the statistics of a deck
+GET localhost:8000/decks/64acb9a9f1247fa6c9ff6220/statistics
 
 
 ### Hard delete a deck
-DELETE localhost:8000/decks/64a73863f7155a938bc8c3a4
+DELETE localhost:8000/decks/64acb9a9f1247fa6c9ff6220
 
 
 ### Soft delete a deck
-DELETE localhost:8000/decks/64a7253a6e645f23f1da3c35/bookshelf
+DELETE localhost:8000/decks/64acb9a9f1247fa6c9ff6220/bookshelf
 
 
 ### Update a deck

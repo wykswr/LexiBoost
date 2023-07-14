@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import {useDispatch} from 'react-redux';
-import {defQuery, defSort, defTags} from "../redux/marketPlace/reducer.js";
+import {defQuery, defSort} from "../redux/marketPlace/reducer.js";
 import {MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 import TagSelector from "./shared/TagSelector.jsx";
 
@@ -40,8 +40,7 @@ const SearchCard = () => {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        onChange={handleChange}
-                    >
+                        onChange={handleChange}>
                         <FormControlLabel value="likes" control={<Radio/>} label="likes"/>
                         <FormControlLabel value="recent" control={<Radio/>} label="recent"/>
                         <FormControlLabel value="cards" control={<Radio/>} label="cards"/>

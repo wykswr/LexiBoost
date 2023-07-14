@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-
+import PropTypes from "prop-types";
 
 const Cursor = () => {
     return (
@@ -35,6 +35,10 @@ const TypingBox = ({message}) => {
             <p>{content}{cursor && <Cursor/>}</p>
         </div>
     );
+}
+
+TypingBox.propTypes = {
+    message: PropTypes.string.isRequired,
 }
 
 export default TypingBox;
