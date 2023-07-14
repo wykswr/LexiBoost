@@ -34,6 +34,12 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['bookshelf'],
         }),
+        importDeck: builder.mutation({
+            query: deckId => ({
+                url: `/decks/${deckId}/import`,
+                method: 'POST'
+            })
+        })
     }),
 
 });
@@ -44,5 +50,6 @@ export const {
     useGetDeckStatsQuery,
     useSoftDeleteDeckMutation,
     useGetUserProfileQuery,
-    userUpdateUserProfileQuery
+    useUpdateUserProfileQuery,
+    useImportDeckMutation
 } = apiSlice;
