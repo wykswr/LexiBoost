@@ -334,7 +334,7 @@ deckSchema.statics.deleteDeckFromMarketplace = async function(deckId, userId) {
                 'from the marketplace');
     }
 
-    // Delete the deck from the marketplace by setting isPublic to false
+    // SoftDelete the deck from the marketplace by setting isPublic to false
     deck.isPublic = false;
     deck.lastModificationDate = new Date();
     await deck.save();
@@ -369,7 +369,7 @@ deckSchema.statics.deleteDeckFromBookshelf = async function(deckId, userId) {
                 'from the bookshelf');
     }
 
-    // Delete the deck from the bookshelf by setting inBookshelf to false
+    // SoftDelete the deck from the bookshelf by setting inBookshelf to false
     deck.inBookshelf = false;
     deck.lastModificationDate = new Date();
     await deck.save();

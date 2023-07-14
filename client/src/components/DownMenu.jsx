@@ -1,58 +1,52 @@
-import { Popover } from "@headlessui/react";
-import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
-import {useState} from "react";
-import MyDialog from "./shared/MyDialog.jsx";
+import {Menu} from '@headlessui/react'
+import {EllipsisHorizontalIcon} from "@heroicons/react/24/solid/index.js";
+import PropTypes from "prop-types";
+import {useDispatch} from "react-redux";
+import {setSelected} from "../redux/dialog/reducer.js";
 
-
-const DownMenu = ({ id , className}) => {
-    const [selectedOption, setSelectedOption] = useState("blank")
-    const [oldSelected, setOldSelected] = useState("blank")
-
-    const onClose = () => {
-        setOldSelected(select => selectedOption)
-        setSelectedOption(select => "blank");
-    };
-
-    const option = selectedOption === "blank" ? oldSelected : selectedOption
-
-    const setOption = () => {
-        setOldSelected(select => "blank")
-        setSelectedOption(select => "blank")
+const DownMenu = ({id}) => {
+    const dispatch = useDispatch()
+    const handleClick = (e) => {
+        dispatch(setSelected({id, selected: e.target.textContent}))
     }
 
     return (
-        <div className={className}>
-            <Popover>
-                <Popover.Button >
-                    <EllipsisHorizontalIcon className="hidden md:block absolute top-0 right-0 h-7 w-7 m-1 text-gray-600 hover:text-blue-500 cursor-pointer"
-                    onClick={onClose}/>
-                </Popover.Button>
+        <>
+            <Menu>
+                <Menu.Button>
+                    <EllipsisHorizontalIcon
+                        className={"h-8 w-8 text-gray-500 hover:text-indigo-500 absolute top-0 right-0"}/>
+                </Menu.Button>
+                <Menu.Items className={"flex flex-col m-1 rounded bg-gray-100 shadow overflow-hidden text-blue-500 gap-1"}>
+                    <Menu.Item>
+                        {({active}) => (
+                            <button className={`p-1 text-start ${active && 'bg-blue-500 text-white'}`} onClick={handleClick}>
+                                Detail
+                            </button>
+                        )}
+                    </Menu.Item>
+                    <Menu.Item>
+                        {({active}) => (
+                            <button className={`p-1 text-start ${active && 'bg-blue-500 text-white'}`} onClick={handleClick}>
+                                Edit
+                            </button>
+                        )}
+                    </Menu.Item>
+                    <Menu.Item>
+                        {({active}) => (
+                            <button className={`p-1 text-red-500 text-start ${active && 'bg-red-500 text-white'}`} onClick={handleClick}>
+                                Delete
+                            </button>
+                        )}
+                    </Menu.Item>
+                </Menu.Items>
+            </Menu>
+        </>
+    )
+}
 
-                <Popover.Panel className="absolute right-0 mt-2 bg-white rounded-lg shadow-lg p-2 z-10">
-                    <div
-                        className="py-2 px-4 cursor-pointer hover:bg-blue-100"
-                        onClick={() => setSelectedOption("detail")}
-                    >
-                        Detail
-                    </div>
-                    <div
-                        className="py-2 px-4 cursor-pointer hover:bg-blue-100"
-                        onClick={() => setSelectedOption("edit")}
-                    >
-                        Edit
-                    </div>
-                    <div
-                        className="py-2 px-4 cursor-pointer hover:bg-red-100 text-red-600"
-                        onClick={() => setSelectedOption("delete")}
-                    >
-                        Delete
-                    </div>
-                </Popover.Panel>
-            </Popover>
+DownMenu.propTypes = {
+    id: PropTypes.string.isRequired
+}
 
-            <MyDialog id={id} option={option} setOption={setOption}/>
-        </div>
-    );
-};
-
-export default DownMenu;
+export default DownMenu
