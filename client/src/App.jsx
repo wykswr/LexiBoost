@@ -16,7 +16,7 @@ function App() {
                 <Route path="/" element={<AuthPage/>}/>
                 <Route path="/demo" element={<CardAddition/>}/>
                 <Route path="/bookshelf" element={<BookshelfPage/>}/>
-                <Route path="/learn:id" element={<CardLearningPage/>}/>
+                <Route path="/learn/:id" element={<CardLearningPage/>}/>
                 <Route path="/add_card/:deckId" element={<EditCard/>}/>
                 <Route path="/marketplace" element={<MarketPlace/>}/>
             </Routes>

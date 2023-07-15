@@ -22,6 +22,16 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['bookshelf'],
         }),
+        getFlashCards: builder.query({
+           query: id => `/decks/${id}/flashcards`,
+        }),
+        // updateCard: builder.mutation({
+        //     query: ({deck_id, card_id, content}) => ({
+        //         url: `/decks/${deck_id}/`
+        //     })
+        //
+        // })
+
     }),
 
 });
@@ -31,4 +41,5 @@ export const {
     useGetDeckQuery,
     useGetDeckStatsQuery,
     useSoftDeleteDeckMutation,
+    useGetFlashCardsQuery,
 } = apiSlice;
