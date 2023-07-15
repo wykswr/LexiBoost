@@ -39,9 +39,17 @@ export const apiSlice = createApi({
                 url: `/decks/${deckId}/import`,
                 method: 'POST'
             })
-        })
+        }),
+        getFlashCards: builder.query({
+           query: id => `/decks/${id}/flashcards`,
+        }),
+        // updateCard: builder.mutation({
+        //     query: ({deck_id, card_id, content}) => ({
+        //         url: `/decks/${deck_id}/`
+        //     })
+        //
+        // })
     }),
-
 });
 
 export const {
@@ -51,5 +59,6 @@ export const {
     useSoftDeleteDeckMutation,
     useGetUserProfileQuery,
     useUpdateUserProfileQuery,
-    useImportDeckMutation
+    useImportDeckMutation,
+    useGetFlashCardsQuery,
 } = apiSlice;
