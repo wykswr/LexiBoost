@@ -1,5 +1,6 @@
 const deckController = require('../controllers/deckController');
 const express = require('express');
+const generate = require('../middleware/generate');
 
 /**
  * @type {Router}
@@ -8,7 +9,7 @@ const express = require('express');
 const router = express.Router();
 
 // Create a new deck
-router.post('/', deckController.createDeck);
+router.post('/', generate, deckController.createDeck);
 
 // Get decks for a user
 router.get('/', deckController.getUserDecks);

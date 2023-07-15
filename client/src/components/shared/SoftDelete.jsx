@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import {resetSelected} from "../../redux/dialog/reducer.js";
-import {ArrowPathIcon} from "@heroicons/react/24/outline/index.js";
+import {ArrowPathIcon, CheckIcon} from "@heroicons/react/24/outline/index.js";
 import PropTypes from "prop-types";
 import {TrashIcon, NoSymbolIcon} from "@heroicons/react/20/solid/index.js";
 import {useSoftDeleteDeckMutation} from "../../redux/api/apiSlice.js";
@@ -9,7 +9,12 @@ const SoftDelete = ({id}) => {
     const [softDelete, {isLoading, isSuccess, error}] = useSoftDeleteDeckMutation();
     const dispatch = useDispatch();
     if (isSuccess) {
-        dispatch(resetSelected());
+        return (
+            <div className={"w-96"}>
+            <CheckIcon className={"animate-pulse w-40 h-40 mx-auto text-teal-500 mx-auto"}/>
+            <h1 className={"text-gray-500 text-xl font-semibold text-center"}>Content changed</h1>
+        </div>
+        );
     }
     if (isLoading) {
         return (

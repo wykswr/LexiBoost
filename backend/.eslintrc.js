@@ -22,5 +22,7 @@ module.exports = {
   rules: {
     'new-cap': 'off',
     'valid-jsdoc': 'off',
+    'indent': ['off', 2],
+    'max-len': ['off', 120],
   },
 };

@@ -1,11 +1,11 @@
 ### Create a new deck
-POST localhost:8000/decks
+POST localhost:8000/decks/?ai=1
 Content-Type: application/json
 
 {
-  "name": "Test E",
+  "name": "Test 10",
   "cover": "https://picsum.photos/100",
-  "description": "Test A description",
+  "description": "Medicine",
   "flashCards": []
 }
 

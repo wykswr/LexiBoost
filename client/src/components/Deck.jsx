@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import DownMenu from "./DownMenu.jsx";
-import * as Progress from '@radix-ui/react-progress';
+import DownMenu from "./shared/DownMenu.jsx";
 import {useGetDeckStatsQuery} from "../redux/api/apiSlice.js";
 import {ArrowPathIcon, BookOpenIcon, PlayIcon} from "@heroicons/react/20/solid/index.js";
 import {Link} from "react-router-dom";
+import {LinearProgress} from "@mui/material";
 
 const Deck = ({item}) => {
     const {data, isLoading} = useGetDeckStatsQuery(item._id)
@@ -15,17 +15,14 @@ const Deck = ({item}) => {
 
     return (
         <div className="w-full h-80 md:w-96 md:h-64 grid grid-cols-2 place-items-stretch rounded-lg overflow-hidden bg-gray-50 shadow relative">
-            <div className={"absolute top-0 right-0"}>
+            <div className={"absolute top-0 right-0 z-20"}>
                 <DownMenu id={item._id}/>
             </div>
             <img src={item.cover} alt={item.name} className={"object-cover"}/>
             <div className={"flex flex-col justify-around"}>
                 <h2 className={"font-semibold text-lg text-blue-500 indent-1 mt-8 uppercase px-0.5"}>{item.name}</h2>
                 {data.stats.burntCardNumber ?
-                    <Progress.Root className="bg-gray-400 h-3 relative overflow-hidden rounded-xl mx-1" value={data.stats.burntCardNumber / data.stats.totalCardNumber * 100}>
-                        <Progress.Indicator className="bg-blue-400 h-full w-full"
-                        style={{ transform: `translateX(-${100 - data.stats.burntCardNumber / data.stats.totalCardNumber * 100}%)` }}/>
-                    </Progress.Root> :
+                    <LinearProgress variant="determinate" value={data.stats.burntCardNumber / data.stats.totalCardNumber * 100} className={"h-2 rounded-md mx-1"}/> :
                     <h3 className={"font-medium text-gray-500 text-sm indent-1 px-0.5"}>{data.stats.totalCardNumber} cards</h3>
                 }
                 {data.stats.burntCardNumber ?
