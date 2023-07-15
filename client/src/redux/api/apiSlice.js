@@ -11,7 +11,6 @@ export const apiSlice = createApi({
         }),
         getDeck: builder.query({
             query: id => `/decks/${id}`,
-            providesTags: ['singleDeck'],
         }),
         getUserProfile: builder.query({
             query: userId => `/${userId}`,
@@ -50,6 +49,12 @@ export const apiSlice = createApi({
                 body: content,
             }),
             invalidatesTags: ['bookshelf'],
+        }),
+        importDeck: builder.mutation({
+            query: deckId => ({
+                url: `/decks/${deckId}/import`,
+                method: 'POST'
+            })
         }),
         importDeck: builder.mutation({
             query: deckId => ({
@@ -99,6 +104,9 @@ export const {
     useGetDeckQuery,
     useGetDeckStatsQuery,
     useSoftDeleteDeckMutation,
+    useGetUserProfileQuery,
+    useUpdateUserProfileQuery,
+    useImportDeckMutation,
     useEditDeckMutation,
     useAddDeckMutation,
     useAddDeckAIMutation,
@@ -106,6 +114,4 @@ export const {
     useUpdateUserProfileQuery,
     useImportDeckMutation,
     useGetFlashCardsQuery,
-    useEditDeckMutation,
-    useAddDeckMutation,
 } = apiSlice;
