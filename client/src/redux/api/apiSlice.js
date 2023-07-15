@@ -35,6 +35,22 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['bookshelf'],
         }),
+        editDeck: builder.mutation({
+            query: ({id, content}) => ({
+                url: `/decks/${id}`,
+                method: 'PUT',
+                body: content,
+            }),
+            invalidatesTags: ['bookshelf', 'singleDeck'],
+        }),
+        addDeck: builder.mutation({
+            query: content => ({
+                url: '/decks',
+                method: 'POST',
+                body: content,
+            }),
+            invalidatesTags: ['bookshelf'],
+        }),
         importDeck: builder.mutation({
             query: deckId => ({
                 url: `/decks/${deckId}/import`,
@@ -90,4 +106,6 @@ export const {
     useUpdateUserProfileQuery,
     useImportDeckMutation,
     useGetFlashCardsQuery,
+    useEditDeckMutation,
+    useAddDeckMutation,
 } = apiSlice;

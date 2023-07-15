@@ -3,6 +3,7 @@ import {ChevronDoubleUpIcon, PlusIcon} from "@heroicons/react/24/outline";
 import useSearchCard from "../../hooks-decrepit/useSearchCard.js";
 import {XMarkIcon} from "@heroicons/react/24/solid";
 import {forwardRef} from "react";
+import PropTypes from "prop-types";
 
 
 const Tag = ({tag, onClick}) => {
@@ -13,6 +14,11 @@ const Tag = ({tag, onClick}) => {
             <XMarkIcon onClick={onClick} className={"h-5 w-5 ml-0.5 absolute top-0.5 right-0 text-gray-500 hover:text-red-500 cursor-pointer"}/>
         </div>
     );
+}
+
+Tag.propTypes = {
+    tag: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
 }
 
 const TagSelector = forwardRef((props, ref) => {
@@ -51,5 +57,6 @@ const TagSelector = forwardRef((props, ref) => {
         </Popover>
     );
 })
+
 
 export default TagSelector;

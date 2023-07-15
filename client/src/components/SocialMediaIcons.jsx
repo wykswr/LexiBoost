@@ -1,6 +1,5 @@
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
-import React from "react";
 import {useDispatch} from "react-redux";
 import {toggleAuthMode} from "../redux/auth/reducer.js";
 import signup from "../assets/signup.webp";
