@@ -3,7 +3,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8000'}),
-    tagTypes: ['UserProfile', 'bookshelf'],
+    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile'],
     endpoints: builder => ({
         getDecks: builder.query({
             query: () => '/decks',
@@ -11,6 +11,7 @@ export const apiSlice = createApi({
         }),
         getDeck: builder.query({
             query: id => `/decks/${id}`,
+            providesTags: ['singleDeck'],
         }),
         getUserProfile: builder.query({
             query: userId => `/${userId}`,
@@ -34,6 +35,22 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['bookshelf'],
         }),
+        editDeck: builder.mutation({
+            query: ({id, content}) => ({
+                url: `/decks/${id}`,
+                method: 'PUT',
+                body: content,
+            }),
+            invalidatesTags: ['bookshelf', 'singleDeck'],
+        }),
+        addDeck: builder.mutation({
+            query: content => ({
+                url: '/decks',
+                method: 'POST',
+                body: content,
+            }),
+            invalidatesTags: ['bookshelf'],
+        }),
         importDeck: builder.mutation({
             query: deckId => ({
                 url: `/decks/${deckId}/import`,
@@ -49,7 +66,16 @@ export const apiSlice = createApi({
         //     })
         //
         // })
+        addDeckAI: builder.mutation({
+            query: content => ({
+                url: '/decks/?ai=1',
+                method: 'POST',
+                body: content,
+            }),
+            invalidatesTags: ['bookshelf'],
+        }),
     }),
+
 });
 
 export const {
@@ -57,6 +83,9 @@ export const {
     useGetDeckQuery,
     useGetDeckStatsQuery,
     useSoftDeleteDeckMutation,
+    useEditDeckMutation,
+    useAddDeckMutation,
+    useAddDeckAIMutation,
     useGetUserProfileQuery,
     useUpdateUserProfileQuery,
     useImportDeckMutation,

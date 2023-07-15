@@ -1,10 +1,11 @@
 import {Dialog} from '@headlessui/react'
 import DeckDetail from "../DeckDetail.jsx";
 import {XMarkIcon} from "@heroicons/react/24/outline";
-import DeckEditor from "../DeckEditor.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {resetSelected} from "../../redux/dialog/reducer.js";
 import SoftDelete from "./SoftDelete.jsx";
+import DeckEdit from "./DeckEdit.jsx";
+import DeckCreate from "./DeckCreate.jsx";
 
 
 const MyDialog = () => {
@@ -30,9 +31,10 @@ const MyDialog = () => {
                     </div>
                     }
                     {selected === "Edit" && <div className={"grid grid-col-1 place-items-center gap-1 relative"}>
-                        <DeckEditor id={id}/>
+                        <DeckEdit id={id}/>
                     </div>}
                     {selected === "Delete" && <SoftDelete id={id}/>}
+                    {selected === "Create" && <DeckCreate/>}
                 </Dialog.Panel>
             </div>
         </Dialog>

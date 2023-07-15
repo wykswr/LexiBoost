@@ -1,11 +1,11 @@
 ### Create a new deck
-POST localhost:8000/decks
+POST localhost:8000/decks/?ai=1
 Content-Type: application/json
 
 {
-  "name": "Test E",
+  "name": "Test 10",
   "cover": "https://picsum.photos/100",
-  "description": "Test A description",
+  "description": "Medicine",
   "flashCards": []
 }
 
@@ -13,7 +13,7 @@ Content-Type: application/json
 GET localhost:8000/decks
 
 ### Get a deck
-GET localhost:8000/decks/64acb9a9f1247fa6c9ff6220
+GET localhost:8000/decks/64a7a129db6f91db17f6c3cb
 
 
 ### Get the statistics of a deck

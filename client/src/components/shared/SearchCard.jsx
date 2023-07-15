@@ -1,14 +1,14 @@
-import useAutoSearch from "../hooks-decrepit/useAutoSearch.js";
-import AutoSearch from "./shared/AutoSearch.jsx";
+import useAutoSearch from "../../hooks-decrepit/useAutoSearch.js";
+import AutoSearch from "./AutoSearch.jsx";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import {useDispatch} from 'react-redux';
-import {defQuery, defSort} from "../redux/marketPlace/reducer.js";
+import {defQuery, defSort} from "../../redux/marketPlace/reducer.js";
 import {MagnifyingGlassIcon} from "@heroicons/react/20/solid";
-import TagSelector from "./shared/TagSelector.jsx";
+import TagSelector from "./TagSelector.jsx";
 
 const SearchCard = () => {
     const [selectedDeck, query, filteredDecks, pending, {setSelected, setQuery}] = useAutoSearch();

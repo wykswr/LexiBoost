@@ -121,7 +121,7 @@ async function createDeck(req, res) {
 }
 
 /**
- * @api {put} /decks/:deckId Edit an existing deck
+ * @api {put} /decks/:deckId DeckEdit an existing deck
  * @apiName editDeck
  * @apiGroup Deck
  *
