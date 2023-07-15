@@ -2,16 +2,16 @@ import {useDispatch, useSelector} from "react-redux";
 import Tag from "./shared/Tag.jsx";
 import {useGetDeckQuery, useImportDeckMutation} from "../redux/api/apiSlice.js";
 
-const DeckDetail = ({deckId}) => {
+const DeckDetail = ({id}) => {
 
-    const {data, isLoading, isError} = useGetDeckQuery(deckId);
+    const {data, isLoading, isError} = useGetDeckQuery(id);
     const [importDeck, { isInProgress }] = useImportDeckMutation();
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error</div>
 
 
     const handleImport = async () => {
-        await importDeck(deckId);
+        await importDeck(id);
     }
 
     return (
