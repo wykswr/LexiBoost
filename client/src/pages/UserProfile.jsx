@@ -2,11 +2,12 @@ import { FireIcon, Square3Stack3DIcon, UserCircleIcon, RectangleStackIcon } from
 import { useDispatch, useSelector } from "react-redux";
 import {flipVisibility} from "../redux/userProfile/reducer.js";
 import ProfileEditingForm from "../components/ProfileEditingForm.jsx";
+import {useGetUserProfileQuery} from "../redux/api/apiSlice.js";
 
 
 const UserProfile = ({ ID }) => {
     const dispatch = useDispatch();
-    const { username, avatar, email_address, interested_topics, decks_created} = useSelector((state) => state.profileEditingForm);
+    const { username, avatar, email_address, interested_topics, decks_created} = useGetUserProfileQuery;
     function handleEditFormVisibility() {
         dispatch(flipVisibility());
     }

@@ -6,7 +6,7 @@ import {Cog8ToothIcon} from "@heroicons/react/24/solid";
 import ProfileEditingForm from "../components/ProfileEditingForm.jsx";
 const UserProfileUpdated = ({ID}) => {
     const dispatch = useDispatch();
-    const { username, avatar, email_address, interested_topics, decks_created} = useSelector((state) => state.profileEditingForm);
+    const { firstName, lastName, avatar, email_address, interested_topics, decks_created} = useSelector((state) => state.profileEditingForm);
     function handleRemoveTopic(currentTopic) {
         // Handle remove topic logic
     }
@@ -38,7 +38,7 @@ const UserProfileUpdated = ({ID}) => {
                                         <img className="h-40 w-40 bg-gray-300 rounded-full" src={avatar} alt="User Avatar" />
                                     </div>
                                     <div className="flex flex-col justify-center">
-                                        <div className="text-lg font-medium text-gray-800">User: {username}</div>
+                                        <div className="text-lg font-medium text-gray-800"> Welcome back, {firstName}</div>
                                         <div className="text-gray-700">Email Address: {email_address}</div>
                                         <div className="mt-8">
                                             <div className="text-gray-700">Interested Topics:</div>
