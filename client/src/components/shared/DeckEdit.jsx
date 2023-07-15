@@ -105,11 +105,11 @@ const DeckEdit = ({id}) => {
             <div className={"flex justify-end gap-6 mx-3"}>
                 <button
                     onClick={handleReset}
-                    className={"bg-emerald-600 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-emerald-700"}>Reset
+                    className={"bg-emerald-600 w-1/4 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-emerald-700"}>Reset
                 </button>
                 <button
                     onClick={handleSubmit}
-                    className={"bg-indigo-500 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-indigo-600"}>Save
+                    className={"bg-indigo-500 w-1/4 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-indigo-600"}>Save
                 </button>
             </div>
         </div>

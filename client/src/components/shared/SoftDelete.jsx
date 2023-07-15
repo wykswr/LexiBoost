@@ -12,7 +12,7 @@ const SoftDelete = ({id}) => {
         return (
             <div className={"w-96"}>
             <CheckIcon className={"animate-pulse w-40 h-40 mx-auto text-teal-500 mx-auto"}/>
-            <h1 className={"text-gray-500 text-xl font-semibold text-center"}>Content changed</h1>
+            <h1 className={"text-gray-500 text-xl font-semibold text-center"}>Removed from Bookshelf</h1>
         </div>
         );
     }

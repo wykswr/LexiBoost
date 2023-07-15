@@ -2,6 +2,7 @@ import {useRef} from "react";
 import {ArrowPathIcon, CheckIcon, CpuChipIcon} from "@heroicons/react/24/outline/index.js";
 import TagSelector from "./TagSelector.jsx";
 import {useAddDeckMutation, useAddDeckAIMutation} from "../../redux/api/apiSlice.js";
+import {BeakerIcon} from "@heroicons/react/20/solid/index.js";
 
 
 const DeckCreate = () => {
@@ -70,7 +71,7 @@ const DeckCreate = () => {
 
      if (isLoadingAI) return (
         <div className={"w-96 grid place-items-center gap-6 mx-auto"}>
-            <CpuChipIcon className={"animate-bounce w-40 h-40 text-purple-500"}/>
+            <CpuChipIcon className={"animate-bounce w-40 h-40 text-purple-400"}/>
             <h1 className={"text-gray-500 text-xl font-semibold text-center"}>AI is generating...</h1>
         </div>
     );
@@ -85,7 +86,7 @@ const DeckCreate = () => {
 
     return (
         <div className={"w-96 border border-blue-400 rounded-lg p-1.5 bg-white flex flex-col gap-10 mx-auto"}>
-            <div className={"flex flex-col mt-10"}>
+            <div className={"flex flex-col"}>
                 <label htmlFor="title" className={"text-lg font-light indent-1"}>Name</label>
                 <input type="text" id="title" className={"border border-gray-500 p-1 rounded caret-pink-500"}
                        ref={nameRef}
@@ -108,14 +109,15 @@ const DeckCreate = () => {
             </div>
             <div className={"flex justify-end gap-6 mx-3"}>
                 <button
-                    onClick={handleSubmitAI}
-                    className={"bg-emerald-600 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-emerald-700"}>
-                    AI Generate
+                    onClick={handleSubmit}
+                    className={"bg-indigo-500 w-1/2 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-indigo-600"}>
+                    Create
                 </button>
                 <button
-                    onClick={handleSubmit}
-                    className={"bg-indigo-500 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-indigo-600"}>
-                    Create
+                    onClick={handleSubmitAI}
+                    className={"bg-pink-500 w-1/2 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-pink-600 relative group"}>
+                    AI Generate
+                    <BeakerIcon className={"absolute right-0 top-1 w-6 h-6 text-white p-0.5 group-hover:animate-pulse"}/>
                 </button>
             </div>
         </div>

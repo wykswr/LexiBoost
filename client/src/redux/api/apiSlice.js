@@ -11,6 +11,7 @@ export const apiSlice = createApi({
         }),
         getDeck: builder.query({
             query: id => `/decks/${id}`,
+            providesTags: ['singleDeck'],
         }),
         getUserProfile: builder.query({
             query: userId => `/${userId}`,
@@ -56,12 +57,6 @@ export const apiSlice = createApi({
                 method: 'POST'
             })
         }),
-        importDeck: builder.mutation({
-            query: deckId => ({
-                url: `/decks/${deckId}/import`,
-                method: 'POST'
-            })
-        }),
         getFlashCards: builder.query({
            query: id => `/decks/${id}/flashcards`,
         }),
@@ -71,22 +66,6 @@ export const apiSlice = createApi({
         //     })
         //
         // })
-        editDeck: builder.mutation({
-            query: ({id, content}) => ({
-                url: `/decks/${id}`,
-                method: 'PUT',
-                body: content,
-            }),
-            invalidatesTags: ['bookshelf', 'singleDeck'],
-        }),
-        addDeck: builder.mutation({
-            query: content => ({
-                url: '/decks',
-                method: 'POST',
-                body: content,
-            }),
-            invalidatesTags: ['bookshelf'],
-        }),
         addDeckAI: builder.mutation({
             query: content => ({
                 url: '/decks/?ai=1',
@@ -104,9 +83,6 @@ export const {
     useGetDeckQuery,
     useGetDeckStatsQuery,
     useSoftDeleteDeckMutation,
-    useGetUserProfileQuery,
-    useUpdateUserProfileQuery,
-    useImportDeckMutation,
     useEditDeckMutation,
     useAddDeckMutation,
     useAddDeckAIMutation,
