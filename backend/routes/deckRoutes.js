@@ -60,4 +60,10 @@ router.post('/:deckId/import', deckController.importDeck);
 // Publish a deck in the marketplace
 router.put('/:deckId/publish', deckController.publishDeck);
 
+// Get ratings of deck
+router.get('/:deckId/ratings', deckController.getDeckRating);
+
+// Add ratings to deck
+router.post('/:deckId/ratings', deckController.addRatingToDeck);
+
 module.exports = router;

@@ -15,6 +15,19 @@ const userSchema = new mongoose.Schema({
   avatar: {type: String}, // Assuming the avatar is stored as a file path or URL
   decks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Deck'}],
   interestedTopics: [{ type: String }],
+  ratings: [
+    {
+      deckId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Deck',
+        required: true,
+      },
+      rating: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 userSchema.statics.createUser =
