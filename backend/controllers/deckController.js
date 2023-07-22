@@ -10,6 +10,7 @@ const Deck = require('../models/deckModel');
 async function getDeckById(req, res) {
     try {
         const deckId = req.params.deckId;
+        const userId = req.user.id
 
         if (!deckId) {
             return res.status(400).json({error: 'Malformed request'});
@@ -19,6 +20,10 @@ async function getDeckById(req, res) {
 
         if (!deck) {
             return res.status(404).json({error: 'Deck not found'});
+        }
+
+        if (deck.creatorId.toString() !== userId) {
+            throw new Error('Only the deck creator can fetch the deck');
         }
 
         res.json({deck});
@@ -392,6 +397,52 @@ async function deleteDeckCompletely(req, res) {
     }
 }
 
+/**
+ * @api {post} /:deckId/ratings Add rating to deck
+ * @apiName addRatingsToDeck
+ * @apiGroup Deck
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ */
+async function addRatingToDeck(req, res) {
+    try {
+        const {deckId} = req.params;
+        const userId = req.user.id;
+
+        const {rating} = req.body
+
+        const ratedDeck = await Deck.addRatingToDeck(deckId, userId, rating);
+
+        res.json({ratedDeck});
+    } catch (error) {
+        console.error('Error adding rating to deck:', error);
+        res.status(500).json({error: 'Failed to add rating to deck'});
+    }
+}
+
+/**
+ * @api {get} /:deckId/ratings Get deck rating
+ * @apiName getDeckRating
+ * @apiGroup Deck
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ */
+async function getDeckRating(req, res) {
+    try {
+        const {deckId} = req.params;
+        const userId = req.user.id;
+
+        const rating = await Deck.getDeckRating(deckId, userId);
+
+        res.json({rating});
+    } catch (error) {
+        console.error('Error adding rating to deck:', error);
+        res.status(500).json({error: 'Failed to add rating to deck'});
+    }
+}
+
 module.exports = {
     createDeck,
     getUserDecks,
@@ -407,5 +458,7 @@ module.exports = {
     appendFlashCardToDeck,
     getFlashCards,
     getAFlashCardFromADeck,
-    getDeckStats
+    getDeckStats,
+    addRatingToDeck,
+    getDeckRating
 };
