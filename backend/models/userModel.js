@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
   password: {type: String},
   avatar: {type: String}, // Assuming the avatar is stored as a file path or URL
   decks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Deck'}],
+  interestedTopics: [{ type: String }],
 });
 
 userSchema.statics.createUser =
