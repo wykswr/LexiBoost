@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
   password: {type: String},
   avatar: {type: String}, // Assuming the avatar is stored as a file path or URL
   decks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Deck'}],
+  interestedTopics: [{ type: String }],
 });
 
 userSchema.statics.createUser =
@@ -65,6 +66,39 @@ userSchema.statics.loginUser = async function(email, password) {
   }
 };
 
+
+userSchema.statics.getUser = async function(userID) {
+  try {
+    const user = await User.findById(userID);
+    if (!user) {
+      throw new Error('User does not exists');
+    }
+    return user;
+  } catch (error) {
+    console.error('Error login user:', error);
+    throw new Error('Failed to login user');
+  }
+};
+
+userSchema.statics.editUser =
+    async function editUser(userId, updatedFields) {
+      try {
+        const user = await this.findById(userId);
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        Object.assign(user, updatedFields);
+        await user.save();
+
+
+        return user;
+      } catch (error) {
+        console.error('Error editing user:', error);
+        throw new Error('Failed to edit user');
+      }
+    };
 // Create the User model
 const User = mongoose.model('User', userSchema);
 
