@@ -66,23 +66,9 @@ userSchema.statics.loginUser = async function(email, password) {
   }
 };
 
-userSchema.statics.getUser = async function(userID) {
-  try {
-    const user = await User.findOne(userID);
-    console.log("user is:" + user)
-    if (!user) {
-      throw new Error('User does not exists');
-    }
-    return user;
-  } catch (error) {
-    console.error('Error login user:', error);
-    throw new Error('Failed to login user');
-  }
-};
 
 userSchema.statics.getUser = async function(userID) {
   try {
-    console.log(userID)
     const user = await User.findById(userID);
     if (!user) {
       throw new Error('User does not exists');
@@ -104,7 +90,6 @@ userSchema.statics.editUser =
         }
 
         Object.assign(user, updatedFields);
-        console.log(user)
         await user.save();
 
 
