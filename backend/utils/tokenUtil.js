@@ -4,7 +4,7 @@ const {TOKEN_KEY} = require('../config/config');
 /**
  * Function to generate an authentication token
  * @param id
- * @returns {*}
+ * @return {*}
  */
 function generateAuthToken(id) {
   // Generate a token with the user's ID as the payload

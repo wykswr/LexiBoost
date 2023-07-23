@@ -5,12 +5,12 @@ const Deck = require('../models/deckModel');
  *
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function getDeckById(req, res) {
     try {
         const deckId = req.params.deckId;
-        const userId = req.user.id
+        const userId = req.user.id;
 
         if (!deckId) {
             return res.status(400).json({error: 'Malformed request'});
@@ -38,7 +38,7 @@ async function getDeckById(req, res) {
  *
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function getUserDecks(req, res) {
     try {
@@ -62,11 +62,11 @@ async function getUserDecks(req, res) {
  *
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function getFlashCards(req, res) {
     try {
-        const {deckId} = req.params
+        const {deckId} = req.params;
         const userId = req.user.id;
 
         const flashcards = await Deck.getFilteredAndSortedFlashcards(deckId, userId);
@@ -208,7 +208,7 @@ async function publishDeck(req, res) {
  * Appends a flash card to a deck.
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function appendFlashCardToDeck(req, res) {
     try {
@@ -234,7 +234,7 @@ async function appendFlashCardToDeck(req, res) {
  * Deletes a flashCard from a deck.
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function deleteFlashcardFromDeck(req, res) {
     try {
@@ -259,7 +259,7 @@ async function deleteFlashcardFromDeck(req, res) {
  * Updates a flashCard in a deck.
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function editFlashcardInDeck(req, res) {
     try {
@@ -288,7 +288,7 @@ async function editFlashcardInDeck(req, res) {
  * Get a flashCard from a deck.
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function getAFlashCardFromADeck(req, res) {
     try {
@@ -315,7 +315,7 @@ async function getAFlashCardFromADeck(req, res) {
  * Get a deck statistics
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function getDeckStats(req, res) {
     try {
@@ -337,7 +337,7 @@ async function getDeckStats(req, res) {
  * @apiGroup Deck
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function deleteDeckFromMarketplace(req, res) {
     try {
@@ -359,7 +359,7 @@ async function deleteDeckFromMarketplace(req, res) {
  * @apiGroup Deck
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function deleteDeckFromBookshelf(req, res) {
     try {
@@ -381,7 +381,7 @@ async function deleteDeckFromBookshelf(req, res) {
  * @apiGroup Deck
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function deleteDeckCompletely(req, res) {
     try {
@@ -403,14 +403,14 @@ async function deleteDeckCompletely(req, res) {
  * @apiGroup Deck
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function addRatingToDeck(req, res) {
     try {
         const {deckId} = req.params;
         const userId = req.user.id;
 
-        const {rating} = req.body
+        const {rating} = req.body;
 
         const ratedDeck = await Deck.addRatingToDeck(deckId, userId, rating);
 
@@ -427,7 +427,7 @@ async function addRatingToDeck(req, res) {
  * @apiGroup Deck
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @returns {Promise<void>} A Promise that resolves once the response is sent.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
  */
 async function getDeckRating(req, res) {
     try {
@@ -440,6 +440,27 @@ async function getDeckRating(req, res) {
     } catch (error) {
         console.error('Error adding rating to deck:', error);
         res.status(500).json({error: 'Failed to add rating to deck'});
+    }
+}
+
+/**
+ * @api {get} /search Search public decks
+ * @apiName searchPublicDecks
+ * @apiGroup Deck
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @return {Promise<void>} A Promise that resolves once the response is sent.
+ */
+async function searchPublicDecks(req, res) {
+    try {
+        const {deckName, tags, startingPage, sortMethod} = req.query;
+
+        const decks = await Deck.searchPublicDecks(deckName, tags, startingPage, sortMethod);
+
+        res.json({decks});
+    } catch (error) {
+        console.error('Error while searching for decks:', error);
+        res.status(500).json({error: 'Failed to search for decks'});
     }
 }
 
@@ -460,5 +481,6 @@ module.exports = {
     getAFlashCardFromADeck,
     getDeckStats,
     addRatingToDeck,
-    getDeckRating
+    getDeckRating,
+    searchPublicDecks,
 };
