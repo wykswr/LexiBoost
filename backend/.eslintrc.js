@@ -21,8 +21,9 @@ module.exports = {
   },
   rules: {
     'new-cap': 'off',
-    'valid-jsdoc': 'off',
     'indent': ['off', 2],
     'max-len': ['off', 120],
+    'valid-jsdoc': 'off',
+    'require-jsdoc': 0,
   },
 };

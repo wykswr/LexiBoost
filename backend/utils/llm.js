@@ -40,7 +40,7 @@ const cardPrompt = new PromptTemplate(
 /**
  * Get a flashcard of a vocabulary
  * @param vocab
- * @returns {Promise<{examples: (string)[], spelling, definition: (string|[(string|*|ActiveX.IXMLDOMNode)]|ActiveX.IXMLDOMNode|*)[]}>}
+ * @return {Promise<{examples: (string)[], spelling, definition: (string|[(string|*|ActiveX.IXMLDOMNode)]|ActiveX.IXMLDOMNode|*)[]}>}
  */
 async function getCard(vocab) {
     const input = await cardPrompt.format({vocabulary: vocab});
@@ -68,7 +68,7 @@ const vocabPrompt = new PromptTemplate(
 /**
  * Get a list of vocabularies
  * @param descriptions
- * @returns {Promise<*>}
+ * @return {Promise<*>}
  */
 async function getVocab(descriptions) {
     const input = await vocabPrompt.format({descriptions: descriptions});
@@ -80,7 +80,7 @@ async function getVocab(descriptions) {
 /**
  * Generate flashcards from a description
  * @param description
- * @returns {Promise<[{}]>}
+ * @return {Promise<[{}]>}
  */
 async function generateFlashCards(description) {
   let vocabs = await getVocab(description);

@@ -8,6 +8,9 @@ const generate = require('../middleware/generate');
 
 const router = express.Router();
 
+// Search deck
+router.get('/search', deckController.searchPublicDecks);
+
 // Create a new deck
 router.post('/', generate, deckController.createDeck);
 
