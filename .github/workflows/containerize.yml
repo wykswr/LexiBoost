@@ -3,7 +3,7 @@ name: containerize
 on:
   pull_request:
     branches:
-      - 'main'
+      - 'master'
 
 jobs:
   docker:
