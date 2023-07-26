@@ -16,7 +16,6 @@
     "@heroicons/react": "^2.0.18",
     "@mui/icons-material": "^5.13.7",
     "@mui/material": "^5.13.7",
-    "@radix-ui/react-progress": "^1.0.3",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "prop-types": "^15.8.1",
