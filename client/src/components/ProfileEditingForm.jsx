@@ -1,19 +1,31 @@
-import { useState } from "react";
+import {useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {flipVisibility, modifyProfileField} from "../redux/userProfile/reducer.js";
 import { Dialog } from '@headlessui/react'
 import {XMarkIcon} from "@heroicons/react/24/outline";
-import {useGetUserProfileQuery} from "../redux/api/apiSlice.js";
+import {useGetUserProfileQuery, useUpdateUserProfileMutation} from "../redux/api/apiSlice.js";
 
 const ProfileEditingForm = ({userId}) => {
     const dispatch = useDispatch();
-    const { firstName, lastName, email, avatar, interestedTopics} = useGetUserProfileQuery(userId);
-    const [selectedAvatar, setSelectedAvatar] = useState(avatar);
+    const { data, isLoading, isError } = useGetUserProfileQuery(userId);
+    const [updateProfile, { isInProgress }] = useUpdateUserProfileMutation();
+    if (isLoading) return <div>Loading...</div>
+    if (isError) return <div>Error</div>
+
+    // scroll
+    const [selectedAvatar, setSelectedAvatar] = useState(`${data.avatar}`);
+    const avatarRef = useRef();
     const [newTopic, setNewTopic] = useState('');
-    const [topicList, setTopicList] = useState(interestedTopics);
-    const [FName, setFName] = useState(firstName);
-    const [LName, setLName] = useState(lastName);
-    const [email_address, setEmail] = useState(email);
+    const [topicList, setTopicList] = useState(data.interestedTopics);
+    const topicListRef = useRef();
+    const [FName, setFName] = useState(null);
+    const FNameRef = useRef();
+
+    const [LName, setLName] = useState(`${data.lastName}`);
+    const LNameRef = useRef();
+
+    const [email_address, setEmail] = useState(`${data.email}`);
+    const emailRef = useRef();
 
     // const handleFieldChange = (e) => {
     //     const specification = {
@@ -38,10 +50,15 @@ const ProfileEditingForm = ({userId}) => {
         setNewTopic(e.value);
     }
 
-    const handleSubmission = (e) => {
+    const handleSubmission = async (e) => {
         let newFields = {
-
+            firstName: FNameRef.current.value,
+            lastName: LNameRef.current.value,
+            email: emailRef.current.value,
+            interestedTopics: topicList
         }
+
+        await updateProfile(userId, newFields);
     };
 
     const handleRemoveTopic = (currentTopic) => {
@@ -66,7 +83,7 @@ const ProfileEditingForm = ({userId}) => {
                     <label htmlFor="avatar" className="mb-2">
                         <img
                             className="h-40 w-40 rounded-full object-cover"
-                            src={avatar}
+                            src={selectedAvatar}
                             alt="Avatar"
                         />
                     </label>
@@ -94,7 +111,8 @@ const ProfileEditingForm = ({userId}) => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         type="text"
                         name="firstname"
-                        defaultValue={firstName}
+                        ref={FNameRef}
+                        defaultValue={data.firstName}
                     />
 
                     <label
@@ -107,7 +125,8 @@ const ProfileEditingForm = ({userId}) => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         type="text"
                         name="lastname"
-                        defaultValue={lastName}
+                        ref={LNameRef}
+                        defaultValue={data.lastName}
                     />
                 </div>
                 <div className="mb-6">
@@ -121,7 +140,8 @@ const ProfileEditingForm = ({userId}) => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         type="email"
                         name="email_address"
-                        defaultValue={email_address}
+                        ref={emailRef}
+                        defaultValue={data.email}
                     />
                 </div>
                 <div className="flex justify-center">

@@ -14,12 +14,12 @@ export const apiSlice = createApi({
             providesTags: ['singleDeck'],
         }),
         getUserProfile: builder.query({
-            query: userId => `/${userId}`,
+            query: userId => `/users/${userId}`,
             providesTags: ['UserProfile']
         }),
         updateUserProfile: builder.mutation({
             query: ({userId, newProfile}) => ({
-                url: `/${userId}`,
+                url: `/users/${userId}`,
                 method: 'PUT',
                 body: newProfile
             }),
@@ -108,7 +108,7 @@ export const {
     useAddDeckMutation,
     useAddDeckAIMutation,
     useGetUserProfileQuery,
-    useUpdateUserProfileQuery,
+    useUpdateUserProfileMutation,
     useImportDeckMutation,
     useGetFlashCardsQuery,
     usePublishDeckMutation,

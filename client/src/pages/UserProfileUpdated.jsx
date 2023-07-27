@@ -11,6 +11,7 @@ const UserProfileUpdated = ({id}) => {
 
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error</div>
+
     console.log(data);
     function handleRemoveTopic(currentTopic) {
         // Handle remove topic logic
@@ -33,7 +34,6 @@ const UserProfileUpdated = ({id}) => {
                         <div className="flex flex-col items-center bg-gray-500 p-8">
                             <ProfileEditingForm userId={id}/>
                         </div>
-
                     </Tab.Panel>
                     <Tab.Panel className="flex flex-col items-center bg-blue-400 p-8">
                         <div className="flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-center">
@@ -43,12 +43,12 @@ const UserProfileUpdated = ({id}) => {
                                         <img className="h-40 w-40 bg-gray-300 rounded-full" src={data.avatar} alt="User Avatar" />
                                     </div>
                                     <div className="flex flex-col justify-center">
-                                        <div className="text-lg font-medium text-gray-800">User: {username}</div>
-                                        <div className="text-gray-700">Email Address: {email_address}</div>
+                                        <div className="text-lg font-medium text-gray-800">User: {data.firstName}</div>
+                                        <div className="text-gray-700">Email Address: {data.email}</div>
                                         <div className="mt-8">
                                             <div className="text-gray-700">Interested Topics:</div>
                                             <div className="border border-gray-300 rounded-lg p-4 mb-4 flex flex-wrap">
-                                                {interestedTopics.map((currentTopic) => (
+                                                {data.interestedTopics.map((currentTopic) => (
                                                     <div className="relative bg-yellow-300 hover:bg-yellow-200 text-gray-800 px-2 py-1 rounded-full mr-2 mb-2" key={currentTopic}>
                                                         {currentTopic}
                                                     </div>
@@ -75,7 +75,7 @@ const UserProfileUpdated = ({id}) => {
 
                             <div className="shadow-lg rounded-lg bg-white">
                                 <div className="flex flex-col md:flex-row gap-4 p-4">
-                                    {decks_created.map((deck, index) => (
+                                    {data.decks.map((deck, index) => (
                                         <div
                                             key={index}
                                             className="p-4 bg-yellow-300 hover:bg-yellow-400 rounded-lg shadow-md hover:cursor-pointer"

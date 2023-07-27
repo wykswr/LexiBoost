@@ -48,3 +48,6 @@ Content-Type: application/json
 
 ### Release a deck
 PUT localhost:8000/decks/64b3004c84893cbe31ad2ac7/publish
+
+### Get profile of a user
+GET localhost:8000/users/64a70a6e426d71fcc0486ebc
