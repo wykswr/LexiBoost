@@ -7,10 +7,10 @@ import {useGetUserProfileQuery} from "../redux/api/apiSlice.js";
 
 const ProfileEditingForm = ({userId}) => {
     const dispatch = useDispatch();
-    const { firstName, lastName, email, avatar, interested_topics, isOpen } = useGetUserProfileQuery(userId);
+    const { firstName, lastName, email, avatar, interestedTopics} = useGetUserProfileQuery(userId);
     const [selectedAvatar, setSelectedAvatar] = useState(avatar);
     const [newTopic, setNewTopic] = useState('');
-    const [topicList, setTopicList] = useState(interested_topics);
+    const [topicList, setTopicList] = useState(interestedTopics);
     const [FName, setFName] = useState(firstName);
     const [LName, setLName] = useState(lastName);
     const [email_address, setEmail] = useState(email);
