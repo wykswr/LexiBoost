@@ -5,6 +5,8 @@ import {useEditDeckMutation, useGetDeckQuery} from "../../redux/api/apiSlice.js"
 import {Link} from "react-router-dom";
 import TagSelector from "./TagSelector.jsx";
 import {PencilSquareIcon} from "@heroicons/react/24/solid"
+import VisibilityToggle from "./VisibilityToggle.jsx";
+import {usePublishDeckMutation, useRetractDeckMutation} from "../../redux/api/apiSlice.js";
 
 const DeckEdit = ({id}) => {
     const {data, isLoading, error} = useGetDeckQuery(id);
@@ -17,6 +19,8 @@ const DeckEdit = ({id}) => {
     const descriptionRef = useRef();
     const coverImageRef = useRef();
     const tagsRef = useRef();
+    const [publishDeck] = usePublishDeckMutation();
+    const [retractDeck] = useRetractDeckMutation();
 
     const handleSubmit = () => {
         const content = {};
@@ -67,6 +71,14 @@ const DeckEdit = ({id}) => {
         </div>
     );
 
+    const setEnabled = () => {
+        if (data.deck.isPublic) {
+            retractDeck(id);
+        } else {
+            publishDeck(id);
+        }
+    }
+
 
     return (
         <div className={"w-96 border border-blue-400 rounded-lg p-1.5 bg-white flex flex-col gap-10"}>
@@ -102,6 +114,11 @@ const DeckEdit = ({id}) => {
                 </p>
 
             </div>
+            <div>
+                <h2 className={"text-lg font-light indent-1"}>Public</h2>
+                <VisibilityToggle setEnabled={setEnabled} enabled={data.deck.isPublic}/>
+            </div>
+
             <div className={"flex justify-end gap-6 mx-3"}>
                 <button
                     onClick={handleReset}

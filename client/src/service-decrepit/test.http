@@ -21,7 +21,7 @@ GET localhost:8000/decks/64acb9a9f1247fa6c9ff6220/statistics
 
 
 ### Hard delete a deck
-DELETE localhost:8000/decks/64acb9a9f1247fa6c9ff6220
+DELETE localhost:8000/decks/64b2ff9f84893cbe31ad2ac2
 
 
 ### Soft delete a deck
@@ -44,3 +44,7 @@ Content-Type: application/json
   "definition": ["世界"],
   "examples": ["Hello world", "world cup"]
 }
+
+
+### Release a deck
+PUT localhost:8000/decks/64b3004c84893cbe31ad2ac7/publish

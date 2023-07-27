@@ -20,7 +20,7 @@ router.get('/', deckController.getUserDecks);
 // Get flashcards for a specific user deck
 router.get('/:deckId/flashcards', deckController.getFlashCards);
 
-// SoftDelete a deck completely
+// Delete a deck completely
 router.delete('/:deckId', deckController.deleteDeckCompletely);
 
 // Get a deck statistics
@@ -32,10 +32,6 @@ router.delete('/:deckId/marketplace', deckController.deleteDeckFromMarketplace);
 // SoftDelete flashcard from Deck
 router.delete('/:deckId/flashcards/:flashCardId',
     deckController.deleteFlashcardFromDeck);
-
-// DeckEdit flashcard in Deck
-router.put('/:deckId/flashcards/:flashCardId',
-    deckController.updateFlashcardInDeck);
 
 // DeckEdit flashcard in Deck
 router.put('/:deckId/flashcards/:flashCardId',
