@@ -38,7 +38,7 @@ const loginUser = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const userID = req.params.userId;
+    const userID = req.user.id;
     if (!userID) {
       return res.status(400).json({error: 'No user id provided'});
     }
@@ -53,7 +53,7 @@ const getUser = async (req, res) => {
 
 async function editUser(req, res) {
   try {
-    const userId = req.params.userId;
+    const userId = req.user.id;
     const updatedFields = req.body;
     const user = await User.editUser( userId, updatedFields);
 
