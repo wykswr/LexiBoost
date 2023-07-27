@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: app
+      MONGO_INITDB_ROOT_PASSWORD: examplePassword
+    volumes:
+      - ./data:/data/db
+    restart: always
+
+  backend:
+    image: wykswr/lexiboost:backend
+    container_name: backend
+    environment:
+      ATLAS_URI: mongodb://app:examplePassword@mongo:27017
+      PORT: 3000
+      AI21_API_KEY: exampleKey
+      TOKEN_KEY: exampleTokenKey
+    depends_on:
+        - mongo
+    restart: always
+
+  frontend:
+    image: wykswr/lexiboost:frontend
+    container_name: frontend
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+        - 80:80
+    depends_on:
+        - backend
+    restart: always
