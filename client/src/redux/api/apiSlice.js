@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8000'}),
+    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URL}),
     tagTypes: ['bookshelf', 'singleDeck', 'UserProfile'],
     endpoints: builder => ({
         getDecks: builder.query({
@@ -31,6 +31,13 @@ export const apiSlice = createApi({
         softDeleteDeck: builder.mutation({
             query: id => ({
                 url: `/decks/${id}/bookshelf`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['bookshelf'],
+        }),
+        hardDeleteDeck: builder.mutation({
+            query: id => ({
+                url: `/decks/${id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['bookshelf'],
@@ -74,6 +81,20 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['bookshelf'],
         }),
+        publishDeck: builder.mutation({
+            query: id => ({
+                url: `/decks/${id}/publish`,
+                method: 'PUT',
+            }),
+            invalidatesTags: ['singleDeck'],
+        }),
+        retractDeck: builder.mutation({
+            query: id => ({
+                url: `/decks/${id}/marketplace`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['singleDeck'],
+        }),
     }),
 
 });
@@ -90,4 +111,7 @@ export const {
     useUpdateUserProfileQuery,
     useImportDeckMutation,
     useGetFlashCardsQuery,
+    usePublishDeckMutation,
+    useRetractDeckMutation,
+    useHardDeleteDeckMutation,
 } = apiSlice;
