@@ -1,27 +1,33 @@
-import { useState } from "react";
+import {useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {flipVisibility, modifyProfileField} from "../redux/userProfile/reducer.js";
 import { Dialog } from '@headlessui/react'
 import {XMarkIcon} from "@heroicons/react/24/outline";
-import {useGetUserProfileQuery} from "../redux/api/apiSlice.js";
+import {useGetUserProfileQuery, useUpdateUserProfileMutation} from "../redux/api/apiSlice.js";
 
 const ProfileEditingForm = ({userId}) => {
     const dispatch = useDispatch();
-    const { firstName, lastName, email, avatar, interested_topics, isOpen } = useGetUserProfileQuery(userId);
-    const [selectedAvatar, setSelectedAvatar] = useState(avatar);
-    const [newTopic, setNewTopic] = useState('');
-    const [topicList, setTopicList] = useState(interested_topics);
-    const [FName, setFName] = useState(firstName);
-    const [LName, setLName] = useState(lastName);
-    const [email_address, setEmail] = useState(email);
+    const { data, isLoading, isError } = useGetUserProfileQuery();
+    const [updateProfile, { isInProgress }] = useUpdateUserProfileMutation();
+    if (isLoading) return <div>Loading...</div>
+    if (isError) return <div>Error</div>
 
-    // const handleFieldChange = (e) => {
-    //     const specification = {
-    //         field: e.target.name,
-    //         value: e.target.value,
-    //     };
-    //     dispatch(modifyProfileField(specification));
-    // };
+    // scroll
+    const [selectedAvatar, setSelectedAvatar] = useState(`${data.avatar}`);
+    const avatarRef = useRef();
+    const [newTopic, setNewTopic] = useState('');
+    const newTopicRef = useRef();
+
+    const [topicList, setTopicList] = useState(data.interestedTopics);
+    const topicListRef = useRef();
+    const [FName, setFName] = useState(null);
+    const FNameRef = useRef();
+
+    const [LName, setLName] = useState(`${data.lastName}`);
+    const LNameRef = useRef();
+
+    const [email_address, setEmail] = useState(`${data.email}`);
+    const emailRef = useRef();
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
@@ -38,10 +44,15 @@ const ProfileEditingForm = ({userId}) => {
         setNewTopic(e.value);
     }
 
-    const handleSubmission = (e) => {
+    const handleSubmission = async (e) => {
         let newFields = {
-
+            firstName: FNameRef.current.value,
+            lastName: LNameRef.current.value,
+            email: emailRef.current.value,
+            interestedTopics: topicList
         }
+        console.log(newFields);
+        await updateProfile(newFields);
     };
 
     const handleRemoveTopic = (currentTopic) => {
@@ -51,8 +62,9 @@ const ProfileEditingForm = ({userId}) => {
     const handleTopicAddition = () => {
         setTopicList((prevState) => [
             ...prevState,
-            newTopic
+            newTopicRef.current.value
         ])
+        newTopicRef.current.value = '';
     }
 
     const handleClose = () => {
@@ -66,7 +78,7 @@ const ProfileEditingForm = ({userId}) => {
                     <label htmlFor="avatar" className="mb-2">
                         <img
                             className="h-40 w-40 rounded-full object-cover"
-                            src={avatar}
+                            src={selectedAvatar}
                             alt="Avatar"
                         />
                     </label>
@@ -94,7 +106,8 @@ const ProfileEditingForm = ({userId}) => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         type="text"
                         name="firstname"
-                        defaultValue={firstName}
+                        ref={FNameRef}
+                        defaultValue={data.firstName}
                     />
 
                     <label
@@ -107,7 +120,8 @@ const ProfileEditingForm = ({userId}) => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         type="text"
                         name="lastname"
-                        defaultValue={lastName}
+                        ref={LNameRef}
+                        defaultValue={data.lastName}
                     />
                 </div>
                 <div className="mb-6">
@@ -121,18 +135,11 @@ const ProfileEditingForm = ({userId}) => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         type="email"
                         name="email_address"
-                        defaultValue={email_address}
+                        ref={emailRef}
+                        defaultValue={data.email}
                     />
                 </div>
-                <div className="flex justify-center">
-                    <button
-                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        type="button"
-                        onClick={handleSubmission}
-                    >
-                        Update Information
-                    </button>
-                </div>
+
                 <div className="mt-8 justify-center">
                     <div className="block text-gray-700 text-sm font-bold mb-2">Interested Topics</div>
                     <div className="border border-gray-300 flex flex-wrap rounded-lg p-4 mb-4">
@@ -154,25 +161,35 @@ const ProfileEditingForm = ({userId}) => {
                     >
                         Add a new topic of interest
                     </label>
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        type="text"
-                        name='newTopicInput'
-                        value={newTopic}
-                        onChange={handleNewTopicChange}
-                    />
+                    <div className="flex flex-col md:flex-row">
+                        <input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:w-64"
+                            type="text"
+                            name="newTopicInput"
+                            ref={newTopicRef}
+                            placeholder="Enter topic"
+                        />
+                        <button
+                            className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline md:ml-4 mt-2 md:mt-0"
+                            type="button"
+                            onClick={handleTopicAddition}
+                        >
+                            Add Topic
+                        </button>
+                    </div>
+
 
                 </div>
-                <div className="flex justify-center mt-4">
+
+                <div className="flex justify-center mt-10">
                     <button
-                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline justify-center"
+                        className="bg-green-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="button"
-                        onClick={handleTopicAddition}
+                        onClick={handleSubmission}
                     >
-                        Add Topic
+                        Update Information
                     </button>
                 </div>
-
             </form>
         </div>
     );
