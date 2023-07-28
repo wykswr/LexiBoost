@@ -7,6 +7,7 @@ import TagSelector from "./TagSelector.jsx";
 import {PencilSquareIcon} from "@heroicons/react/24/solid"
 import VisibilityToggle from "./VisibilityToggle.jsx";
 import {usePublishDeckMutation, useRetractDeckMutation} from "../../redux/api/apiSlice.js";
+import {useSelector} from "react-redux";
 
 const DeckEdit = ({id}) => {
     const {data, isLoading, error} = useGetDeckQuery(id);
@@ -18,9 +19,9 @@ const DeckEdit = ({id}) => {
     const nameRef = useRef();
     const descriptionRef = useRef();
     const coverImageRef = useRef();
-    const tagsRef = useRef();
     const [publishDeck] = usePublishDeckMutation();
     const [retractDeck] = useRetractDeckMutation();
+    const selectedTags = useSelector((state) => state.tagSelect.selectedTags);
 
     const handleSubmit = () => {
         const content = {};
@@ -33,14 +34,7 @@ const DeckEdit = ({id}) => {
         if (coverImageRef.current.value !== data.deck.cover && coverImageRef.current.value.trim() !== "") {
             content.cover = coverImageRef.current.value;
         }
-        let tags = tagsRef.current.children;
-        let tagsList = [];
-        for (let i = 0; i < tags.length; i++) {
-            if (tags[i].type !== "button") {
-                tagsList.push(tags[i].children[0].innerText);
-            }
-        }
-        if (tagsList.length !== 0) { content.tags = tagsList; }
+        if (selectedTags.length !== 0) { content.tags = selectedTags; }
         updateDeck({id, content});
     }
 
@@ -91,7 +85,7 @@ const DeckEdit = ({id}) => {
             </div>
             <div>
                 <h2 className={"text-lg font-light indent-1 mb-1"}>Tags</h2>
-                <TagSelector ref={tagsRef} defaultTags={data.deck.tags}/>
+                <TagSelector defaultTags={data.deck.tags}/>
             </div>
 
             <div className={"flex flex-col"}>

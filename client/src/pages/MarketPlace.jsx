@@ -1,5 +1,5 @@
 // import {useSelector} from "react-redux";
-import SearchCard from "../components/shared/SearchCard.jsx";
+import SearchCard from "../components/SearchCard.jsx";
 
 const MarketPlace = () => {
     return (

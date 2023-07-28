@@ -1,5 +1,3 @@
-import {useEffect, useState} from "react";
-import fakeCards from "../assets/fakeCards.json";
 import CardLearning from "../components/CardLearning.jsx";
 import {useParams} from "react-router-dom";
 

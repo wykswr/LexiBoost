@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import fakeCards from "../assets/fakeCards.json";
 import TypingBox from "./shared/TypingBox.jsx";
 import {useNavigate} from 'react-router-dom';
 import {useGetFlashCardsQuery} from "../redux/api/apiSlice.js";

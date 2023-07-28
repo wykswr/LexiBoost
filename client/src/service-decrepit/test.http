@@ -51,3 +51,9 @@ PUT localhost:8000/decks/64b3004c84893cbe31ad2ac7/publish
 
 ### Get profile
 GET localhost:8000/users/
+
+### Marketplace
+GET localhost:8000/decks/search/?deckName=Test
+
+### Tags
+GET localhost:8000/decks/tags

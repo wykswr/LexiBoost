@@ -1,5 +1,5 @@
 import {Button} from "@mui/material";
-import useArray from "../hooks-decrepit/useArray.js";
+import useArray from "../hooks/useArray.js";
 import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";

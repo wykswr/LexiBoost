@@ -95,8 +95,19 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['singleDeck'],
         }),
+        searchDecks: builder.query({
+            query: (deckName, tags, startingPage, sortMethod) => ({
+                url: `/decks/search?deckName=${deckName}&tags=${tags}&startingPage=${startingPage}&sortMethod=${sortMethod}`,
+                method: 'GET',
+            }),
+        }),
+        getTags: builder.query({
+            query: () => ({
+                url: '/decks/tags',
+                method: 'GET',
+            }),
+        }),
     }),
-
 });
 
 export const {
@@ -114,4 +125,6 @@ export const {
     usePublishDeckMutation,
     useRetractDeckMutation,
     useHardDeleteDeckMutation,
+    useSearchDecksQuery,
+    useGetTagsQuery,
 } = apiSlice;
