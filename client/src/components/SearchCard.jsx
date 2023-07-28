@@ -43,9 +43,9 @@ const SearchCard = () => {
                         name="row-radio-buttons-group"
                         onChange={handleChange}
                     >
-                        <FormControlLabel value="rating" control={<Radio/>} label="likes"/>
+                        <FormControlLabel value="rating" control={<Radio/>} label="rating"/>
                         <FormControlLabel value="recent" control={<Radio/>} label="recent"/>
-                        <FormControlLabel value="card number" control={<Radio/>} label="cards"/>
+                        <FormControlLabel value="card number" control={<Radio/>} label="card number"/>
                     </RadioGroup>
                 </FormControl>
 

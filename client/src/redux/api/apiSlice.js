@@ -62,7 +62,8 @@ export const apiSlice = createApi({
             query: deckId => ({
                 url: `/decks/${deckId}/import`,
                 method: 'POST'
-            })
+            }),
+            invalidatesTags: ['bookshelf'],
         }),
         getFlashCards: builder.query({
            query: id => `/decks/${id}/flashcards`,
@@ -96,8 +97,8 @@ export const apiSlice = createApi({
             invalidatesTags: ['singleDeck'],
         }),
         searchDecks: builder.query({
-            query: (deckName, tags, startingPage, sortMethod) => ({
-                url: `/decks/search?deckName=${deckName}&tags=${tags}&startingPage=${startingPage}&sortMethod=${sortMethod}`,
+            query: ({name, tags, page, sort}) => ({
+                url: `/decks/search?deckName=${name}&tags=${tags}&startingPage=${page}&sortMethod=${sort}`,
                 method: 'GET',
             }),
         }),
