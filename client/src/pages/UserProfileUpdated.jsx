@@ -4,21 +4,29 @@ import {FireIcon, RectangleStackIcon, Square3Stack3DIcon, UserCircleIcon} from "
 import {flipVisibility} from "../redux/userProfile/reducer";
 import {Cog8ToothIcon} from "@heroicons/react/24/solid";
 import ProfileEditingForm from "../components/ProfileEditingForm";
-import {useGetUserProfileQuery} from "../redux/api/apiSlice.js";
+import {
+    useGetDeckQuery,
+    useGetUserProfileQuery,
+    usePublishDeckMutation,
+    useRetractDeckMutation
+} from "../redux/api/apiSlice.js";
+import VisibilityToggle from "../components/shared/VisibilityToggle.jsx";
+import DeckPreviewList from "../components/DeckPreviewList.jsx";
 const UserProfileUpdated = ({id}) => {
-    const dispatch = useDispatch();
-    const {data, isLoading, isError} = useGetUserProfileQuery(id);
+    const {data, isLoading, isError} = useGetUserProfileQuery();
+    const [publishDeck] = usePublishDeckMutation();
+    const [retractDeck] = useRetractDeckMutation();
 
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error</div>
 
     console.log(data);
-    function handleRemoveTopic(currentTopic) {
-        // Handle remove topic logic
-    }
-    // <h1 className="text-3xl font-bold text-gray-800 mb-4 justify-center"> Decks I created </h1>
-    function handleEditFormVisibility() {
-        dispatch(flipVisibility());
+    const setEnabled = () => {
+        if (data.deck.isPublic) {
+            retractDeck(id);
+        } else {
+            publishDeck(id);
+        }
     }
     return (
         <div className={"h-screen container pt-16 mx-auto flex flex-col mx"}>
@@ -26,8 +34,7 @@ const UserProfileUpdated = ({id}) => {
                 <Tab.List className="flex md:flex-row justify-center" >
                     <Tab className="bg-gray-500 hover:bg-gray-600 py-2 px-4 rounded-t-lg"> <Cog8ToothIcon className="h-5 w-5 text-white"/> </Tab>
                     <Tab className="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-t-lg"> User </Tab>
-                    <Tab className="bg-blue-300 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-t-lg"> Decks I created </Tab>
-
+                    <Tab className="bg-blue-300 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-t-lg"> My Decks </Tab>
                 </Tab.List >
                 <Tab.Panels>
                     <Tab.Panel>
@@ -71,21 +78,22 @@ const UserProfileUpdated = ({id}) => {
                         </div>
                     </Tab.Panel>
                     <Tab.Panel className="bg-blue-300 p-8">
-                        <div className="mt-8 items-center flex flex-col">
+                        {/*<div className="mt-8 items-center flex flex-col">*/}
 
-                            <div className="shadow-lg rounded-lg bg-white">
-                                <div className="flex flex-col md:flex-row gap-4 p-4">
-                                    {data.decks.map((deck, index) => (
-                                        <div
-                                            key={index}
-                                            className="p-4 bg-yellow-300 hover:bg-yellow-400 rounded-lg shadow-md hover:cursor-pointer"
-                                        >
-                                            {deck.title}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                        {/*    <div className="shadow-lg rounded-lg bg-white">*/}
+                        {/*        <div className="flex flex-col md:flex-row gap-4 p-4">*/}
+                        {/*            {data.decks.map((deck, index) => (*/}
+                        {/*                <div*/}
+                        {/*                    key={index}*/}
+                        {/*                    className="p-4 bg-yellow-300 hover:bg-yellow-400 rounded-lg shadow-md hover:cursor-pointer"*/}
+                        {/*                >*/}
+                        {/*                    {deck.title}*/}
+                        {/*                </div>*/}
+                        {/*            ))}*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+                        <DeckPreviewList />
                     </Tab.Panel>
                 </Tab.Panels>
             </Tab.Group>

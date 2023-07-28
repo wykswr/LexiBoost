@@ -35,7 +35,7 @@ const NavBar = () => {
                     <button className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">Home</button>
                     <Link to={"/bookshelf"} className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">My Card Decks</Link>
                     <Link to={"/marketplace"} className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">Marketplace</Link>
-                    <button className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">Profile</button>
+                    <Link to={"/profile"} className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">Profile</Link>
                     <button className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium md:hidden" onClick={toggleOverlay}>
                         <AdjustmentsVerticalIcon className="h-5 w-5 text-black" aria-hidden="true" />
                     </button>
