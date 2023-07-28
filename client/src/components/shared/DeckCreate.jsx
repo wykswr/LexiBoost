@@ -3,6 +3,7 @@ import {ArrowPathIcon, CheckIcon, CpuChipIcon} from "@heroicons/react/24/outline
 import TagSelector from "./TagSelector.jsx";
 import {useAddDeckMutation, useAddDeckAIMutation} from "../../redux/api/apiSlice.js";
 import {BeakerIcon} from "@heroicons/react/20/solid/index.js";
+import {useSelector} from "react-redux";
 
 
 const DeckCreate = () => {
@@ -19,7 +20,7 @@ const DeckCreate = () => {
     const nameRef = useRef();
     const descriptionRef = useRef();
     const coverImageRef = useRef();
-    const tagsRef = useRef();
+    const selectedTags = useSelector((state) => state.tagSelect.selectedTags);
 
     const getContent = () => {
         const content = {};
@@ -35,14 +36,7 @@ const DeckCreate = () => {
             const randID = Math.floor(Math.random() * 5) * 100 + 100;
             content.cover = `https://picsum.photos/${randID}`;
         }
-        let tags = tagsRef.current.children;
-        let tagsList = [];
-        for (let i = 0; i < tags.length; i++) {
-            if (tags[i].type !== "button") {
-                tagsList.push(tags[i].children[0].innerText);
-            }
-        }
-        if (tagsList.length !== 0) { content.tags = tagsList; }
+        if (selectedTags.length !== 0) { content.tags = selectedTags; }
         content.flashCards = [];
         return content;
     }
@@ -94,7 +88,7 @@ const DeckCreate = () => {
             </div>
             <div>
                 <h2 className={"text-lg font-light indent-1 mb-1"}>Tags</h2>
-                <TagSelector ref={tagsRef}/>
+                <TagSelector/>
             </div>
 
             <div className={"flex flex-col"}>

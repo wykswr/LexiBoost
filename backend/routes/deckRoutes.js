@@ -8,6 +8,10 @@ const generate = require('../middleware/generate');
 
 const router = express.Router();
 
+// Return all predefined tags
+router.get('/tags', (req, res) => res.json(['Science', 'History', 'Engineer', 'Art', 'Music', 'Language', 'Nature', 'Tool', 'Other']));
+
+
 // Search deck
 router.get('/search', deckController.searchPublicDecks);
 

@@ -11,7 +11,7 @@ function BookshelfPage() {
 
     return (
         <div className={"bg-topography bg-blue-50 bg-opacity-70 h-screen"}>
-            <div className={"container pt-16 mx-auto flex flex-col gap-6 md:flex-row md:flex-wrap mx"}>
+            <div className={"container pt-16 mx-auto flex flex-col gap-6 md:flex-row md:flex-wrap"}>
                 {data.decks.map(deck => <Deck key={deck._id} item={deck}/>)}
                 <CreateDeck/>
                 <MyDialog/>
