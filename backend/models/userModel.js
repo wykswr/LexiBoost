@@ -41,12 +41,8 @@ userSchema.statics.createUser =
           password: await bcrypt.hash(password, 10),
           decks: [],
         });
-
-        const user = await newUser.save();
-
-        await user.save();
-
-        return user;
+        console.log(newUser);
+        return await newUser.save();
       } catch (error) {
         console.error('Error creating user:', error);
         throw new Error(error);

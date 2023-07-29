@@ -1,27 +1,29 @@
-import React, {useState} from 'react';
+import {useRef} from 'react';
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {toggleAuthMode} from "../redux/auth/reducer.js";
 import {useDispatch} from "react-redux";
 import {Button} from "@mui/material";
+import {useSignupMutation} from "../redux/api/apiSlice.js";
+import {CheckIcon} from "@heroicons/react/24/outline/index.js";
 
 
 const Signup = () => {
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const confirmPasswordRef = useRef();
 
+    const [signup, {isLoading, isError, isSuccess}] = useSignupMutation();
     const dispatch = useDispatch();
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const password = passwordRef.current.value.trim();
+        const confirmPassword = confirmPasswordRef.current.value.trim();
 
         if (password !== confirmPassword) {
             toast.error('Username and password are required.', {
@@ -30,11 +32,33 @@ const Signup = () => {
             });
             return;
         }
+
+        const content = {
+            firstName: firstNameRef.current.value.trim(),
+            lastName: lastNameRef.current.value.trim(),
+            email: emailRef.current.value.trim(),
+            password
+        }
+
+        signup(content);
     };
 
     function handleLogin() {
         dispatch(toggleAuthMode());
     }
+
+    if (isLoading) {
+        return null;
+    }
+
+    if (isError) {
+        return null;
+    }
+
+    if (isSuccess) return (
+        window.location.reload()
+    )
+
 
     return (
         <div className="flex justify-center items-center h-screen">
@@ -49,7 +73,7 @@ const Signup = () => {
                             name</label>
                         <input type="text" id="first_name"
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="John" required/>
+                               placeholder="John" required ref={firstNameRef}/>
                     </div>
                     <div>
                         <label htmlFor="last_name"
@@ -57,7 +81,7 @@ const Signup = () => {
                             name</label>
                         <input type="text" id="last_name"
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="Doe" required/>
+                               placeholder="Doe" required ref={lastNameRef}/>
                     </div>
                 </div>
                 <div className="mb-6">
@@ -65,7 +89,7 @@ const Signup = () => {
                         address</label>
                     <input type="email" id="email"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                           placeholder="john.doe@company.com" required/>
+                           placeholder="john.doe@company.com" required ref={emailRef}/>
                 </div>
                 <div className="mb-6">
                     <label htmlFor="password"
@@ -73,7 +97,7 @@ const Signup = () => {
                     <input type="password" id="password"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="•••••••••" required
-                           onChange={handlePasswordChange}/>
+                           ref={passwordRef}/>
                 </div>
                 <div className="mb-6">
                     <label htmlFor="confirm_password"
@@ -82,7 +106,7 @@ const Signup = () => {
                     <input type="password" id="confirm_password"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="•••••••••" required
-                           onChange={handleConfirmPasswordChange}
+                           ref={confirmPasswordRef}
                     />
                 </div>
                 <button type="submit"
