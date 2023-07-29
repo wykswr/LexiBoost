@@ -255,7 +255,7 @@ deckSchema.statics.importDeck = async function (deckId, creatorId) {
         // Check if the user has imported the deck
         const alreadyImported = await this.exists({
             creatorId,
-            parentDeckId: deckId,
+           _id: deckId,
         });
 
         if (alreadyImported) {
