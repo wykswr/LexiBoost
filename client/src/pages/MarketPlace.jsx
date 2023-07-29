@@ -4,6 +4,7 @@ import {useSearchDecksQuery} from "../redux/api/apiSlice.js";
 import Good from "../components/Good.jsx";
 import {Pagination} from "@mui/material";
 import {setPage} from "../redux/search/reducer.js";
+import ToLogin from "../components/ToLogin.jsx";
 
 
 const MarketPlace = () => {
@@ -16,7 +17,7 @@ const MarketPlace = () => {
     }
 
     if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error</div>;
+    if (isError) return <ToLogin/>;
 
     return (
         <div className={"container mx-auto pt-16 flex flex-col gap-6 justify-center"}>

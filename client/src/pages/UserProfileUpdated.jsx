@@ -12,13 +12,14 @@ import {
 } from "../redux/api/apiSlice.js";
 import VisibilityToggle from "../components/shared/VisibilityToggle.jsx";
 import DeckPreviewList from "../components/DeckPreviewList.jsx";
+import ToLogin from "../components/ToLogin.jsx";
 const UserProfileUpdated = ({id}) => {
     const {data, isLoading, isError} = useGetUserProfileQuery();
     const [publishDeck] = usePublishDeckMutation();
     const [retractDeck] = useRetractDeckMutation();
 
     if (isLoading) return <div>Loading...</div>
-    if (isError) return <div>Error</div>
+    if (isError) return <ToLogin/>;
 
     console.log(data);
     const setEnabled = () => {

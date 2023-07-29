@@ -12,7 +12,12 @@ const cors = require('cors');
 const index = express();
 
 // CORS
-index.use(cors());
+index.use(cors(
+    {
+        origin: 'http://localhost:5173',
+        credentials: true,
+    },
+));
 
 // Connect to MongoDB
 mongoose
