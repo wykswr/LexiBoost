@@ -16,7 +16,7 @@ const flashCardSchema = new mongoose.Schema({
         type: [String],
         required: true,
         validate: {
-            validator: function(value) {
+            validator: function (value) {
                 return value.length > 0;
             },
             message: 'At least one definition is required',
@@ -97,7 +97,7 @@ const deckSchema = new mongoose.Schema(
         flashCards: {
             type: [flashCardSchema],
             validate: {
-                validator: function(value) {
+                validator: function (value) {
                     // Check each element of the array against the flashCardSchema
                     return value.every((card) => card instanceof mongoose.Document);
                 },
@@ -136,7 +136,7 @@ const deckSchema = new mongoose.Schema(
  * @return {Promise<Deck>} A Promise that resolves to the created deck.
  * @throws {Error} If failed to create the deck.
  */
-deckSchema.statics.createDeck = async function(deckData) {
+deckSchema.statics.createDeck = async function (deckData) {
     try {
         const deck = new this(deckData);
         await deck.save();
@@ -154,7 +154,7 @@ deckSchema.statics.createDeck = async function(deckData) {
  * @return {Deck[]} Array of user decks.
  * @throws {Error} If failed to retrieve the user decks.
  */
-deckSchema.statics.getUserDecks = async function(userId) {
+deckSchema.statics.getUserDecks = async function (userId) {
     try {
         const decks = await this.aggregate([
             {
@@ -240,7 +240,7 @@ deckSchema.statics.editDeck =
  * @return {Deck} Imported cloned deck.
  * @throws {Error} If failed to clone the deck.
  */
-deckSchema.statics.importDeck = async function(deckId, creatorId) {
+deckSchema.statics.importDeck = async function (deckId, creatorId) {
     try {
         const originalDeck = await this.findById(deckId);
 
@@ -303,7 +303,7 @@ deckSchema.statics.importDeck = async function(deckId, creatorId) {
  * @return {Deck} Published deck.
  * @throws {Error} If failed to publish the deck.
  */
-deckSchema.statics.publishDeck = async function(deckId, userId) {
+deckSchema.statics.publishDeck = async function (deckId, userId) {
     try {
         const deck = await this.findById(deckId);
 
@@ -335,7 +335,7 @@ deckSchema.statics.publishDeck = async function(deckId, userId) {
  * the marketplace, otherwise false.
  * @throws {Error} If failed to delete the deck from the marketplace.
  */
-deckSchema.statics.deleteDeckFromMarketplace = async function(deckId, userId) {
+deckSchema.statics.deleteDeckFromMarketplace = async function (deckId, userId) {
     try {
         const deck = await this.findById(deckId);
 
@@ -370,7 +370,7 @@ deckSchema.statics.deleteDeckFromMarketplace = async function(deckId, userId) {
  * from the bookshelf, otherwise false.
  * @throws {Error} If failed to delete the deck from the bookshelf.
  */
-deckSchema.statics.deleteDeckFromBookshelf = async function(deckId, userId) {
+deckSchema.statics.deleteDeckFromBookshelf = async function (deckId, userId) {
     try {
         const deck = await this.findById(deckId);
 
@@ -404,7 +404,7 @@ deckSchema.statics.deleteDeckFromBookshelf = async function(deckId, userId) {
  * @return {boolean} True if the deck is successfully deleted, otherwise false.
  * @throws {Error} If failed to delete the deck from the bookshelf.
  */
-deckSchema.statics.deleteDeckCompletely = async function(deckId, userId) {
+deckSchema.statics.deleteDeckCompletely = async function (deckId, userId) {
     try {
         const deck = await Deck.findById(deckId);
         if (!deck) {
@@ -431,7 +431,7 @@ deckSchema.statics.deleteDeckCompletely = async function(deckId, userId) {
  * @return {boolean} True if the deck is successfully deleted, otherwise false.
  * @throws {Error} If failed to delete the deck from the bookshelf.
  */
-deckSchema.statics.deleteFlashcardFromDeck = async function(deckId,
+deckSchema.statics.deleteFlashcardFromDeck = async function (deckId,
                                                              flashcardId,
                                                              userId) {
     try {
@@ -473,7 +473,7 @@ deckSchema.statics.deleteFlashcardFromDeck = async function(deckId,
  * @return {boolean} True if the deck is successfully deleted, otherwise false.
  * @throws {Error} If failed to delete the deck from the bookshelf.
  */
-deckSchema.statics.editFlashcardInDeck = async function(deckId,
+deckSchema.statics.editFlashcardInDeck = async function (deckId,
                                                          flashcardId,
                                                          updatedFlashcard,
                                                          userId) {
@@ -508,7 +508,7 @@ deckSchema.statics.editFlashcardInDeck = async function(deckId,
     }
 };
 
-deckSchema.statics.appendFlashCardToDeck = async function(deckId,
+deckSchema.statics.appendFlashCardToDeck = async function (deckId,
                                                            flashCard,
                                                            userId) {
     const deck = await this.findById(deckId);
@@ -534,7 +534,7 @@ deckSchema.statics.appendFlashCardToDeck = async function(deckId,
  * @return {Array} Array of filtered and sorted flashcards.
  * @throws {Error} If failed to retrieve the flashcards.
  */
-deckSchema.statics.getFilteredAndSortedFlashcards = async function(deckId, userId) {
+deckSchema.statics.getFilteredAndSortedFlashcards = async function (deckId, userId) {
     try {
         const deck = await this.findById(deckId);
 
@@ -572,7 +572,7 @@ deckSchema.statics.getFilteredAndSortedFlashcards = async function(deckId, userI
  * @return {Object|null} The flashcard object if found, or null if not found.
  * @throws {Error} If failed to retrieve the flashcard.
  */
-deckSchema.statics.getFlashcardById = async function(deckId, flashcardId, userId) {
+deckSchema.statics.getFlashcardById = async function (deckId, flashcardId, userId) {
     try {
         const deck = await this.findById(deckId);
 
@@ -605,7 +605,7 @@ deckSchema.statics.getFlashcardById = async function(deckId, flashcardId, userId
  * @return {Object} An object containing the statistics: { burntCardNumber: number, totalCardNumber: number }.
  * @throws {Error} If failed to retrieve the statistics.
  */
-deckSchema.statics.getUserDeckStatistics = async function(deckId, userId) {
+deckSchema.statics.getUserDeckStatistics = async function (deckId, userId) {
     try {
         const deck = await this.findById(deckId);
 
@@ -708,17 +708,17 @@ deckSchema.statics.getDeckRating = async function getDeckRating(deckId, userId) 
     }
 };
 
-deckSchema.statics.searchPublicDecks = async function(
+deckSchema.statics.searchPublicDecks = async function (
     deckName,
     tags = [],
     startingPage = 0,
-    sortMethod='rating',
+    sortMethod = 'rating',
 ) {
     try {
         const pageSize = 10; // Number of decks to return per page
 
         // Step 1: Filter all public decks with tags
-        const match = {
+        let match = {
             isPublic: true,
         };
 
@@ -726,26 +726,16 @@ deckSchema.statics.searchPublicDecks = async function(
             match.tags = [...tags];
         }
 
+        if (deckName) {
+            match = { ...match, name: deckName };
+        }
+
         const pipeline = [
             {$match: match},
             {$skip: pageSize * startingPage},
             {$limit: pageSize},
+            {$sort: {relevance: -1}}
         ];
-
-        if (deckName) {
-            pipeline.push({
-                $addFields: {
-                    relevance: {
-                        $cond: {
-                            if: {$eq: [{$indexOfCP: ['$name', deckName]}, -1]},
-                            then: 0,
-                            else: 1,
-                        },
-                    },
-                },
-            });
-            pipeline.push({$sort: {relevance: -1}});
-        }
 
         // Step 3: Do the second sort by the sort method
         if (sortMethod === 'rating') {
