@@ -1,5 +1,6 @@
 # LexiBoost
 - [LexiBoost](#lexiboost)
+  - [Introduction](#Introuction)
   - [Description](#description)
   - [Requirements](#requirements)
     - [Minimal Requirements:](#minimal-requirements)
@@ -11,6 +12,8 @@
     - [Bookshelf](#bookshelf)
     - [Note and Tags Editor](#note-and-tags-editor)
 
+## Introduction
+Welcome to LexiBoost, an AI-powered flashcard app for accelerated learning! In addition to making flashcards in the old-fashioned way, you can use AI technology to effortlessly populate flashcards decks at a single click. Keep your learning journey on track with our progress tracking feature, while also exploring a vibrant marketplace where you can publish your own decks as well as import ones from other users, fostering a friendly and collaborative learning community!
 
 ## Description
 LexiBoost is a language learning platform designed for individuals looking to enhance their vocabulary skills. Users can use flashcards to learn and review vocabulary. It stores data such as user account information, flashcard decks, learning progress, and subscription details. Users will use these data to create accounts, access flashcard decks, track their learning progress, and personalize their desk libraries. Additional functionality that can be considered based on time constraints includes social features like user ratings and comments on flashcard decks, chat functionality for users to interact, and AI-powered deck creation based on user preferences and learning goals.
