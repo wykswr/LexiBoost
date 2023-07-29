@@ -1,16 +1,17 @@
 # LexiBoost
-- [LexiBoost](#lexiboost)
-  - [Description](#description)
-  - [Requirements](#requirements)
-    - [Minimal Requirements:](#minimal-requirements)
-    - [Standard Requirements:](#standard-requirements)
-    - [Stretch Requirements:](#stretch-requirements)
-  - [Task Breakdown](#task-breakdown)
-  - [Prototype](#prototype)
-    - [Flashcard Learning](#flashcard-learning)
-    - [Bookshelf](#bookshelf)
-    - [Note and Tags Editor](#note-and-tags-editor)
+<!-- TOC -->
+* [LexiBoost](#lexiboost)
+  * [Introduction](#introduction)
+  * [Description](#description)
+  * [Requirements](#requirements)
+    * [Minimal Requirements:](#minimal-requirements-)
+    * [Standard Requirements:](#standard-requirements-)
+    * [Stretch Requirements:](#stretch-requirements-)
+  * [Task Breakdown](#task-breakdown)
+<!-- TOC -->
 
+## Introduction
+Welcome to LexiBoost, an AI-powered flashcard app for accelerated learning! In addition to making flashcards in the old-fashioned way, you can use AI technology to effortlessly populate flashcards decks at a single click. Keep your learning journey on track with our progress tracking feature, while also exploring a vibrant marketplace where you can publish your own decks as well as import ones from other users, fostering a friendly and collaborative learning community!
 
 ## Description
 LexiBoost is a language learning platform designed for individuals looking to enhance their vocabulary skills. Users can use flashcards to learn and review vocabulary. It stores data such as user account information, flashcard decks, learning progress, and subscription details. Users will use these data to create accounts, access flashcard decks, track their learning progress, and personalize their desk libraries. Additional functionality that can be considered based on time constraints includes social features like user ratings and comments on flashcard decks, chat functionality for users to interact, and AI-powered deck creation based on user preferences and learning goals.
@@ -86,18 +87,3 @@ As a user I want to be able to add new cards to a deck in my personal decks, so 
             * Implement search and filter functionality for easy deck discovery.
             * Enable users to add or remove decks from their personal collection.
             * Ensure responsive design for seamless experience on different devices.
-
-
-
-
-## Prototype
-
-### Flashcard Learning
-![Flashcard Learning](design/draft/Flashcard.png)
-
-### Bookshelf
-![Bookshelf](design/draft/Bookshelf.png)
-
-### Note and Tags Editor
-![Deck Details](design/draft/NoteTags.png)
-
