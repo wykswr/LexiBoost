@@ -5,6 +5,7 @@ import Good from "../components/Good.jsx";
 import {Pagination} from "@mui/material";
 import {setPage} from "../redux/search/reducer.js";
 import ToLogin from "../components/ToLogin.jsx";
+import NavBar from "../components/shared/NavBar.jsx";
 
 
 const MarketPlace = () => {
@@ -20,7 +21,9 @@ const MarketPlace = () => {
     if (isError) return <ToLogin/>;
 
     return (
-        <div className={"container mx-auto pt-16 flex flex-col gap-6 justify-center"}>
+        <>
+            <NavBar/>
+            <div className={"container mx-auto pt-16 flex flex-col gap-6 justify-center"}>
             <SearchCard/>
             <div className={"flex flex-col gap-6 md:flex-row md:flex-wrap"}>
                 {data.decks.map(deck => <Good key={deck._id} item={deck}/>)}
@@ -29,6 +32,7 @@ const MarketPlace = () => {
                 <Pagination count={10} variant="outlined" color="secondary" onChange={handleChange}/>
             </div>
         </div>
+        </>
     );
 }
 
