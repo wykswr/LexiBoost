@@ -4,14 +4,16 @@ import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addCardToDeck, deleteFlashCard, editFlashCard} from "../redux/card_creation/thunk";
-
+import {useGetSingleFlashCardQuery} from "../redux/api/apiSlice.js";
 
 
 const CardAddition = ({deckId, cardId}) => {
-    const dispatch = useDispatch();
-    if (cardId) {// If the code is editing existing cards, the state in reducer file must be updated by fetching from the backend. Otherwise, just use the default value of the initializer
+    const [data, isLoading, isError] = useGetSingleFlashCardQuery(deckId, cardId);
+    if (isLoading) return <div>Loading...</div>
+    if (isError) return <div>Error</div>
 
-    }
+    const dispatch = useDispatch();
+
     const {spelling, pronunciation, definition, examples} = useSelector((state) => state.creationForm);
     const [definitions, {push: pushRef, set: setRef}] = useArray(definition);
     const [example, {push: pushEx, set: setEx}] = useArray(examples);
@@ -19,6 +21,7 @@ const CardAddition = ({deckId, cardId}) => {
     const exRef = useRef(null);
     const spellingRef = useRef(null);
     const pronunciationRef = useRef(null);
+
     const handleDefinitionAddition = () => {
         let defs = [];
         for (let i = 0; i < defRef.current.children.length; i++) {
@@ -60,7 +63,7 @@ const CardAddition = ({deckId, cardId}) => {
 
         let currentSpelling = spellingRef.current.value;
         let currentPronunciation = pronunciationRef.current.value;
-        // console.log(pronunciationRef.current);
+
         let newCard = {
             spelling: currentSpelling,
             pronunciation: currentPronunciation,
@@ -139,12 +142,8 @@ const CardAddition = ({deckId, cardId}) => {
                 <Button variant="contained" onClick={handleDeletion} className={"bg-red-500 hover:bg-red-600"}> Delete </Button>
                 <Button variant="contained" onClick={handleClick}> Confirm </Button>
             </div>
-
         </div>
-
     )
-
-
 }
 
 export default CardAddition;

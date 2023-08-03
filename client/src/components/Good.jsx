@@ -1,14 +1,24 @@
 import PropTypes from "prop-types";
 import {ArrowDownTrayIcon} from "@heroicons/react/20/solid/index.js";
 import {useImportDeckMutation} from "../redux/api/apiSlice.js";
-import {ArrowPathIcon} from "@heroicons/react/24/outline/index.js";
+import {ArrowPathIcon, MagnifyingGlassPlusIcon} from "@heroicons/react/24/outline/index.js";
+import {useState} from "react";
+import DeckDetail from "./DeckDetail.jsx";
 
 
 const Good = ({item}) => {
     const [importDeck, {isLoading, isError, isSuccess}] = useImportDeckMutation();
+    const [detailVisible, setDetailVisibility] = useState(false);
 
     const handleImport = () => {
         importDeck(item._id)
+    }
+
+    const showDetail = () => {
+        setDetailVisibility(true);
+    }
+    const hideDetail = () => {
+        setDetailVisibility(false);
     }
 
     if (isLoading) return (
@@ -36,13 +46,31 @@ const Good = ({item}) => {
             <img src={item.cover} alt={item.name} className={"object-cover"}/>
             <div className={"flex flex-col justify-around"}>
                 <h2 className={"font-semibold text-lg text-blue-500 indent-1 mt-8 uppercase px-0.5"}>{item.name}</h2>
+                <button className={"h-10 w-10 ml-3 bg-pink-400 rounded-full grid place-items-center text-white hover:ring-2 ring-blue-300"} onClick={showDetail}>
+                    <MagnifyingGlassPlusIcon className={"m-auto h-8 w-8"}/>
+                </button>
                 <button className={"h-10 w-10 ml-3 bg-pink-400 rounded-full grid place-items-center text-white hover:ring-2 ring-blue-300"} onClick={handleImport}>
                     <ArrowDownTrayIcon className={"m-auto h-8 w-8"}/>
                 </button>
+
                 <div className={"flex flex-wrap gap-3"}>
                     {item.tags.map((tag, index) => <span key={index} className={"bg-gray-200 rounded-xl px-2 py-0.5 text-sm text-gray-700 hover:bg-pink-400 hover:text-white"}>{tag}</span>)}
                 </div>
             </div>
+            {detailVisible && (
+                <div className="fixed inset-0 flex justify-center items-center z-50">
+                    <div className="bg-black opacity-50 absolute inset-0" onClick={hideDetail} />
+                    <div className="bg-white p-8 rounded-lg z-10">
+                        <DeckDetail id={item._id} />
+                        <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+                            onClick={hideDetail}
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

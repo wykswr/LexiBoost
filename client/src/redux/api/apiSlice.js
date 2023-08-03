@@ -3,7 +3,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URL}),
-    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile'],
+    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile', 'singleCard'],
     endpoints: builder => ({
         getDecks: builder.query({
             query: () => '/decks',
@@ -68,6 +68,10 @@ export const apiSlice = createApi({
         getFlashCards: builder.query({
            query: id => `/decks/${id}/flashcards`,
         }),
+        getSingleFlashCard: builder.query({
+            query: ({deckId, cardId}) => `/decks/${deckId}/flashcards/${cardId}`,
+            providesTags: ['singleCard']
+        }),
         addDeckAI: builder.mutation({
             query: content => ({
                 url: '/decks/?ai=1',
@@ -122,4 +126,5 @@ export const {
     useHardDeleteDeckMutation,
     useSearchDecksQuery,
     useGetTagsQuery,
+    useGetSingleFlashCardQuery
 } = apiSlice;

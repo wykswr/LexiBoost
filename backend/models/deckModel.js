@@ -255,7 +255,7 @@ deckSchema.statics.importDeck = async function(deckId, creatorId) {
         // Check if the user has imported the deck
         const alreadyImported = await this.exists({
             creatorId,
-            parentDeckId: deckId,
+            _id: deckId,
         });
 
         if (alreadyImported) {
@@ -432,8 +432,8 @@ deckSchema.statics.deleteDeckCompletely = async function(deckId, userId) {
  * @throws {Error} If failed to delete the deck from the bookshelf.
  */
 deckSchema.statics.deleteFlashcardFromDeck = async function(deckId,
-                                                             flashcardId,
-                                                             userId) {
+                                                            flashcardId,
+                                                            userId) {
     try {
         const deck = await Deck.findById(deckId);
 
@@ -474,9 +474,9 @@ deckSchema.statics.deleteFlashcardFromDeck = async function(deckId,
  * @throws {Error} If failed to delete the deck from the bookshelf.
  */
 deckSchema.statics.editFlashcardInDeck = async function(deckId,
-                                                         flashcardId,
-                                                         updatedFlashcard,
-                                                         userId) {
+                                                        flashcardId,
+                                                        updatedFlashcard,
+                                                        userId) {
     try {
         const deck = await Deck.findById(deckId);
         if (!deck) {
@@ -509,8 +509,8 @@ deckSchema.statics.editFlashcardInDeck = async function(deckId,
 };
 
 deckSchema.statics.appendFlashCardToDeck = async function(deckId,
-                                                           flashCard,
-                                                           userId) {
+                                                          flashCard,
+                                                          userId) {
     const deck = await this.findById(deckId);
 
     if (!deck) {
@@ -707,18 +707,17 @@ deckSchema.statics.getDeckRating = async function getDeckRating(deckId, userId) 
         throw new Error('Failed to get the deck rating.');
     }
 };
-
 deckSchema.statics.searchPublicDecks = async function(
     deckName,
     tags = [],
     startingPage = 0,
-    sortMethod='rating',
+    sortMethod = 'rating',
 ) {
     try {
-        const pageSize = 10; // Number of decks to return per page
+        const pageSize = 16; // Number of decks to return per page
 
         // Step 1: Filter all public decks with tags
-        const match = {
+        let match = {
             isPublic: true,
         };
 
@@ -726,26 +725,14 @@ deckSchema.statics.searchPublicDecks = async function(
             match.tags = [...tags];
         }
 
+        if (deckName) {
+            match = {...match, name: deckName};
+        }
+
         const pipeline = [
             {$match: match},
-            {$skip: pageSize * startingPage},
-            {$limit: pageSize},
+            {$sort: {relevance: -1}},
         ];
-
-        if (deckName) {
-            pipeline.push({
-                $addFields: {
-                    relevance: {
-                        $cond: {
-                            if: {$eq: [{$indexOfCP: ['$name', deckName]}, -1]},
-                            then: 0,
-                            else: 1,
-                        },
-                    },
-                },
-            });
-            pipeline.push({$sort: {relevance: -1}});
-        }
 
         // Step 3: Do the second sort by the sort method
         if (sortMethod === 'rating') {
@@ -756,9 +743,33 @@ deckSchema.statics.searchPublicDecks = async function(
             pipeline.push({$sort: {size: -1}});
         }
 
-        const decks = await this.aggregate(pipeline);
+        const countPipeline = [ // Create a separate pipeline to get the count
+            {$match: match},
+            {$count: 'total'},
+        ];
 
-        return decks;
+        // Step 2: Use $facet to run both pipelines in parallel
+        const result = await this.aggregate([
+            {
+                $facet: {
+                    decks: pipeline.concat([{$skip: pageSize * startingPage}, {$limit: pageSize}]),
+                    count: countPipeline,
+                },
+            },
+        ]);
+
+        // Extract the decks and total count from the result
+        const decks = result[0].decks;
+        const totalCount = result[0].count.length > 0 ? result[0].count[0].total : 0;
+        const totalPages = Math.ceil(totalCount / pageSize);
+
+        // Prepare the response object
+        const response = {
+            decks,
+            totalPages,
+        };
+
+        return response;
     } catch (error) {
         console.error('Error searching public decks:', error);
         throw new Error('Failed to search public decks');

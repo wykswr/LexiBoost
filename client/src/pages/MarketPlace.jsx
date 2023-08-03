@@ -14,7 +14,6 @@ const MarketPlace = () => {
     const handleChange = (event, value) => {
         dispatch(setPage(value - 1));
     }
-
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error</div>;
 
@@ -25,7 +24,7 @@ const MarketPlace = () => {
                 {data.decks.map(deck => <Good key={deck._id} item={deck}/>)}
             </div>
             <div className={"fixed bottom-0 left-0 w-full grid place-items-center py-2 z-10"}>
-                <Pagination count={10} variant="outlined" color="secondary" onChange={handleChange}/>
+                <Pagination count={data.totalPages} variant="outlined" color="secondary" onChange={handleChange}/>
             </div>
         </div>
     );

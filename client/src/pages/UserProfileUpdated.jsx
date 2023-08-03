@@ -5,12 +5,11 @@ import {flipVisibility} from "../redux/userProfile/reducer";
 import {Cog8ToothIcon} from "@heroicons/react/24/solid";
 import ProfileEditingForm from "../components/ProfileEditingForm";
 import {
-    useGetDeckQuery,
     useGetUserProfileQuery,
     usePublishDeckMutation,
     useRetractDeckMutation
 } from "../redux/api/apiSlice.js";
-import VisibilityToggle from "../components/shared/VisibilityToggle.jsx";
+
 import DeckPreviewList from "../components/DeckPreviewList.jsx";
 const UserProfileUpdated = ({id}) => {
     const {data, isLoading, isError} = useGetUserProfileQuery();
@@ -20,7 +19,6 @@ const UserProfileUpdated = ({id}) => {
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error</div>
 
-    console.log(data);
     const setEnabled = () => {
         if (data.deck.isPublic) {
             retractDeck(id);
@@ -78,21 +76,6 @@ const UserProfileUpdated = ({id}) => {
                         </div>
                     </Tab.Panel>
                     <Tab.Panel className="bg-blue-300 p-8">
-                        {/*<div className="mt-8 items-center flex flex-col">*/}
-
-                        {/*    <div className="shadow-lg rounded-lg bg-white">*/}
-                        {/*        <div className="flex flex-col md:flex-row gap-4 p-4">*/}
-                        {/*            {data.decks.map((deck, index) => (*/}
-                        {/*                <div*/}
-                        {/*                    key={index}*/}
-                        {/*                    className="p-4 bg-yellow-300 hover:bg-yellow-400 rounded-lg shadow-md hover:cursor-pointer"*/}
-                        {/*                >*/}
-                        {/*                    {deck.title}*/}
-                        {/*                </div>*/}
-                        {/*            ))}*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                         <DeckPreviewList />
                     </Tab.Panel>
                 </Tab.Panels>
