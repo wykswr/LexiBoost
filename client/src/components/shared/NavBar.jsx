@@ -32,8 +32,7 @@ const NavBar = () => {
                     </div>
                 </div>
                 <div className="flex space-x-3">
-                    <button className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">Home</button>
-                    <Link to={"/bookshelf"} className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">My Card Decks</Link>
+                    <Link to={"/bookshelf"} className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">Bookshelf</Link>
                     <Link to={"/marketplace"} className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">Marketplace</Link>
                     <Link to={"/profile"} className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium hidden md:block">Profile</Link>
                     <button className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium md:hidden" onClick={toggleOverlay}>

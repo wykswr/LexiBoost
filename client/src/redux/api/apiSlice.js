@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URL}),
+    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URL, credentials: 'include'}),
     tagTypes: ['bookshelf', 'singleDeck', 'UserProfile', 'singleCard'],
     endpoints: builder => ({
         getDecks: builder.query({
@@ -106,6 +106,21 @@ export const apiSlice = createApi({
                 method: 'GET',
             }),
         }),
+        signup: builder.mutation({
+            query: content => ({
+                url: '/users/signup',
+                method: 'POST',
+                body: content,
+            }),
+        }),
+        login: builder.mutation({
+            query: content => ({
+                url: '/users/login',
+                method: 'POST',
+                body: content,
+            }),
+            invalidatesTags: ['bookshelf', 'singleDeck', 'UserProfile'],
+        }),
     }),
 });
 
@@ -126,5 +141,7 @@ export const {
     useHardDeleteDeckMutation,
     useSearchDecksQuery,
     useGetTagsQuery,
-    useGetSingleFlashCardQuery
+    useGetSingleFlashCardQuery,
+    useSignupMutation,
+    useLoginMutation,
 } = apiSlice;
