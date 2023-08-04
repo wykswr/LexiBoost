@@ -6,15 +6,15 @@ import signup from "../assets/signup.webp";
 
 const SocialMediaIcons = () => {
     const dispatch = useDispatch();
-    const handleGoogleSignIn = () => {
-        // Implement your logic for handling Google sign-in here
-        console.log('Google sign-in clicked');
-    };
-
-    const handleFacebookSignIn = () => {
-        // Implement your logic for handling Facebook sign-in here
-        console.log('Facebook sign-in clicked');
-    };
+    // const handleGoogleSignIn = () => {
+    //     // Implement your logic for handling Google sign-in here
+    //     console.log('Google sign-in clicked');
+    // };
+    //
+    // const handleFacebookSignIn = () => {
+    //     // Implement your logic for handling Facebook sign-in here
+    //     console.log('Facebook sign-in clicked');
+    // };
 
     const handleSignUp = () => {
         // Implement your logic for handling LinkedIn sign-in here
@@ -23,20 +23,20 @@ const SocialMediaIcons = () => {
 
     return (
         <div className="flex items-center justify-center space-x-2">
+            {/*<div*/}
+            {/*    className="flex items-center cursor-pointer hover:text-blue-500 transition-transform transform hover:scale-150"*/}
+            {/*    onClick={handleFacebookSignIn}*/}
+            {/*>*/}
+            {/*    <FacebookIcon></FacebookIcon>*/}
+            {/*</div>*/}
+            {/*<div*/}
+            {/*    className="flex items-center cursor-pointer hover:text-blue-500 transition-transform transform hover:scale-150"*/}
+            {/*    onClick={handleGoogleSignIn}*/}
+            {/*>*/}
+            {/*    <GoogleIcon></GoogleIcon>*/}
+            {/*</div>*/}
             <div
-                className="flex items-center cursor-pointer hover:text-blue-500 transition-transform transform hover:scale-150"
-                onClick={handleFacebookSignIn}
-            >
-                <FacebookIcon></FacebookIcon>
-            </div>
-            <div
-                className="flex items-center cursor-pointer hover:text-blue-500 transition-transform transform hover:scale-150"
-                onClick={handleGoogleSignIn}
-            >
-                <GoogleIcon></GoogleIcon>
-            </div>
-            <div
-                className="flex items-center cursor-pointer hover:text-blue-500 h-12 w-12 transition-transform transform hover:scale-150"
+                className="flex items-center cursor-pointer hover:text-blue-500 h-10 w-16 transition-transform transform hover:scale-150"
                 onClick={handleSignUp}
             >
                 <img src={signup} alt={"Sign Up"}/>
