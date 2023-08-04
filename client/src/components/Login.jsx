@@ -34,6 +34,7 @@ const Login = () => {
         }
     }, [isError])
 
+
     if (isSuccess) {
         Cookies.set('authorization', data.token, {expires: 1});
         return (
