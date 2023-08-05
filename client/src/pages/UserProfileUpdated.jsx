@@ -13,6 +13,7 @@ import {
 import VisibilityToggle from "../components/shared/VisibilityToggle.jsx";
 import DeckPreviewList from "../components/DeckPreviewList.jsx";
 import ToLogin from "../components/ToLogin.jsx";
+import NavBar from "../components/shared/NavBar.jsx";
 const UserProfileUpdated = ({id}) => {
     const {data, isLoading, isError} = useGetUserProfileQuery();
     const [publishDeck] = usePublishDeckMutation();
@@ -30,7 +31,9 @@ const UserProfileUpdated = ({id}) => {
         }
     }
     return (
-        <div className={"h-screen container pt-16 mx-auto flex flex-col mx"}>
+        <>
+            <NavBar/>
+            <div className={"h-screen container pt-16 mx-auto flex flex-col mx"}>
             <Tab.Group vertical defaultIndex={1}>
                 <Tab.List className="flex md:flex-row justify-center" >
                     <Tab className="bg-gray-500 hover:bg-gray-600 py-2 px-4 rounded-t-lg"> <Cog8ToothIcon className="h-5 w-5 text-white"/> </Tab>
@@ -99,6 +102,7 @@ const UserProfileUpdated = ({id}) => {
                 </Tab.Panels>
             </Tab.Group>
         </div>
+        </>
     )
 
 }
