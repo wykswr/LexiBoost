@@ -31,7 +31,7 @@ const CardLearning = ({id}) => {
 
     const fetchFlashcards = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/decks/${id.id}/flashcards`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/decks/${id.id}/flashcards`, {
                 headers: {
                     Accept: "application/json",
                 },
@@ -56,7 +56,7 @@ const CardLearning = ({id}) => {
             const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
 
             const response = await fetch(
-                `http://localhost:8000/decks/${id.id}/flashcards/${flashCardId}`,
+                `${import.meta.env.VITE_API_URL}/decks/${id.id}/flashcards/${flashCardId}`,
                 {
                     method: "PUT",
                     headers: {
@@ -84,7 +84,7 @@ const CardLearning = ({id}) => {
             const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
 
             const response = await fetch(
-                `http://localhost:8000/decks/${id.id}/flashcards/${flashCardId}`,
+                `${import.meta.env.VITE_API_URL}/decks/${id.id}/flashcards/${flashCardId}`,
                 {
                     method: "PUT",
                     headers: {
@@ -112,7 +112,7 @@ const CardLearning = ({id}) => {
             const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
 
             const response = await fetch(
-                `http://localhost:8000/decks/${id.id}/flashcards/${flashCardId}`,
+                `${import.meta.env.VITE_API_URL}/decks/${id.id}/flashcards/${flashCardId}`,
                 {
                     method: "PUT",
                     headers: {
