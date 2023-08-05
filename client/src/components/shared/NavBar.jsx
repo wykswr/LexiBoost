@@ -66,7 +66,7 @@ const NavBar = () => {
                               className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium mb-2">Bookshelf</Link>
                         <Link to={"/marketplace"}
                               className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium mb-2">Marketplace</Link>
-                        <Link to={"profile"}
+                        <Link to={"/profile"}
                               className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium mb-2">Profile</Link>
                         <button
                             className="text-black hover:text-gray-50 hover:bg-gray-400 px-3 py-2 rounded-md text-sm font-medium mb-2"

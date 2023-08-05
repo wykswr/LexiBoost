@@ -46,12 +46,14 @@ const Good = ({item}) => {
             <img src={item.cover} alt={item.name} className={"object-cover"}/>
             <div className={"flex flex-col justify-around"}>
                 <h2 className={"font-semibold text-lg text-blue-500 indent-1 mt-8 uppercase px-0.5"}>{item.name}</h2>
-                <button className={"h-10 w-10 ml-3 bg-pink-400 rounded-full grid place-items-center text-white hover:ring-2 ring-blue-300"} onClick={showDetail}>
-                    <MagnifyingGlassPlusIcon className={"m-auto h-8 w-8"}/>
-                </button>
-                <button className={"h-10 w-10 ml-3 bg-pink-400 rounded-full grid place-items-center text-white hover:ring-2 ring-blue-300"} onClick={handleImport}>
-                    <ArrowDownTrayIcon className={"m-auto h-8 w-8"}/>
-                </button>
+                <div className={"flex gap-2"}>
+                    <button className={"h-10 w-10 ml-3 bg-green-400 rounded-full grid place-items-center text-white hover:ring-2 ring-blue-300"} onClick={showDetail}>
+                        <MagnifyingGlassPlusIcon className={"m-auto h-8 w-8"}/>
+                    </button>
+                    <button className={"h-10 w-10 ml-3 bg-pink-400 rounded-full grid place-items-center text-white hover:ring-2 ring-blue-300"} onClick={handleImport}>
+                        <ArrowDownTrayIcon className={"m-auto h-8 w-8"}/>
+                    </button>
+                </div>
 
                 <div className={"flex flex-wrap gap-3"}>
                     {item.tags.map((tag, index) => <span key={index} className={"bg-gray-200 rounded-xl px-2 py-0.5 text-sm text-gray-700 hover:bg-pink-400 hover:text-white"}>{tag}</span>)}

@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import CardAddition from "../components/CardAddition.jsx";
+import CardUpdate from "../components/CardUpdate.jsx";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchDeck} from "../redux/cardEdit/thunk.js";
