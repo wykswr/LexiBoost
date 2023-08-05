@@ -171,6 +171,12 @@ const CardLearning = ({id}) => {
                 },
             });
         }
+
+        // Add the current card back to the end of the flashcards array
+        setFlashcards((prevFlashcards) => {
+            const currentCard = prevFlashcards[currentCardIndex];
+            return [...prevFlashcards, currentCard];
+        });
         setShowDefinition(true);
     }
     const handleBurnCard = () => {
