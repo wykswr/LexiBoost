@@ -22,9 +22,9 @@ async function getDeckById(req, res) {
             return res.status(404).json({error: 'Deck not found'});
         }
 
-        if (deck.creatorId.toString() !== userId) {
-            throw new Error('Only the deck creator can fetch the deck');
-        }
+        // if (deck.creatorId.toString() !== userId) {
+        //     throw new Error('Only the deck creator can fetch the deck');
+        // }
 
         res.json({deck});
     } catch (error) {
@@ -457,7 +457,7 @@ async function searchPublicDecks(req, res) {
 
         const decks = await Deck.searchPublicDecks(deckName, tags, startingPage, sortMethod);
 
-        res.json({decks});
+        res.json(decks);
     } catch (error) {
         console.error('Error while searching for decks:', error);
         res.status(500).json({error: 'Failed to search for decks'});
@@ -484,3 +484,4 @@ module.exports = {
     getDeckRating,
     searchPublicDecks,
 };
+

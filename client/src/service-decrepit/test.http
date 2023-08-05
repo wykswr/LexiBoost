@@ -62,5 +62,3 @@ GET localhost:8000/decks/tags
 POST localhost:8000/users/signup
 Content-Type: application/json
 
-{
-  "email": "yukai@test.com",
