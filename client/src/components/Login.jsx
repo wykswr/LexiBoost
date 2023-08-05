@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, TextField} from '@mui/material';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [login, {data, isLoading, isError, isSuccess}] = useLoginMutation();
+    const [login, {data, isError, isSuccess}] = useLoginMutation();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -25,15 +25,15 @@ const Login = () => {
 
         login({email: username.trim(), password: password.trim()});
     };
+    useEffect(()=>{
+        if (isError) {
+            toast.error('Failed to login. Please check your credentials.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-error',
+            });
+        }
+    }, [isError])
 
-
-    if (isLoading) {
-        return null;
-    }
-
-    if (isError) {
-        return null;
-    }
 
     if (isSuccess) {
         Cookies.set('authorization', data.token, {expires: 1});
@@ -42,7 +42,8 @@ const Login = () => {
                 <div className={"w-96 grid place-items-center gap-6"}>
                     <h2 className="text-3xl font-semibold text-green-500 text-center mt-64">Successfully Login!</h2>
                     <Link to={"/bookshelf"}
-                          className={"bg-indigo-500 w-1/4 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-indigo-600 mx-auto text-center"}>Have fun
+                          className={"bg-indigo-500 w-1/4 text-white text-lg rounded-lg px-1.5 py-0.5 hover:bg-indigo-600 mx-auto text-center"}>Have
+                        fun
                     </Link>
                 </div>
             </div>)
@@ -52,8 +53,8 @@ const Login = () => {
         <div className="flex items-center justify-center h-screen ">
             <div className="max-w-md w-full mx-auto p-8 bg-white rounded-lg shadow-md">
                 <div className="text-center py-6">
-                    <p className="text-3xl font-semibold text-black-800">Continue to Your Account</p>
-                    <p className="text-lg mt-2 mb-4 text-black-500">Login with your social media</p>
+                    {/*<p className="text-3xl font-semibold text-black-800">Continue to Your Account</p>*/}
+                    {/*<p className="text-lg mt-2 mb-4 text-black-500">Click to Sign Up</p>*/}
                     <SocialMediaIcons/>
                     <div className="mt-6">
                         <div className="flex items-center justify-center">

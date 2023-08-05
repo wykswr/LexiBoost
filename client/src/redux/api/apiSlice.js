@@ -3,7 +3,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URL, credentials: 'include'}),
-    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile'],
+    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile', 'singleCard'],
     endpoints: builder => ({
         getDecks: builder.query({
             query: () => '/decks',
@@ -68,6 +68,10 @@ export const apiSlice = createApi({
         getFlashCards: builder.query({
            query: id => `/decks/${id}/flashcards`,
         }),
+        getSingleFlashCard: builder.query({
+            query: ({deckId, cardId}) => `/decks/${deckId}/flashcards/${cardId}`,
+            providesTags: ['singleCard']
+        }),
         addDeckAI: builder.mutation({
             query: content => ({
                 url: '/decks/?ai=1',
@@ -117,6 +121,29 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['bookshelf', 'singleDeck', 'UserProfile'],
         }),
+        deleteFlashCard: builder.mutation({
+            query: ({deckId, cardId}) => ({
+                url: `/decks/${deckId}/flashcards/${cardId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['singleCard']
+        }),
+        updateFlashCard: builder.mutation({
+            query: ({deckId, cardId, content}) => ({
+                url: `/decks/${deckId}/flashcards/${cardId}`,
+                method: 'PUT',
+                body: content
+            }),
+            invalidatesTags: ['singleCard', 'allCards']
+        }),
+        addFlashCard: builder.mutation({
+            query: ({deckId, content}) => ({
+                url: `/decks/${deckId}/flashcards`,
+                method: 'POST',
+                body: content
+            })
+        })
+
     }),
 });
 
@@ -137,6 +164,10 @@ export const {
     useHardDeleteDeckMutation,
     useSearchDecksQuery,
     useGetTagsQuery,
+    useGetSingleFlashCardQuery,
     useSignupMutation,
     useLoginMutation,
+    useDeleteFlashCardMutation,
+    useUpdateFlashCardMutation,
+    useAddFlashCardMutation
 } = apiSlice;

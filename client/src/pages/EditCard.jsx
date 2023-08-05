@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import CardAddition from "../components/CardAddition.jsx";
+import CardUpdate from "../components/CardUpdate.jsx";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchDeck} from "../redux/cardEdit/thunk.js";
@@ -7,6 +7,7 @@ import useCounter from "../hooks/useCounter.js";
 import {ArrowPathIcon} from "@heroicons/react/20/solid";
 import {ChevronDoubleLeftIcon, ChevronDoubleRightIcon} from "@heroicons/react/24/solid";
 import {PlusCircleIcon} from "@heroicons/react/24/outline";
+import NavBar from "../components/shared/NavBar.jsx";
 
 
 const EditCard = () => {
@@ -24,7 +25,9 @@ const EditCard = () => {
     }, [dispatch, deckId])
 
     return (
-        <div className={"container mx-auto pt-16"}>
+        <>
+            <NavBar/>
+            <div className={"container mx-auto pt-16"}>
             {pending ?
                 <ArrowPathIcon className={"h-64 w-64 animate-spin text-gray-500 mx-auto mt-64"}/> :
                 <div>
@@ -53,6 +56,7 @@ const EditCard = () => {
                     <CardAddition deckId={deckId} cardId={selectedCard}/>
                 </div>}
         </div>
+        </>
     )
 }
 
