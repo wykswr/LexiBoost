@@ -3,6 +3,7 @@ import TypingBox from "./shared/TypingBox.jsx";
 import {useNavigate} from 'react-router-dom';
 import {useGetFlashCardsQuery} from "../redux/api/apiSlice.js";
 import {ArrowPathIcon} from "@heroicons/react/20/solid";
+import { useUpdateFlashCardMutation } from "../redux/api/apiSlice.js";
 
 
 const CardLearning = ({id}) => {
@@ -12,6 +13,8 @@ const CardLearning = ({id}) => {
     const [showDefinition, setShowDefinition] = useState(false);
     const navigate = useNavigate();
     const {data, isLoading, error} = useGetFlashCardsQuery(id.id);
+    const [updateFlashCard, { isLoading: isUpdating }] = useUpdateFlashCardMutation();
+
     useEffect(() => {
         if (data) {
             setFlashcards(data.flashcards);
@@ -137,24 +140,59 @@ const CardLearning = ({id}) => {
 
     const handleKnowCard = () => {
         if (showHint){
-            updateCorrectCount(1);
+            // updateCorrectCount(1);
+            updateFlashCard({
+                deckId: id.id,
+                cardId: flashcards[currentCardIndex]._id,
+                content: {
+                    correctCount: flashcards[currentCardIndex].correctCount + 1,
+                },
+            });
         }else{
-            updateCorrectCount(2);
+            // updateCorrectCount(2);
+            updateFlashCard({
+                deckId: id.id,
+                cardId: flashcards[currentCardIndex]._id,
+                content: {
+                    correctCount: flashcards[currentCardIndex].correctCount + 2,
+                },
+            });
         }
         handleNextCard();
     }
     const handleDontKnow = () => {
         if (showHint){
-            updateMistakeCount(2);
+            // updateMistakeCount(2);
+            updateFlashCard({
+                deckId: id.id,
+                cardId: flashcards[currentCardIndex]._id,
+                content: {
+                    mistakeCount: flashcards[currentCardIndex].mistakeCount + 2,
+                },
+            });
         }
         setShowDefinition(true);
     }
     const handleBurnCard = () => {
-        updateBurnCard();
+        // updateBurnCard();
+        updateFlashCard({
+            deckId: id.id,
+            cardId: flashcards[currentCardIndex]._id,
+            content: {
+                burnt: true,
+            },
+        });
         handleNextCard();
     }
     const handleShowHint = () => {
-        updateMistakeCount(1);
+        // updateMistakeCount(1);
+        updateFlashCard({
+            deckId: id.id,
+            cardId: flashcards[currentCardIndex]._id,
+            content: {
+                mistakeCount: flashcards[currentCardIndex].mistakeCount + 1,
+            },
+        });
         setShowHint(true);
     }
     const handleNextCard = () => {
