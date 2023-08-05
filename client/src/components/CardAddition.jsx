@@ -1,51 +1,63 @@
 import {Button} from "@mui/material";
 import useArray from "../hooks/useArray.js";
 import {PlusCircleIcon} from "@heroicons/react/24/outline";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addCardToDeck, deleteFlashCard, editFlashCard} from "../redux/card_creation/thunk";
-import {useGetSingleFlashCardQuery} from "../redux/api/apiSlice.js";
+import {
+    useAddFlashCardMutation,
+    useDeleteFlashCardMutation,
+    useGetSingleFlashCardQuery,
+    useUpdateFlashCardMutation
+} from "../redux/api/apiSlice.js";
 
 
 const CardAddition = ({deckId, cardId}) => {
-    const [data, isLoading, isError] = useGetSingleFlashCardQuery(deckId, cardId);
-    if (isLoading) return <div>Loading...</div>
-    if (isError) return <div>Error</div>
+    if (cardId) {
+        const [data, isLoading, isError] = useGetSingleFlashCardQuery(deckId, cardId);
+        if (isLoading) return <div>Loading...</div>
+        if (isError) return <div>Error</div>
+    }
 
-    const dispatch = useDispatch();
+    const [deleteCard, {isDeleting}] = useDeleteFlashCardMutation();
+    const [updateCard, {isUpdating}] = useUpdateFlashCardMutation();
+    const [addCard, {isAdding}] = useAddFlashCardMutation();
 
-    const {spelling, pronunciation, definition, examples} = useSelector((state) => state.creationForm);
-    const [definitions, {push: pushRef, set: setRef}] = useArray(definition);
-    const [example, {push: pushEx, set: setEx}] = useArray(examples);
+    const [definitions, setDefinitions] = useState(cardId ? data.definition : []);
+    const [examples, setExamples] = useState(cardId ? data.examples : []);
+
     const defRef = useRef(null);
     const exRef = useRef(null);
     const spellingRef = useRef(null);
     const pronunciationRef = useRef(null);
+
 
     const handleDefinitionAddition = () => {
         let defs = [];
         for (let i = 0; i < defRef.current.children.length; i++) {
             defs.push(defRef.current.children[i].value);
         }
-        setRef(defs);
-        definitions[definitions.length - 1] !== "" && pushRef("");
+        if (definitions[definitions.length - 1] !== "") {
+            defs.push("");
+        }
+        setDefinitions(defs);
     }
 
     const handleExampleAddition = () => {
-        let newExample = [];
+        let newExamples = [];
         for (let i = 0; i < exRef.current.children.length; i++) {
-            newExample.push(exRef.current.children[i].value);
+            newExamples.push(exRef.current.children[i].value);
         }
-        setEx(newExample);
-        example[example.length - 1] !== "" && pushEx("");
+        if (newExamples[newExamples.length - 1] !== "") {
+            newExamples.push("");
+        }
+        setExamples(newExamples);
     }
 
     const handleDeletion = () => {
-        let identifier = {
-            cardID: cardId,
-            deckID: deckId
+        if (cardId) {
+            deleteCard(cardId, deckId);
         }
-        dispatch(deleteFlashCard(identifier));
     }
 
     const handleClick = () => {
@@ -72,29 +84,27 @@ const CardAddition = ({deckId, cardId}) => {
         }
 
         if (cardId) {
-            let query = {
-                card: newCard,
-                deckID: deckId,
-                cardID: cardId
-            }
-            console.log("edit a card");
-            dispatch(editFlashCard(query));
+            // let query = {
+            //     card: newCard,
+            //     deckID: deckId,
+            //     cardID: cardId
+            // }
+            // console.log("edit a card");
+            // dispatch(editFlashCard(query));
+            updateCard(deckId, cardId, newCard);
         } else {
             newCard.burnt = false;
             newCard.mistakeCount = 0;
             newCard.correctCount = 0;
-            let query = {
-                card: newCard,
-                deckID: deckId
-            }
-            console.log(query);
-            dispatch(addCardToDeck(query));
+            // let query = {
+            //     card: newCard,
+            //     deckID: deckId
+            // }
+            // console.log(query);
+            // dispatch(addCardToDeck(query));
+            addCard(deckId, newCard);
 
         }
-
-        // update reducer
-        console.log(currentDefs);
-        console.log(currentExample);
     }
 
     return (
@@ -104,7 +114,7 @@ const CardAddition = ({deckId, cardId}) => {
                 <label htmlFor='spelling' className="block  text-sm font-medium leading-6 text-gray-900"> Spelling </label>
                 <input type='text' required id="spelling" className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={spellingRef}/>
                 <label htmlFor='pronunciation' className={""}> Pronunciation </label>
-                <input type='text' id="pronunciation" className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={pronunciationRef}/>
+                <input type='text' id="pronunciation" defaultValue={cardId ? data.pronunciaton : ""} className={"px-1 caret-pink-400 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-md shadow-sm border-2 border-gray-300 rounded-md h-10"} ref={pronunciationRef}/>
             </div>
 
             <div className={"flex flex-col gap-3"}>
@@ -125,7 +135,7 @@ const CardAddition = ({deckId, cardId}) => {
             <div className={"flex flex-col gap-3"}>
                 <label htmlFor={"example"}>Example Sentences</label>
                 <div className={"flex flex-col gap-3"} ref={exRef}>
-                    {example.map((example, index) => (
+                    {examples.map((example, index) => (
                         index ?
                             <textarea key={index} defaultValue={example}
                                       className={"border-2 border-gray-300 h-16 rounded-md"}/> :
