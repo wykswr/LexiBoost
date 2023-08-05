@@ -121,6 +121,29 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['bookshelf', 'singleDeck', 'UserProfile'],
         }),
+        deleteFlashCard: builder.mutation({
+            query: (deckId, cardId) => ({
+                url: `/decks/${deckId}/flashcards/${cardId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['singleCard']
+        }),
+        updateFlashCard: builder.mutation({
+            query: (deckId, cardId, content) => ({
+                utl: `/decks/${deckId}/flashcards/${cardId}`,
+                method: 'PUT',
+                body: content
+            }),
+            invalidatesTags: ['singleCard']
+        }),
+        addFlashCard: builder.mutation({
+            query: (deckId, content) => ({
+                url: `/decks/${deckId}/flashcards`,
+                method: 'POST',
+                body: content
+            })
+        })
+
     }),
 });
 
@@ -144,4 +167,7 @@ export const {
     useGetSingleFlashCardQuery,
     useSignupMutation,
     useLoginMutation,
+    useDeleteFlashCardMutation,
+    useUpdateFlashCardMutation,
+    useAddFlashCardMutation
 } = apiSlice;
