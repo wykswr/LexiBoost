@@ -27,7 +27,7 @@ export const apiSlice = createApi({
         }),
         getDeckStats: builder.query({
             query: id => `/decks/${id}/statistics`,
-            providesTags: ['singleCard']
+            providesTags: ['singleCard', 'allCards']
         }),
         softDeleteDeck: builder.mutation({
             query: id => ({

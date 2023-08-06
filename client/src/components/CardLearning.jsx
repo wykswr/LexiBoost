@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
 import TypingBox from "./shared/TypingBox.jsx";
 import {useNavigate} from 'react-router-dom';
-import {useGetFlashCardsQuery} from "../redux/api/apiSlice.js";
+import {useGetFlashCardsQuery, useUpdateFlashCardMutation, useGetSingleFlashCardQuery} from "../redux/api/apiSlice.js";
 import {ArrowPathIcon} from "@heroicons/react/20/solid";
-import { useUpdateFlashCardMutation } from "../redux/api/apiSlice.js";
 
 
 const CardLearning = ({id}) => {
@@ -157,6 +156,16 @@ const CardLearning = ({id}) => {
                     correctCount: flashcards[currentCardIndex].correctCount + 2,
                 },
             });
+            //check if flash card should be burned
+            if (flashcards[currentCardIndex].correctCount - flashcards[currentCardIndex].mistakeCount >= 0) {
+                updateFlashCard({
+                    deckId: id.id,
+                    cardId: flashcards[currentCardIndex]._id,
+                    content: {
+                        burnt: true,
+                    },
+                });
+            }
         }
         handleNextCard();
     }
