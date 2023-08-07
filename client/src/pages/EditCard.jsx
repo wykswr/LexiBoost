@@ -8,28 +8,29 @@ import {ArrowPathIcon} from "@heroicons/react/20/solid";
 import {ChevronDoubleLeftIcon, ChevronDoubleRightIcon} from "@heroicons/react/24/solid";
 import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import NavBar from "../components/shared/NavBar.jsx";
+import {useGetFlashCardsQuery} from '../redux/api/apiSlice.js'
+import CardAddition from "../components/CardAddition.jsx";
 
 
 const EditCard = () => {
     const {deckId} = useParams();
-    const dispatch = useDispatch();
-    const cards = useSelector(state => state.cardEdit.cards);
-    const pending = useSelector(state => state.cardEdit.pending);
+    const {data, isLoading} = useGetFlashCardsQuery(deckId);
     const [counter, {increment, decrement}] = useCounter(0);
-    const vocabs = [0, 1, 2, 3, 4].map(i =>
-        counter + i).filter(i => i < cards.length);
     const [selectedCard, setSelectedCard] = useState(null);
 
-    useEffect(() => {
-        dispatch(fetchDeck(deckId));
-    }, [dispatch, deckId])
+    if (isLoading)
+        return null;
+
+    const cards = data.flashcards;
+
+    const vocabs = [0, 1, 2, 3, 4].map(i =>
+        counter + i).filter(i => i < cards.length);
+    const selectedCardID = cards.includes(selectedCard) ? selectedCard._id : null;
 
     return (
         <>
             <NavBar/>
             <div className={"container mx-auto pt-16"}>
-            {pending ?
-                <ArrowPathIcon className={"h-64 w-64 animate-spin text-gray-500 mx-auto mt-64"}/> :
                 <div>
                     <div className={"flex flex-wrap gap-3"}>
                         {vocabs[0] > 0 && <button onClick={decrement} className={"self-end"}>
@@ -39,7 +40,9 @@ const EditCard = () => {
                         {vocabs.map(i => <button
                             key={i}
                             className={"bg-gray-50 shadow-sm border-t-2 border-l-2 border-r-2 border-gray-300 rounded-t-lg p-1"}
-                            onClick={() => setSelectedCard(cards[i]._id)}>
+                            onClick={() => {
+                                setSelectedCard(cards[i]);
+                            }}>
                             {cards[i].spelling}
                         </button>)}
 
@@ -53,8 +56,8 @@ const EditCard = () => {
                         </button>
                     </div>
 
-                    <CardAddition deckId={deckId} cardId={selectedCard}/>
-                </div>}
+                    {selectedCardID ? <CardUpdate key={selectedCardID} deckId={deckId} cardId={selectedCardID}/> : <CardAddition deckId={deckId} />}
+                </div>
         </div>
         </>
     )
