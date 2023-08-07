@@ -1,11 +1,6 @@
 import {
     useGetDecksQuery,
-    useGetUserProfileQuery, useHardDeleteDeckMutation,
-    usePublishDeckMutation,
-    useRetractDeckMutation
 } from "../redux/api/apiSlice.js";
-import {XMarkIcon} from "@heroicons/react/24/outline/index.js";
-import VisibilityToggle from "./shared/VisibilityToggle.jsx";
 import DeckPreview from "./DeckPreview.jsx";
 
 const DeckPreviewList = () => {

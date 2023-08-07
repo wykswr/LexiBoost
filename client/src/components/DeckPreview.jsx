@@ -6,7 +6,6 @@ import {
     usePublishDeckMutation,
     useRetractDeckMutation
 } from "../redux/api/apiSlice.js";
-import {useEffect, useState} from "react";
 
 const DeckPreview = ({deck}) => {
     const {data, isLoading, isError} = useGetDeckQuery(deck._id);

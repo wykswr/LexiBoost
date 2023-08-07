@@ -1,32 +1,22 @@
 import {useRef, useState} from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {flipVisibility, modifyProfileField} from "../redux/userProfile/reducer.js";
-import { Dialog } from '@headlessui/react'
 import {XMarkIcon} from "@heroicons/react/24/outline";
 import {useGetUserProfileQuery, useUpdateUserProfileMutation} from "../redux/api/apiSlice.js";
 
-const ProfileEditingForm = ({userId}) => {
-    const dispatch = useDispatch();
+const ProfileEditingForm = () => {
     const { data, isLoading, isError } = useGetUserProfileQuery();
     const [updateProfile, { isInProgress }] = useUpdateUserProfileMutation();
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error</div>
 
-    // scroll
     const [selectedAvatar, setSelectedAvatar] = useState(`${data.avatar}`);
     const avatarRef = useRef();
-    const [newTopic, setNewTopic] = useState('');
     const newTopicRef = useRef();
 
     const [topicList, setTopicList] = useState(data.interestedTopics);
-    const topicListRef = useRef();
-    const [FName, setFName] = useState(null);
     const FNameRef = useRef();
 
-    const [LName, setLName] = useState(`${data.lastName}`);
     const LNameRef = useRef();
 
-    const [email_address, setEmail] = useState(`${data.email}`);
     const emailRef = useRef();
 
     const handleAvatarChange = (e) => {
@@ -40,9 +30,6 @@ const ProfileEditingForm = ({userId}) => {
         }
     };
 
-    const handleNewTopicChange = (e) => {
-        setNewTopic(e.value);
-    }
 
     const handleSubmission = async (e) => {
         let newFields = {
@@ -67,9 +54,6 @@ const ProfileEditingForm = ({userId}) => {
         newTopicRef.current.value = '';
     }
 
-    const handleClose = () => {
-        dispatch(flipVisibility());
-    }
 
     return (
         <div >
