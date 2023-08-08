@@ -2,7 +2,6 @@ import {useRef, useState} from "react";
 import {XMarkIcon} from "@heroicons/react/24/outline";
 import {useGetUserProfileQuery, useUpdateUserProfileMutation} from "../redux/api/apiSlice.js";
 
-
 const ProfileEditingForm = () => {
     const { data, isLoading, isError } = useGetUserProfileQuery();
     const [updateProfile, { isInProgress }] = useUpdateUserProfileMutation();
