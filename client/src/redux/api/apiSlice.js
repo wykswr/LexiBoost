@@ -73,6 +73,10 @@ export const apiSlice = createApi({
         getCards: builder.query({
            query: id => `/decks/${id}/flashcards`,
         }),
+        getSingleFlashCard: builder.query({
+            query: ({deckId, cardId}) => `/decks/${deckId}/flashcards/${cardId}`,
+            providesTags: ['singleCard']
+        }),
         addDeckAI: builder.mutation({
             query: content => ({
                 url: '/decks/?ai=1',
