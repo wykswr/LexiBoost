@@ -1,11 +1,7 @@
 import {Button} from "@mui/material";
-import useArray from "../hooks/useArray.js";
-import {PlusCircleIcon} from "@heroicons/react/24/outline";
-import {useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {addCardToDeck, deleteFlashCard, editFlashCard} from "../redux/card_creation/thunk";
+
+import {useRef} from "react";
 import {
-    useAddFlashCardMutation,
     useDeleteFlashCardMutation,
     useGetSingleFlashCardQuery,
     useUpdateFlashCardMutation

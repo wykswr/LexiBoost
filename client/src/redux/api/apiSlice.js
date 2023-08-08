@@ -3,7 +3,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URL, credentials: 'include'}),
-    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile', 'singleCard', 'allCard'],
+    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile', 'singleCard', 'allCards'],
     endpoints: builder => ({
         getDecks: builder.query({
             query: () => '/decks',
@@ -27,7 +27,6 @@ export const apiSlice = createApi({
         }),
         getDeckStats: builder.query({
             query: id => `/decks/${id}/statistics`,
-            providesTags: ['singleCard', 'allCards']
         }),
         softDeleteDeck: builder.mutation({
             query: id => ({
@@ -68,6 +67,7 @@ export const apiSlice = createApi({
         }),
         getFlashCards: builder.query({
            query: id => `/decks/${id}/flashcards`,
+            providesTags: ['allCards']
         }),
         getSingleFlashCard: builder.query({
             query: ({deckId, cardId}) => `/decks/${deckId}/flashcards/${cardId}`,
@@ -127,7 +127,7 @@ export const apiSlice = createApi({
                 url: `/decks/${deckId}/flashcards/${cardId}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['singleCard']
+            invalidatesTags: ['allCards']
         }),
         updateFlashCard: builder.mutation({
             query: ({deckId, cardId, content}) => ({
@@ -142,7 +142,8 @@ export const apiSlice = createApi({
                 url: `/decks/${deckId}/flashcards`,
                 method: 'POST',
                 body: content
-            })
+            }),
+            invalidatesTags: ['allCards']
         })
 
     }),
@@ -170,5 +171,5 @@ export const {
     useLoginMutation,
     useDeleteFlashCardMutation,
     useUpdateFlashCardMutation,
-    useAddFlashCardMutation
+    useAddFlashCardMutation,
 } = apiSlice;
