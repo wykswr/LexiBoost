@@ -8,6 +8,7 @@ const ProfileEditingForm = () => {
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error</div>
 
+
     const [selectedAvatar, setSelectedAvatar] = useState(`${data.avatar}`);
     const avatarRef = useRef();
     const newTopicRef = useRef();
