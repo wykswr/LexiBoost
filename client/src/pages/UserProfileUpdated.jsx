@@ -8,6 +8,8 @@ import {
 import DeckPreviewList from "../components/DeckPreviewList.jsx";
 import ToLogin from "../components/ToLogin.jsx";
 import NavBar from "../components/shared/NavBar.jsx";
+import {Base64, decode} from 'js-base64';
+
 const UserProfileUpdated = ({id}) => {
     const {data, isLoading, isError} = useGetUserProfileQuery();
 
@@ -35,7 +37,7 @@ const UserProfileUpdated = ({id}) => {
                             <div className="bg-white shadow-lg rounded-lg p-4 md:p-8 md:col-span-4">
                                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 items-center">
                                     <div className="w-full md:w-1/3 flex items-center justify-center">
-                                        <img className="h-40 w-40 bg-gray-300 rounded-full" src={data.avatar} alt="User Avatar" />
+                                        <img className="h-40 w-40 bg-gray-300 rounded-full" src={decode(data.avatar)} alt="User Avatar" />
                                     </div>
                                     <div className="flex flex-col justify-center">
                                         <div className="text-lg font-medium text-gray-800">User: {data.firstName}</div>
