@@ -145,7 +145,6 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['allCards']
         })
-
     }),
 });
 
