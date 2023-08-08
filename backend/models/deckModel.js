@@ -200,57 +200,6 @@ deckSchema.statics.getUserDecks = async function(userId) {
 };
 
 /**
- * Retrieves all the decks of the specified user from the bookshelf.
- *
- * @param {number} userId - The ID of the user.
- * @return {Deck[]} Array of user decks.
- * @throws {Error} If failed to retrieve the user decks.
- */
-deckSchema.statics.getAllUserDecks = async function(userId) {
-    try {
-        const decks = await this.aggregate([
-            {
-                $match: {
-                    creatorId: new mongoose.Types.ObjectId(userId),
-                },
-            },
-            {
-                $project: {
-                    document: '$$ROOT',
-                    flashCards: {
-                        $filter: {
-                            input: '$flashCards',
-                            as: 'flashcard',
-                            cond: {$eq: ['$$flashcard.burnt', false]},
-                        },
-                    },
-                },
-            },
-            {
-                $replaceRoot: {
-                    newRoot: {
-                        $mergeObjects: ['$document', {flashCards: '$flashCards'}],
-                    },
-                },
-            },
-        ]);
-
-        decks.forEach((deck) => {
-            deck.flashCards.sort((a, b) => {
-                const scoreA = a.correctCount + 2 * a.mistakeCount;
-                const scoreB = b.correctCount + 2 * b.mistakeCount;
-                return scoreB - scoreA;
-            });
-        });
-
-        return decks;
-    } catch (error) {
-        console.error('Error retrieving all user decks:', error);
-        throw new Error('Failed to retrieve all user decks');
-    }
-};
-
-/**
  * Edits an existing deck by updating the provided fields.
  *
  * @param {string} deckId - The ID of the deck to edit.

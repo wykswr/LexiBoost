@@ -20,9 +20,6 @@ router.post('/', generate, deckController.createDeck);
 // Get decks for a user
 router.get('/', deckController.getUserDecks);
 
-// Get all decks for a user
-router.get('/all', deckController.getAllUserDecks);
-
 // Get flashcards for a specific user deck
 router.get('/:deckId/flashcards', deckController.getFlashCards);
 
