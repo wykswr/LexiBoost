@@ -54,7 +54,6 @@ const CardUpdate = ({deckId, cardId}) => {
 
     return (
         <div className={"grid grid-cols-1 items-stretch gap-10"}>
-            <h1 className={"text-xl font-semibold text-indigo-500"}>{cardId}</h1>
             <div className={"flex flex-col gap-3"}>
                 <label htmlFor='spelling'
                        className="block  text-sm font-medium leading-6 text-gray-900"> Spelling </label>

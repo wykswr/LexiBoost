@@ -27,6 +27,7 @@ export const apiSlice = createApi({
         }),
         getDeckStats: builder.query({
             query: id => `/decks/${id}/statistics`,
+            providesTags: ['singleCard'],
         }),
         softDeleteDeck: builder.mutation({
             query: id => ({
@@ -68,6 +69,9 @@ export const apiSlice = createApi({
         getFlashCards: builder.query({
            query: id => `/decks/${id}/flashcards`,
             providesTags: ['allCards']
+        }),
+        getCards: builder.query({
+           query: id => `/decks/${id}/flashcards`,
         }),
         getSingleFlashCard: builder.query({
             query: ({deckId, cardId}) => `/decks/${deckId}/flashcards/${cardId}`,
@@ -172,4 +176,5 @@ export const {
     useDeleteFlashCardMutation,
     useUpdateFlashCardMutation,
     useAddFlashCardMutation,
+    useGetCardsQuery
 } = apiSlice;

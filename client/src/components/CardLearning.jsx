@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import TypingBox from "./shared/TypingBox.jsx";
 import {useNavigate} from 'react-router-dom';
-import {useGetFlashCardsQuery, useUpdateFlashCardMutation, useGetSingleFlashCardQuery} from "../redux/api/apiSlice.js";
+import {useGetCardsQuery, useUpdateFlashCardMutation} from "../redux/api/apiSlice.js";
 import {ArrowPathIcon} from "@heroicons/react/20/solid";
+import PropTypes from "prop-types";
+
 
 
 const CardLearning = ({id}) => {
@@ -11,8 +13,8 @@ const CardLearning = ({id}) => {
     const [showHint, setShowHint] = useState(false);
     const [showDefinition, setShowDefinition] = useState(false);
     const navigate = useNavigate();
-    const {data, isLoading, error} = useGetFlashCardsQuery(id.id);
-    const [updateFlashCard, { isLoading: isUpdating }] = useUpdateFlashCardMutation();
+    const {data, isLoading, error} = useGetCardsQuery(id);
+    const [updateFlashCard] = useUpdateFlashCardMutation();
 
     useEffect(() => {
         if (data) {
@@ -30,118 +32,11 @@ const CardLearning = ({id}) => {
     //             console.error("Error fetching flashcard data:", error);
     //         });
     // }, []);
-
-    const fetchFlashcards = async () => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/decks/${id.id}/flashcards`, {
-                headers: {
-                    Accept: "application/json",
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to retrieve flashcard data");
-            }
-
-            const data = await response.json();
-            console.log(data.flashcards);
-            return data.flashcards;
-
-        } catch (error) {
-            console.log(error);
-            throw new Error("Failed to fetch flashcard data from the backend.");
-        }
-    };
-
-    const updateCorrectCount = async (num) => {
-        try {
-            const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
-
-            const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/decks/${id.id}/flashcards/${flashCardId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        correctCount: flashcards[currentCardIndex].correctCount + num,
-                    }),
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("Failed to update flashcard");
-            }
-
-            // Handle the success response or perform any additional actions
-
-        } catch (error) {
-            console.error("Error updating flashcard:", error);
-        }
-    }
-
-    const updateMistakeCount = async (num) => {
-        try {
-            const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
-
-            const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/decks/${id.id}/flashcards/${flashCardId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        mistakeCount: flashcards[currentCardIndex].mistakeCount + num,
-                    }),
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("Failed to update flashcard");
-            }
-
-            // Handle the success response or perform any additional actions
-
-        } catch (error) {
-            console.error("Error updating flashcard:", error);
-        }
-    }
-
-    const updateBurnCard = async () => {
-        try {
-            const flashCardId = flashcards[currentCardIndex]._id; // Assuming the flashcard object has an '_id' property
-
-            const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/decks/${id.id}/flashcards/${flashCardId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        burnt: true,
-                    }),
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("Failed to update flashcard");
-            }
-
-            // Handle the success response or perform any additional actions
-
-        } catch (error) {
-            console.error("Error updating flashcard:", error);
-        }
-    }
-
     const handleKnowCard = () => {
         if (showHint){
             // updateCorrectCount(1);
             updateFlashCard({
-                deckId: id.id,
+                deckId: id,
                 cardId: flashcards[currentCardIndex]._id,
                 content: {
                     correctCount: flashcards[currentCardIndex].correctCount + 1,
@@ -150,7 +45,7 @@ const CardLearning = ({id}) => {
         }else{
             // updateCorrectCount(2);
             updateFlashCard({
-                deckId: id.id,
+                deckId: id,
                 cardId: flashcards[currentCardIndex]._id,
                 content: {
                     correctCount: flashcards[currentCardIndex].correctCount + 2,
@@ -159,7 +54,7 @@ const CardLearning = ({id}) => {
             //check if flash card should be burned
             if (flashcards[currentCardIndex].correctCount - flashcards[currentCardIndex].mistakeCount >= 0) {
                 updateFlashCard({
-                    deckId: id.id,
+                    deckId: id,
                     cardId: flashcards[currentCardIndex]._id,
                     content: {
                         burnt: true,
@@ -173,7 +68,7 @@ const CardLearning = ({id}) => {
         if (showHint){
             // updateMistakeCount(2);
             updateFlashCard({
-                deckId: id.id,
+                deckId: id,
                 cardId: flashcards[currentCardIndex]._id,
                 content: {
                     mistakeCount: flashcards[currentCardIndex].mistakeCount + 2,
@@ -191,7 +86,7 @@ const CardLearning = ({id}) => {
     const handleBurnCard = () => {
         // updateBurnCard();
         updateFlashCard({
-            deckId: id.id,
+            deckId: id,
             cardId: flashcards[currentCardIndex]._id,
             content: {
                 burnt: true,
@@ -202,7 +97,7 @@ const CardLearning = ({id}) => {
     const handleShowHint = () => {
         // updateMistakeCount(1);
         updateFlashCard({
-            deckId: id.id,
+            deckId: id,
             cardId: flashcards[currentCardIndex]._id,
             content: {
                 mistakeCount: flashcards[currentCardIndex].mistakeCount + 1,
@@ -367,6 +262,10 @@ const CardLearning = ({id}) => {
                 </div>}
         </div>
     )
+}
+
+CardLearning.propTypes = {
+    id: PropTypes.string.isRequired,
 }
 
 export default CardLearning;
