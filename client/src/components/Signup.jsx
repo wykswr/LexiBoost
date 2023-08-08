@@ -1,11 +1,10 @@
-import {useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {toggleAuthMode} from "../redux/auth/reducer.js";
 import {useDispatch} from "react-redux";
 import {Button} from "@mui/material";
 import {useSignupMutation} from "../redux/api/apiSlice.js";
-import {CheckIcon} from "@heroicons/react/24/outline/index.js";
 
 
 const Signup = () => {
@@ -15,8 +14,17 @@ const Signup = () => {
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
 
-    const [signup, {isLoading, isError, isSuccess}] = useSignupMutation();
+    const [signup, {isError, isSuccess}] = useSignupMutation();
     const dispatch = useDispatch();
+
+    useEffect(()=>{
+        if (isError) {
+            toast.error('Failed to signup. Please try again later.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-error',
+            });
+        }
+    }, [isError])
 
 
     const handleSubmit = (e) => {
@@ -26,7 +34,7 @@ const Signup = () => {
         const confirmPassword = confirmPasswordRef.current.value.trim();
 
         if (password !== confirmPassword) {
-            toast.error('Username and password are required.', {
+            toast.error('Passwords do not match. Try again!', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-error',
             });
@@ -43,16 +51,8 @@ const Signup = () => {
         signup(content);
     };
 
-    function handleLogin() {
+    function handleSignup() {
         dispatch(toggleAuthMode());
-    }
-
-    if (isLoading) {
-        return null;
-    }
-
-    if (isError) {
-        return null;
     }
 
     if (isSuccess) return (
@@ -112,7 +112,7 @@ const Signup = () => {
                 <button type="submit"
                         className="bg-gradient-to-r from-teal-700 via-teal-600 to-teal-500 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit
                 </button>
-                <p className="text-lg mt-6 text-black-500">Already have an account? <Button onClick={handleLogin}
+                <p className="text-lg mt-6 text-black-500">Already have an account? <Button onClick={handleSignup}
                                                                                             className="text-black font-bold rounded">
                     Log in</Button></p>
             </form>

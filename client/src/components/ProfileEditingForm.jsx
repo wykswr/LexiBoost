@@ -1,7 +1,6 @@
 import {useRef, useState} from "react";
 import {XMarkIcon} from "@heroicons/react/24/outline";
 import {useGetUserProfileQuery, useUpdateUserProfileMutation} from "../redux/api/apiSlice.js";
-import {Base64, decode, encode} from 'js-base64';
 
 const ProfileEditingForm = () => {
     const { data, isLoading, isError } = useGetUserProfileQuery();
@@ -9,7 +8,8 @@ const ProfileEditingForm = () => {
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error</div>
 
-
+    const [selectedAvatar, setSelectedAvatar] = useState(`${data.avatar}`);
+    const avatarRef = useRef();
     const newTopicRef = useRef();
 
     const [topicList, setTopicList] = useState(data.interestedTopics);
@@ -21,20 +21,15 @@ const ProfileEditingForm = () => {
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
-
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setSelectedAvatar(reader.result);
+        };
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = async (e) => {
-                const fileContent = e.target.result;
-                const newCode = encode(`${fileContent}`);
-                let newAvatar = {
-                    avatar: newCode
-                }
-                await updateProfile(newAvatar);
-            };
             reader.readAsDataURL(file);
         }
     };
+
 
     const handleSubmission = async (e) => {
         let newFields = {
@@ -59,6 +54,7 @@ const ProfileEditingForm = () => {
         newTopicRef.current.value = '';
     }
 
+
     return (
         <div >
             <form className="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 ">
@@ -66,14 +62,13 @@ const ProfileEditingForm = () => {
                     <label htmlFor="avatar" className="mb-2">
                         <img
                             className="h-40 w-40 rounded-full object-cover"
-                            src={decode(data.avatar)}
+                            src={selectedAvatar}
                             alt="Avatar"
                         />
                     </label>
                     <input
                         id="avatar"
                         type="file"
-                        size="40960"
                         className="hidden"
                         onChange={handleAvatarChange}
                     />
