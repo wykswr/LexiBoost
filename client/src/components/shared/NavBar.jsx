@@ -24,7 +24,7 @@ const NavBar = () => {
     return (
         <nav className="fixed w-full top-0 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400 shadow-md z-50">
             <div className="mx-auto px-4 sm:px-6 lg:px-2 flex items-center justify-between h-14">
-                <Link to={"/"} className="flex items-center">
+                <Link to={"/bookshelf"} className="flex items-center">
                     <img src={logo} alt="Logo" className="h-8 w-8 mr-2 ml-2"/>
                     <span className="text-white text-lg">LexiBoost</span>
                 </Link>

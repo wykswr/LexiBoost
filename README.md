@@ -87,3 +87,5 @@ As a user I want to be able to add new cards to a deck in my personal decks, so 
             * Implement search and filter functionality for easy deck discovery.
             * Enable users to add or remove decks from their personal collection.
             * Ensure responsive design for seamless experience on different devices.
+
+

@@ -9,6 +9,10 @@ export const apiSlice = createApi({
             query: () => '/decks',
             providesTags: ['bookshelf'],
         }),
+        getAllDecks: builder.query({
+            query: () => '/decks/all',
+            providesTags: ['bookshelf'],
+        }),
         getDeck: builder.query({
             query: id => `/decks/${id}`,
             providesTags: ['singleDeck'],
@@ -176,5 +180,6 @@ export const {
     useDeleteFlashCardMutation,
     useUpdateFlashCardMutation,
     useAddFlashCardMutation,
-    useGetCardsQuery
+    useGetCardsQuery,
+    useGetAllDecksQuery
 } = apiSlice;
