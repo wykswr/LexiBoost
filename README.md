@@ -51,6 +51,11 @@ LexiBoost is a language learning platform designed for individuals looking to en
 * React and Redux are used in the frontend of the project; in addition to redux, we also used RTK Query for better caching and state management so that the website has a better performance.
 * Although we did not use technologies like "render" for deployment, we used "Docker" for deployment. Github action is used for auto deployment, which does so by building an image and upload the image onto docker hub.
 
+### Next Steps:
+* "As a user, I want to add pictures to decks as covers, so that the decks are more visually appealing and distinguishable." This stretch goal was not completed in our project. Currently we have the deck covers auto generated, but in the future we can improve the app by allowing user to upload pictures and set their customized deck covers.
+* Another feature that we wanted to add is setting a limit on the number of times that an user can use the large language model to auto generate the flashcards. Currently there are no limits on the use of the flashcard generator, we want to modify user limits according to their subscriptions.
+  
+
 ## Task Breakdown
 
 * As a user I want to be able to sign up for the application:
