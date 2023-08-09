@@ -1,0 +1,64 @@
+### Create a new deck
+POST localhost:8000/decks/?ai=1
+Content-Type: application/json
+
+{
+  "name": "Test 10",
+  "cover": "https://picsum.photos/100",
+  "description": "Medicine",
+  "flashCards": []
+}
+
+### Get all decks
+GET localhost:8000/decks
+
+### Get a deck
+GET localhost:8000/decks/64a7a129db6f91db17f6c3cb
+
+
+### Get the statistics of a deck
+GET localhost:8000/decks/64acb9a9f1247fa6c9ff6220/statistics
+
+
+### Hard delete a deck
+DELETE localhost:8000/decks/64b2ff9f84893cbe31ad2ac2
+
+
+### Soft delete a deck
+DELETE localhost:8000/decks/64acb9a9f1247fa6c9ff6220/bookshelf
+
+
+### Update a deck
+PUT localhost:8000/decks/64a70f990559084b7b94ea03
+Content-Type: application/json
+
+{"name":"Test B2","cover":"https://picsum.photos/100", "description":"aaa"}
+
+
+### Add a flash card to a deck
+POST localhost:8000/decks/64a7a129db6f91db17f6c3cb/flashcards
+Content-Type: application/json
+
+{
+  "spelling": "world",
+  "definition": ["世界"],
+  "examples": ["Hello world", "world cup"]
+}
+
+
+### Release a deck
+PUT localhost:8000/decks/64b3004c84893cbe31ad2ac7/publish
+
+### Get profile
+GET localhost:8000/users/
+
+### Marketplace
+GET localhost:8000/decks/search/?deckName=Test
+
+### Tags
+GET localhost:8000/decks/tags
+
+### signup
+POST localhost:8000/users/signup
+Content-Type: application/json
+
