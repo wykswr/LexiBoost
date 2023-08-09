@@ -477,7 +477,7 @@ async function getDeckRating(req, res) {
  */
 async function searchPublicDecks(req, res) {
     try {
-        const {deckName, tags, startingPage, sortMethod} = req.body;
+        const {deckName, tags, startingPage, sortMethod} = req.query;
 
         const decks = await Deck.searchPublicDecks(deckName, tags, startingPage, sortMethod);
 

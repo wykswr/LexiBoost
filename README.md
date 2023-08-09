@@ -102,4 +102,6 @@ LexiBoost is a language learning platform designed for individuals looking to en
             * Display available decks with relevant information.
             * Implement search and filter functionality for easy deck discovery.
             * Enable users to add or remove decks from their personal collection.
+
             * Ensure responsive design for seamless experience on different devices.
+

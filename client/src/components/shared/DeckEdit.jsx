@@ -94,7 +94,7 @@ const DeckEdit = ({id}) => {
                           defaultValue={data.deck.description}
                           ref={descriptionRef}/>
             </div>
-            <div className={"flex flex-col"}>
+            <div className={"flex-col hidden"}>
                 <label htmlFor="coverImage" className={"text-lg font-light indent-1"}>Cover Image</label>
                 <input type="text" id="coverImage" className={"border border-gray-500 p-1 rounded caret-pink-500"}
                        defaultValue={data.deck.cover}

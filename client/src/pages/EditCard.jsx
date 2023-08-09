@@ -1,10 +1,7 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import CardUpdate from "../components/CardUpdate.jsx";
 import {useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchDeck} from "../redux/cardEdit/thunk.js";
 import useCounter from "../hooks/useCounter.js";
-import {ArrowPathIcon} from "@heroicons/react/20/solid";
 import {ChevronDoubleLeftIcon, ChevronDoubleRightIcon} from "@heroicons/react/24/solid";
 import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import NavBar from "../components/shared/NavBar.jsx";

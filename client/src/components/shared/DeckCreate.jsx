@@ -96,7 +96,7 @@ const DeckCreate = () => {
                 <textarea id="synopsis" rows={4} className={"border border-gray-500 p-1 rounded caret-pink-500"}
                           ref={descriptionRef}/>
             </div>
-            <div className={"flex flex-col"}>
+            <div className={"hidden flex-col"}>
                 <label htmlFor="coverImage" className={"text-lg font-light indent-1"}>Cover Image</label>
                 <input type="text" id="coverImage" className={"border border-gray-500 p-1 rounded caret-pink-500"}
                        ref={coverImageRef}/>

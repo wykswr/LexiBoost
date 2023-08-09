@@ -136,7 +136,6 @@ const CardLearning = ({id}) => {
         return <div>No flashcards available...</div>;
     }
 
-    console.log(flashcards);
     const {spelling, type, pronunciation, examples, definition } =
         flashcards[currentCardIndex];
 
