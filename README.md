@@ -56,6 +56,11 @@ LexiBoost is a language learning platform designed for individuals looking to en
 * Although states and redux are used when suitable, we also applied RTK Query to the data fetching and caching process. This reduces the number of requests to the backend and runs the frontend in a more efficient way
 * Large Language Model is used in the flashcard generation function, which brings ease and convenience to users.
 
+### Next Steps:
+* "As a user, I want to add pictures to decks as covers, so that the decks are more visually appealing and distinguishable." This stretch goal was not completed in our project. Currently we have the deck covers auto generated, but in the future we can improve the app by allowing user to upload pictures and set their customized deck covers.
+* Another feature that we wanted to add is setting a limit on the number of times that an user can use the large language model to auto generate the flashcards. Currently there are no limits on the use of the flashcard generator, we want to modify user limits according to their subscriptions.
+  
+
 ## Task Breakdown
 
 * As a user I want to be able to sign up for the application:
