@@ -51,6 +51,11 @@ LexiBoost is a language learning platform designed for individuals looking to en
 * React and Redux are used in the frontend of the project; in addition to redux, we also used RTK Query for better caching and state management so that the website has a better performance.
 * Although we did not use technologies like "render" for deployment, we used "Docker" for deployment. Github action is used for auto deployment, which does so by building an image and upload the image onto docker hub.
 
+### Some other technologies we tried
+* In addition to using react for frontend development, we also used vite for a more efficient and developer friendly development experience.
+* Although states and redux are used when suitable, we also applied RTK Query to the data fetching and caching process. This reduces the number of requests to the backend and runs the frontend in a more efficient way
+* Large Language Model is used in the flashcard generation function, which brings ease and convenience to users.
+
 ## Task Breakdown
 
 * As a user I want to be able to sign up for the application:
