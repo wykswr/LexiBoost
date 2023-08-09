@@ -1,6 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
 import authReducer from './auth/reducer.js';
-import profileEditingReducer from './userProfile/reducer.js';
 import dialogReducer from './dialog/reducer.js';
 import tagSelectReducer from './tagSelect/reducer.js';
 import searchReducer from './search/reducer.js';
@@ -11,7 +10,6 @@ export const store = configureStore({
         [apiSlice.reducerPath]: apiSlice.reducer,
         dialog: dialogReducer,
         auth: authReducer,
-        profileEditingForm: profileEditingReducer,
         tagSelect: tagSelectReducer,
         search: searchReducer,
     },
