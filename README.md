@@ -59,7 +59,13 @@ LexiBoost is a language learning platform designed for individuals looking to en
 ### Next Steps:
 * "As a user, I want to add pictures to decks as covers, so that the decks are more visually appealing and distinguishable." This stretch goal was not completed in our project. Currently we have the deck covers auto generated, but in the future we can improve the app by allowing user to upload pictures and set their customized deck covers.
 * Another feature that we wanted to add is setting a limit on the number of times that an user can use the large language model to auto generate the flashcards. Currently there are no limits on the use of the flashcard generator, we want to modify user limits according to their subscriptions.
-  
+
+### List of Contribution
+* Joyce Chen: Implemented the frontend of Card Learning component as well as connecting it with the backend via RTK_Query. 
+* Mahmoud AI Khatib: Implemented the authentication logic of the application using JWT. Also contributed to the design and setup of database.
+* Seraj Aldin Abo Sabbah: Implemented all the APIs for the backend which are both reliable and readable. Also, Seraj designed and implemented the Navbar and Sign-in/Sign-up page of the application.
+* Samuel Yang: Implemented Card Editing, Card Addition, Deck Detail, and User Profile page as well as connecting them with the backend using RTK. Also contributed to database design (e.g. ER diagram).
+* Yukai Wang: Implemented the AI-related function of the application. Designed and implemented the Marketplace, Deck component, and Bookshelf pages as well as linking them to the backend of the application.
 
 ## Task Breakdown
 
