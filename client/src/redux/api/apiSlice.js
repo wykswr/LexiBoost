@@ -3,10 +3,14 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URL, credentials: 'include'}),
-    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile', 'singleCard'],
+    tagTypes: ['bookshelf', 'singleDeck', 'UserProfile', 'singleCard', 'allCards'],
     endpoints: builder => ({
         getDecks: builder.query({
             query: () => '/decks',
+            providesTags: ['bookshelf'],
+        }),
+        getAllDecks: builder.query({
+            query: () => '/decks/all',
             providesTags: ['bookshelf'],
         }),
         getDeck: builder.query({
@@ -27,6 +31,7 @@ export const apiSlice = createApi({
         }),
         getDeckStats: builder.query({
             query: id => `/decks/${id}/statistics`,
+            providesTags: ['singleCard'],
         }),
         softDeleteDeck: builder.mutation({
             query: id => ({
@@ -66,6 +71,10 @@ export const apiSlice = createApi({
             invalidatesTags: ['bookshelf'],
         }),
         getFlashCards: builder.query({
+           query: id => `/decks/${id}/flashcards`,
+            providesTags: ['allCards']
+        }),
+        getCards: builder.query({
            query: id => `/decks/${id}/flashcards`,
         }),
         getSingleFlashCard: builder.query({
@@ -126,7 +135,7 @@ export const apiSlice = createApi({
                 url: `/decks/${deckId}/flashcards/${cardId}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['singleCard']
+            invalidatesTags: ['allCards']
         }),
         updateFlashCard: builder.mutation({
             query: ({deckId, cardId, content}) => ({
@@ -141,7 +150,8 @@ export const apiSlice = createApi({
                 url: `/decks/${deckId}/flashcards`,
                 method: 'POST',
                 body: content
-            })
+            }),
+            invalidatesTags: ['allCards']
         })
 
     }),
@@ -169,5 +179,7 @@ export const {
     useLoginMutation,
     useDeleteFlashCardMutation,
     useUpdateFlashCardMutation,
-    useAddFlashCardMutation
+    useAddFlashCardMutation,
+    useGetCardsQuery,
+    useGetAllDecksQuery
 } = apiSlice;

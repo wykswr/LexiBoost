@@ -4,7 +4,7 @@ import NavBar from "../components/shared/NavBar.jsx";
 
 
 const CardLearningPage = () => {
-    const id = useParams();
+    const {id} = useParams();
 
     return (
         <>

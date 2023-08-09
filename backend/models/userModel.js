@@ -34,6 +34,7 @@ userSchema.statics.createUser =
     async function(firstName, lastName, email, password) {
       try {
         const newUser = new this({
+          avatar: "",
           creationDate: new Date(),
           email,
           firstName,

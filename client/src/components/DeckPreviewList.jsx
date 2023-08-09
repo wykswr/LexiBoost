@@ -1,15 +1,10 @@
 import {
-    useGetDecksQuery,
-    useGetUserProfileQuery, useHardDeleteDeckMutation,
-    usePublishDeckMutation,
-    useRetractDeckMutation
+    useGetAllDecksQuery,
 } from "../redux/api/apiSlice.js";
-import {XMarkIcon} from "@heroicons/react/24/outline/index.js";
-import VisibilityToggle from "./shared/VisibilityToggle.jsx";
 import DeckPreview from "./DeckPreview.jsx";
 
 const DeckPreviewList = () => {
-    const {data, isLoading, isError} = useGetDecksQuery();
+    const {data, isLoading, isError} = useGetAllDecksQuery();
 
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error</div>
@@ -24,7 +19,7 @@ const DeckPreviewList = () => {
 
             <div className="md:w-1/2 h-auto shadow-lg rounded-lg bg-white">
                 <div className="flex flex-col md:flex-row gap-4 p-4 overflow-y-auto md:overflow-x-auto">
-                    {data.decks.map((deck, index) => (
+                    {data.decks.map(deck => (
                         <DeckPreview key={deck._id} deck={deck}/>
                     ))}
                 </div>
