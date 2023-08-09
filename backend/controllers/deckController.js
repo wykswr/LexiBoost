@@ -58,30 +58,6 @@ async function getUserDecks(req, res) {
 }
 
 /**
- * Retrieves all user decks.
- *
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @return {Promise<void>} A Promise that resolves once the response is sent.
- */
-async function getAllUserDecks(req, res) {
-    try {
-        const userId = req.user.id;
-
-        const decks = await Deck.getAllUserDecks(userId);
-
-        if (!decks) {
-            return res.status(404).json({error: 'Decks not found'});
-        }
-
-        res.json({decks});
-    } catch (error) {
-        console.error('Error retrieving all user decks:', error);
-        res.status(500).json({error: 'Failed to retrieve all decks'});
-    }
-}
-
-/**
  * Retrieves flashcards given a deckId.
  *
  * @param {object} req - The request object.
@@ -507,6 +483,5 @@ module.exports = {
     addRatingToDeck,
     getDeckRating,
     searchPublicDecks,
-    getAllUserDecks
 };
 

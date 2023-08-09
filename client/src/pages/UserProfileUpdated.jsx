@@ -16,7 +16,6 @@ const UserProfileUpdated = ({id}) => {
     if (isLoading) return <div>Loading...</div>
     if (isError) return <ToLogin/>;
 
-
     return (
         <>
             <NavBar/>
